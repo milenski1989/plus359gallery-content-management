@@ -1,0 +1,22 @@
+.storages-management-location {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.75rem;
+}
+
+.add-new-storage {
+    background-color: #F0BB14;
+    border-radius: 1rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+.save-icon {
+    cursor: pointer;
+    margin-right: 0.5rem;
+}
+
+.close-icon {
+    cursor: pointer;
+    font-size: 30px;
+}

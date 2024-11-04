@@ -1,0 +1,56 @@
+.edit-page-main-section {
+    display: flex;
+   
+    gap: 2rem;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.edit-page-position-container {
+    color: white;
+    height: auto;
+    width: 50px;
+}
+
+.edit-page-position {
+    padding: 0.7rem;
+    text-align: center;
+}
+
+.edit-page-image-inputs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.edit-page-image {
+    height:auto;
+    object-fit: cover;
+}
+
+.edit-page-inputs-actions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.edit-page-actions-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.edit-page-save-icon {
+    width: 18px;
+}
+
+.edit-page-helper-text {
+    padding: 1rem;
+}
+
+.edit-page-go-back {
+    margin-left: 1rem;
+}

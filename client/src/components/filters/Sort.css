@@ -1,0 +1,11 @@
+.sort-autocomplete {
+    width: 180px;
+    background-color: white;
+    border-radius: 4px;
+}
+
+.mobile-sort-autocomplete {
+    width: 80vw;
+    background-color: white;
+    border-radius: 4px;
+}

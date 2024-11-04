@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+.navbar {
+    font-family: 'Montserrat';
+    background-color: rgba(0, 0, 0, 1);
+}
+
+.right-side {
+    display: flex;
+    margin-left: auto;
+}
+
+.navbar-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 1rem;
+}
+
+.navbar-elements-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 1rem;
+}
+
+.logo {
+    width: 80px;
+    height: 55px;
+    margin-right: 1rem;
+}
+
+.current-location {
+    color: white;
+    margin-left: 1rem;
+    font-size: 20px;
+}
+
+.nav-link {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.75rem;
+    padding-right: 1rem;
+    color: #FFFFFF;
+    font-size: 18px;
+}
+
+.nav-link:hover {
+    color: #40C8F4;
+    transition: 0.3s ease-in-out;
+}
+
+.mobile-navbar {
+    font-family: 'Montserrat';
+    background-color: rgba(0, 0, 0, 1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.mobile-navlinks {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background-color: rgba(0, 0, 0, 0.9);
+    position: fixed;
+    top: 70px;
+    right: -100vw;
+    width: 100vw;
+    height: 100vh;
+    transition: all 0.3s ease-in-out;
+    padding: 40px 0 0 30px;
+}
+
+.active {
+    right: 0;
+    box-shadow: 0 40px 60px rgba(0, 0, 0, 0.9);
+    transition: all 0.3s ease-in-out;
+}
+
+.overlay {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+  }
+
+.mobile-navbar-button {
+    color: #40C8F4;
+}
+
+.mobile-logo {
+    width: 56px;
+}
+
+.mobile-current-location {
+    color: white;
+    margin-left: -6rem;
+    align-self: center;
+}
+
+.mobile-nav-link {
+    color: #FFFFFF;
+    margin-bottom: 25px;
+    text-decoration: none;
+    display: block;
+}
+
+.mobile-nav-link:hover {
+    color: #40C8F4;
+    transition: 0.3s ease-in-out;
+}

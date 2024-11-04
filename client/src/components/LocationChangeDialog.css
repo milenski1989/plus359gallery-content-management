@@ -1,0 +1,15 @@
+.current-locations-info-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.current-image-info {
+    border-radius: 6px;
+    box-shadow: 0 3px 8px #0000003d;
+    padding: 0.5rem;
+}

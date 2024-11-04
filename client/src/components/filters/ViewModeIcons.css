@@ -1,0 +1,11 @@
+.view-mode-icons-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
+    cursor: pointer;
+   }
+   
+.selected {
+    filter: brightness(0) saturate(100%) invert(66%) sepia(91%) saturate(2538%) hue-rotate(158deg) brightness(105%) contrast(100%);
+}

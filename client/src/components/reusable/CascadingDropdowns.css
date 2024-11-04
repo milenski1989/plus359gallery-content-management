@@ -1,0 +1,11 @@
+.dropdowns-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.cascading-dropdown {
+    width: 50vw;
+}

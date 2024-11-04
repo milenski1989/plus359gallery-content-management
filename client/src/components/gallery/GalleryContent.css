@@ -1,0 +1,35 @@
+.no-data-container {
+  text-align: center;
+}
+
+.action-buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  position: fixed;
+  left: 0;
+  z-index: 800;
+  background: white;
+  padding: 0.25rem;
+  box-shadow: 0 3px 8px #0000003d;
+  }
+  
+  .action-buttons-container .download-icon {
+    width: 25px;
+  }
+
+  .select-unselect-all-icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    position: fixed;
+    left: 0;
+    z-index: 800;
+    background: white;
+    padding: 0.25rem;
+    box-shadow: 0 3px 8px #0000003d;
+  }
