@@ -57,16 +57,18 @@ const Card = ({handleDialogType, searchResults, art}) => {
             <div className="card-image-container" style={{
                 height: imageLoaded ? 'auto' : `${(dimensions.height / dimensions.width) * 100}%`,
             }}>
-                {allImagesLoaded &&
-                    <img
-                        className="card-image"
-                        src={art.image_url}
-                        alt="image"
-                        onLoad={handleImageLoad}
-                        style={{
-                            display: imageLoaded ? 'block' : 'none',
-                        }}
-                    /> }
+                   {!imageLoaded && 
+                    <div className="card-image-placeholder"></div>
+                }
+                <img
+                    className="card-image"
+                    src={art.image_url}
+                    alt="image"
+                    onLoad={handleImageLoad}
+                    style={{
+                        display: imageLoaded ? 'block' : 'none',
+                    }}
+                />
             </div>
             {!imageLoaded && 
                 <div className="card-image-placeholder"></div>
