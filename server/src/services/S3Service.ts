@@ -17,7 +17,7 @@ export class S3Service {
     this.upload = multer({
       storage: multerS3({
         s3: this.s3,
-        bucket: process.env.SPACES_BUCKET,
+        bucket: process.env.NODE_ENV === "production" ? process.env.PROD_SPACES_BUCKET : process.env.DEV_SPACES_BUCKET,
         shouldTransform: (req, file, cb) => {
           cb(null, /^image/i.test(file.mimetype));
         },
@@ -33,7 +33,7 @@ export class S3Service {
               cb(null, { fieldName: file.fieldname });
             },
             transform: (req, file, cb) => {
-              cb(null, sharp().resize(null, null).jpeg({ quality: 100 }));
+              cb(null, sharp().resize(null, null).jpeg({ quality: 80 }));
             },
           },
           {
@@ -84,7 +84,7 @@ export class S3Service {
 
     try {
         const downloadParams = {
-            Bucket: process.env.SPACES_BUCKET,
+            Bucket: process.env.NODE_ENV === "production" ? process.env.PROD_SPACES_BUCKET : process.env.DEV_SPACES_BUCKET,
             Key: downloadKey,
             Expires: signedUrlExpirationTime
         };
