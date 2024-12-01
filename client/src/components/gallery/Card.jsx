@@ -1,20 +1,16 @@
 import { Checkbox, useMediaQuery } from "@mui/material";
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-
-import './DetailsView.css';
 import { checkBoxHandler, generateBackGroundColor } from "../utils/helpers";
 import { useContext, useState } from "react";
 import { EntriesContext } from "../contexts/EntriesContext";
 import './Card.css'
 import ArtInfoContainer from "./ArtInfoContainer";
-import { useLoadedImages } from "../hooks/useLoadedImages";
 import Actions from "../reusable/Actions";
 
 
 const Card = ({handleDialogType, searchResults, art}) => {
 
-    const [allImagesLoaded] = useLoadedImages(searchResults)
     const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
 
     const {
