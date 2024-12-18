@@ -2,12 +2,20 @@
     position: relative;
     border: 2px dashed #e5e7eb;
     border-radius: 0.5rem;
-    width: 50vw; 
     height: 20vh;
     cursor: pointer;
     margin-bottom: 2rem;
     margin-left: auto;
     margin-right: auto;
+}
+
+.in-upload {
+    width: 50vw;
+}
+
+.in-pdf-maker {
+    width: 70%;
+    height: 15%;
 }
 
 .drop-zone-text {
