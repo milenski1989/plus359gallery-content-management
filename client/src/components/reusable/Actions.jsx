@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import EditIcon from '@mui/icons-material/Edit';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
@@ -9,33 +9,40 @@ import { downloadOriginalImages, handleEdit, prepareImagesForLocationChange } fr
 import { EntriesContext } from '../contexts/EntriesContext';
 
 function Actions({classes, style = {}, arts, fontSize, handleDialogType}) {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
+  let myStorage = window.localStorage;
 
-    const {
-        setCurrentImages,
-    } = useContext(EntriesContext);
+  const {
+    setCurrentImages,
+  } = useContext(EntriesContext);
 
-    const hadleDelete = () => {
-        setCurrentImages(arts)
-        handleDialogType('delete')
-    }
+  const hadleDelete = () => {
+    setCurrentImages(arts)
+    handleDialogType('delete')
+  }
 
-    const handleLocationChange = () => {
-        setCurrentImages(arts)
-        prepareImagesForLocationChange(handleDialogType)
-    }
+  const handleLocationChange = () => {
+    setCurrentImages(arts)
+    prepareImagesForLocationChange(handleDialogType)
+  }
 
-    return <>
-        <div style={style} className={classes}>
-            <> 
-                <EditIcon fontSize={fontSize} onClick={() => handleEdit(arts, navigate)}/>
-                <DriveFileMoveIcon fontSize={fontSize} onClick={handleLocationChange} />
-                <DeleteOutlineIcon fontSize={fontSize} onClick={hadleDelete}/>
-                <PictureAsPdfIcon fontSize={fontSize} onClick={() => {setCurrentImages(arts); navigate('/pdf')}} />
-                <FileDownloadIcon fontSize={fontSize} onClick={() => downloadOriginalImages(arts.map(art => art.download_key))} />
-            </> 
-        </div>
-    </>  
+  const handleOpenPdfMaker = () => {
+    setCurrentImages(arts)
+    myStorage.setItem('currentImages', JSON.stringify(arts));
+    navigate('/pdf')
+  }
+
+  return <>
+    <div style={style} className={classes}>
+      <> 
+        <EditIcon fontSize={fontSize} onClick={() => handleEdit(arts, navigate)}/>
+        <DriveFileMoveIcon fontSize={fontSize} onClick={handleLocationChange} />
+        <DeleteOutlineIcon fontSize={fontSize} onClick={hadleDelete}/>
+        <PictureAsPdfIcon fontSize={fontSize} onClick={handleOpenPdfMaker} />
+        <FileDownloadIcon fontSize={fontSize} onClick={() => downloadOriginalImages(arts.map(art => art.download_key))} />
+      </> 
+    </div>
+  </>  
 }
 
 export default Actions

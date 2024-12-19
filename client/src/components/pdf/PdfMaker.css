@@ -1,0 +1,38 @@
+#pdf-doc {
+    width: 100%;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-family: 'Open Sans', 'sans-serif';
+  }
+
+.pdf-logo {
+  align-self: flex-start;
+}
+
+.pdf-logo img {
+    width: 70px;
+    height: 80px;
+    padding: 10px;
+}
+
+.pdf-maker-content {
+  display: flex;
+  gap: 2rem;
+}
+
+.pdf-maker-preview {
+  width: 50%;
+  height: 100vh;
+  border: none;
+}
+
+.pdf-maker-editor-zone {
+  display: flex ;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 50%;
+}

@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from 'react-router-dom';
@@ -20,63 +20,63 @@ import './index.css';
 
 
 const theme = createTheme({
-    components: {
-        MuiButton: {
-            styleOverrides: {
-                root: {
-                    padding: '0.5rem 1.2rem',
-                    textTransform: 'capitalize',
-                    fontSize: '1rem',
-                },
-            },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          padding: '0.5rem 1.2rem',
+          textTransform: 'capitalize',
+          fontSize: '1rem',
         },
-        MuiMasonry: {
-            styleOverrides: {
-                root: {
-                    margin: 0
-                }
-            }
-        },
-        MuiAutocomplete: {
-            styleOverrides: {
-                listbox: {
-                    backgroundColor: '#FFFFFF',
-                    '& .MuiAutocomplete-option': {
-                        backgroundColor: '#FFFFFF',
-                        color: '#000000',
-                        '&:hover': {
-                            backgroundColor: '#E0E0E0',
-                            color: '#FFFFFF',
-                        },
-                    },
-                    '& .MuiAutocomplete-option[aria-selected="true"]': {
-                        backgroundColor: '#40C7F3',
-                        color: '#FFFFFF',
-                        '&:hover': {
-                            backgroundColor: '#40C7F3',
-                            color: '#FFFFFF',
-                        },
-                    },
-                },
-            },
-        },
-        MuiMenuItem: {
-            styleOverrides: {
-                root: {
-                    backgroundColor: '#FFFFFF',
-                    color: 'black',
-                    '&:hover': {
-                        backgroundColor: '#E0E0E0',
-                        color: '#FFFFFF',
-                    },
-                    '&.Mui-selected': {
-                        backgroundColor: '#40C7F3',
-                        color: '#FFFFFF',
-                    },
-                },
-            },
-        },
+      },
     },
+    MuiMasonry: {
+      styleOverrides: {
+        root: {
+          margin: 0
+        }
+      }
+    },
+    MuiAutocomplete: {
+      styleOverrides: {
+        listbox: {
+          backgroundColor: '#FFFFFF',
+          '& .MuiAutocomplete-option': {
+            backgroundColor: '#FFFFFF',
+            color: '#000000',
+            '&:hover': {
+              backgroundColor: '#E0E0E0',
+              color: '#FFFFFF',
+            },
+          },
+          '& .MuiAutocomplete-option[aria-selected="true"]': {
+            backgroundColor: '#40C7F3',
+            color: '#FFFFFF',
+            '&:hover': {
+              backgroundColor: '#40C7F3',
+              color: '#FFFFFF',
+            },
+          },
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#FFFFFF',
+          color: 'black',
+          '&:hover': {
+            backgroundColor: '#E0E0E0',
+            color: '#FFFFFF',
+          },
+          '&.Mui-selected': {
+            backgroundColor: '#40C7F3',
+            color: '#FFFFFF',
+          },
+        },
+      },
+    },
+  },
 });
 
 
@@ -113,28 +113,28 @@ const routes  = [
 ]
 
 const router = createBrowserRouter(
-    createRoutesFromElements(
-        <Route>
-            <Route path="/" element={<App/>}>
-                <Route exact path="/login" element={<Suspense fallback=''><Login/></Suspense>} />
-                <Route element={<NavigationLayout/>}>
-                    <Route element={<ProtectedRoute/>}>
-                        {routes.map(({path, element, children}) => (
-                            <Route key={path} path={path} element={element}> 
-                                { children?.map(({path, element}, index) => (
-                                    <Route key={index} path={path} element={element} />
-                                ))}
-                            </Route>
-                        ))}
-                    </Route>
-                </Route>
-              
-                <Route path="/" element={<Navigate to="/login" replace />} />
-                <Route path="/logout" element={<Navigate to="/login" replace />} />
-                <Route path="*" element={<p className='flex justify-center mt-'>Page not found: 404!</p>} />
-            </Route>
+  createRoutesFromElements(
+    <Route>
+      <Route path="/" element={<App/>}>
+        <Route exact path="/login" element={<Suspense fallback=''><Login/></Suspense>} />
+        <Route element={<NavigationLayout/>}>
+          <Route element={<ProtectedRoute/>}>
+            {routes.map(({path, element, children}) => (
+              <Route key={path} path={path} element={element}> 
+                { children?.map(({path, element}, index) => (
+                  <Route key={index} path={path} element={element} />
+                ))}
+              </Route>
+            ))}
+          </Route>
         </Route>
-    )
+              
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/logout" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<p className='flex justify-center mt-'>Page not found: 404!</p>} />
+      </Route>
+    </Route>
+  )
 )
 
 root.render(
