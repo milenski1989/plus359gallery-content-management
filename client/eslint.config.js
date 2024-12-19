@@ -1,45 +1,51 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
+import js from '@eslint/js';
+import globals from 'globals';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
 
 export default [
-  { ignores: ['dist'] },
   {
-    files: ['**/*.{js,jsx}'],
+    ignores: ['dist'], // Ignore the dist folder
+  },
+  {
+    files: ['**/*.{js,jsx}'], // Match JavaScript and JSX files
     languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+      ecmaVersion: 2020, // ECMAScript version
+      globals: {
+        ...globals.browser, // Browser global variables
+      },
       parserOptions: {
         ecmaVersion: 'latest',
-        ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true, // Enable JSX parsing
+        },
+        sourceType: 'module', // Enable ES modules
       },
     },
-    settings: { react: { version: '18.3' } },
+    settings: {
+      react: {
+        version: 'detect', // Automatically detect React version
+      },
+    },
     plugins: {
-      react,
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
+      react, // React plugin
+      'react-hooks': reactHooks, // React Hooks plugin
     },
     rules: {
-      ...js.configs.recommended.rules,
-      ...react.configs.recommended.rules,
-      ...react.configs['jsx-runtime'].rules,
-      ...reactHooks.configs.recommended.rules,
+      ...js.configs.recommended.rules, // Recommended JS rules
+      ...react.configs.recommended.rules, // Recommended React rules
+      ...react.configs['jsx-runtime'].rules, // React JSX runtime rules
+      ...reactHooks.configs.recommended.rules, // Recommended React Hooks rules
+
+      // Custom rules
       'react/jsx-no-target-blank': 'off',
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      'react/react-in-jsx-scope': 'off', // React 17+ does not require React in scope
+      'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }], // Warn for JSX in non-JSX files
+      'react/prop-types': 'off', // Disable prop-types validation
+      'react/no-children-prop': 'off',
+      indent: ['error', 2], // Enforce 2 spaces for indentation
+      'no-restricted-imports': 'off',
+      'no-mixed-spaces-and-tabs': 'off',
     },
-    "react/react-in-jsx-scope": "off",  
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "react/prop-types": "off",
-    "react/no-children-prop": "off",
-    "indent": ["error"],
-    "no-restricted-imports": 0,
-    "no-mixed-spaces-and-tabs": 0
   },
-]
+];

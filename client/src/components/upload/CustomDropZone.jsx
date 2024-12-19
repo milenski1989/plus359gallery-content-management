@@ -1,24 +1,25 @@
-import React from 'react'
 import Dropzone from 'react-dropzone'
 import './CustomDropZone.css'
 
-export default function CustomDropZone({handleOndrop, acceptedFormats, isRequired = false}) {
+export default function CustomDropZone({handleOndrop, acceptedFormats, isRequired = false, classes, customText}) {
 
-    return <>
-        <Dropzone onDrop={acceptedFiles => handleOndrop(acceptedFiles)} accept={acceptedFormats}>
-            {({getRootProps, getInputProps}) => (
-                <div  {...getRootProps({className: 'drop-zone'})}>
-                    <input {...getInputProps()} />
-                    <p className='drop-zone-text'>
-                        {isRequired ? '*Drag and drop or select files' : 'Drag and drop or select files'}
+  const classNames = classes ? classes.join(' ') : '';
+
+  return <>
+    <Dropzone onDrop={acceptedFiles => handleOndrop(acceptedFiles)} accept={acceptedFormats}>
+      {({getRootProps, getInputProps}) => (
+        <div  {...getRootProps({className: `drop-zone ${classNames}`})}>
+          <input {...getInputProps()} />
+          <p className='drop-zone-text'>
+            {isRequired ? `*${customText}` : customText}
                        
-                    </p>
-                    <em className='drop-zone-helper-text' >*.jpeg, *.png</em>
-                </div>
+          </p>
+          <em className='drop-zone-helper-text' >*.jpeg, *.png</em>
+        </div>
                 
-            )}
+      )}
           
-        </Dropzone>
-    </>
+    </Dropzone>
+  </>
 }
 

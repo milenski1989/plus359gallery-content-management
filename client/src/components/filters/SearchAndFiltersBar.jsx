@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import './SearchAndFiltersBar.css'
 import { useParams } from 'react-router-dom';
 import { filterAll, getAll } from '../../api/artworksService';
@@ -14,192 +14,193 @@ import CustomAutocomplete from '../reusable/CustomAutocomplete';
 const countPerPageOptions = [25, 50, 100, 150, 200]
 
 function SearchAndFiltersBar({
-    setPaginationDisabled,
-    handleSearchResults,
-    triggerFetch,
-    viewMode,
-    handleViewMode,
+  setPaginationDisabled,
+  handleSearchResults,
+  triggerFetch,
+  viewMode,
+  handleViewMode,
 }) {
-    const { showError, isLoading } = useNotification();
+  const { showError, isLoading } = useNotification();
 
-    const [artists, setArtists] = useState([])
-    const [cells, setCells] = useState([])
-    const [selectedArtist, setSelectedArtist] = useState()
-    const [selectedCell, setSelectedCell] = useState()
-    const [sortField, setSortField] = useState('id')
-    const [sortOrder, setSortOrder] = useState('desc')
-    const [keywords, setKeywords] = useState([]);
+  const [artists, setArtists] = useState([])
+  const [cells, setCells] = useState([])
+  const [selectedArtist, setSelectedArtist] = useState()
+  const [selectedCell, setSelectedCell] = useState()
+  const [sortField, setSortField] = useState('id')
+  const [sortOrder, setSortOrder] = useState('desc')
+  const [keywords, setKeywords] = useState([]);
 
-    const {name} = useParams()
+  const {name} = useParams()
 
-    const {
-        page,
-        setPage,
-        setTotalCount,
-        setPagesCount,
-        countPerPage,
-        setCountPerPage,
-        startItem,
-        endItem,
-        totalCount
-    } = useContext(EntriesContext);
+  const {
+    page,
+    setPage,
+    setTotalCount,
+    setPagesCount,
+    countPerPage,
+    setCountPerPage,
+    startItem,
+    endItem,
+    totalCount
+  } = useContext(EntriesContext);
 
-    const getArtists = async () => {
-        try {
-            const response = await getArtistsInStorage(name)
-            const data = response.data;
-            setArtists(data);
-        } catch (error) {
-            showError(error.response.data.message);
+  const getArtists = async () => {
+    try {
+      const response = await getArtistsInStorage(name)
+      const data = response.data;
+      setArtists(data);
+    } catch (error) {
+      showError(error.response.data.message);
+    }
+  }
+
+  const getCells = async () => {
+    try {
+      const response = await getCellsFromStorage(name)
+      const uniqueCells = [...new Set(response.data)]
+      setCells(uniqueCells);
+    } catch (error) {
+      showError(error.response.data.message);
+    }
+  }
+
+  const onChange = event => {
+
+    if (!event.target.value) return setKeywords([])
+
+    const inputKeywords = event.target.value.split(' ');
+    setKeywords(inputKeywords);
+  };
+
+  const getPaginatedData = async () => {
+    try {
+      const response = await getAll(page, countPerPage, sortField, sortOrder, name);
+
+      const { arts, artsCount } = await response.data;
+      handleSearchResults(arts);
+      setPaginationDisabled(false)
+      setPagesCount(Math.ceil(artsCount / countPerPage));
+      setTotalCount(artsCount);
+    } catch(error) {
+      showError(error.response.data.message);
+    }
+  }
+
+  const filterData = async () => {
+    try {
+
+      const response = await filterAll(keywords, selectedArtist, selectedCell, sortField, sortOrder)
+      const {artworks, totalCount} = response.data
+      handleSearchResults(artworks);
+      setTotalCount(totalCount);
+      setPaginationDisabled(true)
+    } catch(error) {
+      showError(error.response.data.message);
+    }
+  }
+
+  useEffect(() => {
+    getArtists()
+    getCells()
+  },[])
+
+  useEffect(() => {
+    let filterTimeOut = null;
+    if (!selectedArtist && !selectedCell && !keywords.length) {
+      getPaginatedData()
+      // eslint-disable-next-line indent
         }
+    else {
+      filterTimeOut = setTimeout(() => {
+        filterData()
+      }, 500)
     }
 
-    const getCells = async () => {
-        try {
-            const response = await getCellsFromStorage(name)
-            const uniqueCells = [...new Set(response.data)]
-            setCells(uniqueCells);
-        } catch (error) {
-            showError(error.response.data.message);
-        }
-    }
-
-    const onChange = event => {
-
-        if (!event.target.value) return setKeywords([])
-
-        const inputKeywords = event.target.value.split(' ');
-        setKeywords(inputKeywords);
-    };
-
-    const getPaginatedData = async () => {
-        try {
-            const response = await getAll(page, countPerPage, sortField, sortOrder, name);
-
-            const { arts, artsCount } = await response.data;
-            handleSearchResults(arts);
-            setPaginationDisabled(false)
-            setPagesCount(Math.ceil(artsCount / countPerPage));
-            setTotalCount(artsCount);
-        } catch(error) {
-            showError(error.response.data.message);
-        }
-    }
-
-    const filterData = async () => {
-        try {
-
-            const response = await filterAll(keywords, selectedArtist, selectedCell, sortField, sortOrder)
-            const {artworks, totalCount} = response.data
-            handleSearchResults(artworks);
-            setTotalCount(totalCount);
-            setPaginationDisabled(true)
-        } catch(error) {
-            showError(error.response.data.message);
-        }
-    }
-
-    useEffect(() => {
-        getArtists()
-        getCells()
-    },[])
-
-    useEffect(() => {
-        let filterTimeOut = null;
-        if (!selectedArtist && !selectedCell && !keywords.length) {
-            getPaginatedData()
-        }
-        else {
-            filterTimeOut = setTimeout(() => {
-                filterData()
-            }, 500)
-        }
-
-        return () =>  clearTimeout(filterTimeOut)
-    }, [page, sortField, sortOrder, isLoading, triggerFetch, selectedArtist, selectedCell, keywords, countPerPage]);
+    return () =>  clearTimeout(filterTimeOut)
+  }, [page, sortField, sortOrder, isLoading, triggerFetch, selectedArtist, selectedCell, keywords, countPerPage]);
 
     
-    const handleCountPerPageChange = (event) => {
-        setPage(1)
-        setCountPerPage(event.target.value)
-    }
+  const handleCountPerPageChange = (event) => {
+    setPage(1)
+    setCountPerPage(event.target.value)
+  }
 
-    const renderCountInfo = () => {
-        if (keywords.length || selectedArtist || selectedCell) {
-            return <>
+  const renderCountInfo = () => {
+    if (keywords.length || selectedArtist || selectedCell) {
+      return <>
             Showing <span className="bolded">{startItem}-{totalCount}</span> of <span className="bolded">{totalCount}</span>
-            </>
-        } else {
-            return <>
+      </>
+    } else {
+      return <>
             Showing <span className="bolded">{startItem}-{endItem}</span> of <span className="bolded">{totalCount}</span>
-            </>
-        }
-           
+      </>
     }
+           
+  }
 
-    return <>
-        <div className="filters-container">
-            <FormControl
-                sx={{ 
-                    '& label': {
-                        '&:hover': {
-                            color: 'rgba(0,0,0,0.6)'
-                        },
-                        '&.Mui-focused': {
-                            color: 'rgba(0,0,0,0.6)'
-                        }
-                    }
-                }}
-            >
-                <InputLabel id="demo-simple-select-label">Show</InputLabel>
-                <Select
-                    className="filter-input"
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={countPerPage}
-                    label="Show"
-                    onChange={handleCountPerPageChange}
+  return <>
+    <div className="filters-container">
+      <FormControl
+        sx={{ 
+          '& label': {
+            '&:hover': {
+              color: 'rgba(0,0,0,0.6)'
+            },
+            '&.Mui-focused': {
+              color: 'rgba(0,0,0,0.6)'
+            }
+          }
+        }}
+      >
+        <InputLabel id="demo-simple-select-label">Show</InputLabel>
+        <Select
+          className="filter-input"
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={countPerPage}
+          label="Show"
+          onChange={handleCountPerPageChange}
                    
-                >
-                    {countPerPageOptions.map((option, index) => (
-                        <MenuItem key={index} value={option}>{option}</MenuItem>
-                    ))}
+        >
+          {countPerPageOptions.map((option, index) => (
+            <MenuItem key={index} value={option}>{option}</MenuItem>
+          ))}
         
-                </Select>
-            </FormControl>
-            <Sort
-                sortField={sortField}
-                handleSortField={setSortField}
-                sortOrder={sortOrder}
-                handleSortOrder={setSortOrder}
-            />
-            <CustomAutocomplete
-                className="filter-input"
-                options={artists.map(artist => artist.artist)}
-                label="Select artist"
-                onChange={setSelectedArtist}
-            />
-            <CustomAutocomplete
-                className="filter-input"
-                options={cells}
-                label="Select cell"
-                onChange={setSelectedCell}
-            />
-            <TextField 
-                className="filter-input"
-                id="outlined-basic" 
-                label="Search..." 
-                variant="outlined"
-                onChange={onChange}
-            />
-            <div className="entries-shown-view-mode-icons">
-                <div className="entries-shown">
-                    {renderCountInfo()}
-                </div>
-                <ViewModeIcons viewMode={viewMode} handleViewMode={handleViewMode} />
-            </div>
+        </Select>
+      </FormControl>
+      <Sort
+        sortField={sortField}
+        handleSortField={setSortField}
+        sortOrder={sortOrder}
+        handleSortOrder={setSortOrder}
+      />
+      <CustomAutocomplete
+        className="filter-input"
+        options={artists.map(artist => artist.artist)}
+        label="Select artist"
+        onChange={setSelectedArtist}
+      />
+      <CustomAutocomplete
+        className="filter-input"
+        options={cells}
+        label="Select cell"
+        onChange={setSelectedCell}
+      />
+      <TextField 
+        className="filter-input"
+        id="outlined-basic" 
+        label="Search..." 
+        variant="outlined"
+        onChange={onChange}
+      />
+      <div className="entries-shown-view-mode-icons">
+        <div className="entries-shown">
+          {renderCountInfo()}
         </div>
-    </>
+        <ViewModeIcons viewMode={viewMode} handleViewMode={handleViewMode} />
+      </div>
+    </div>
+  </>
 }
 
 export default SearchAndFiltersBar
