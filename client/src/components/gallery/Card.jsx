@@ -11,22 +11,23 @@ import Actions from "../reusable/Actions";
 
 const Card = ({handleDialogType, searchResults, art}) => {
 
-    const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
+  const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
 
-    const {
-        currentImages,
-        setCurrentImages,
-    } = useContext(EntriesContext);
 
-    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-    const [imageLoaded, setImageLoaded] = useState(false);
+  const {
+    currentImages,
+    setCurrentImages,
+  } = useContext(EntriesContext);
 
-    const handleImageLoad = (e) => {
-        const { naturalWidth, naturalHeight } = e.target;
-        setDimensions({ width: naturalWidth, height: naturalHeight });
-        setImageLoaded(true);
-    };
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [imageLoaded, setImageLoaded] = useState(false);
 
+  const handleImageLoad = (e) => {
+    const { naturalWidth, naturalHeight } = e.target;
+    setDimensions({ width: naturalWidth, height: naturalHeight });
+    setImageLoaded(true);
+  };
+  
     return (
         <div className="card" key={art.id}>
             <div className="card-header-container">
@@ -68,22 +69,22 @@ const Card = ({handleDialogType, searchResults, art}) => {
             </div>
             {!imageLoaded && 
                 <div className="card-image-placeholder"></div>
-            }
-            <>
-                {currentImages.length === 1 && currentImages[0].id === art.id || !currentImages.length ?
-                    <Actions 
-                        classes={isSmallDevice ? "mobile-card-actions": "card-actions"}
-                        fontSize="medium"
-                        arts={[art]}
-                        handleDialogType={handleDialogType}
-                    />
-                    :
-                    null
-                }
-                <ArtInfoContainer art={art} />
-            </>
-        </div>
-    );
+      }
+      <>
+        {currentImages.length === 1 && currentImages[0].id === art.id || !currentImages.length ?
+          <Actions 
+            classes={isSmallDevice ? "mobile-card-actions": "card-actions"}
+            fontSize="medium"
+            arts={[art]}
+            handleDialogType={handleDialogType}
+          />
+          :
+          null
+        }
+        <ArtInfoContainer art={art} />
+      </>
+    </div>
+  );
 };
 
 export default Card;
