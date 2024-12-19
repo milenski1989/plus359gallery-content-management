@@ -83,12 +83,33 @@ const theme = createTheme({
 const routes  = [
     {path: '/', element: <Suspense fallback=''><HomePage/></Suspense>},
     {path: '/upload', element: <Suspense fallback=''><Upload/></Suspense>},
-    {path: '/gallery/:name', element: <Suspense fallback=''><GalleryContent/></Suspense>},
-    {path: '/pdf', element: <Suspense fallback=''><PdfMaker/></Suspense>},
     {path: '/admin-panel', element: <Suspense fallback=''><AdminPanel/></Suspense>},
     {path: '/storages-management', element: <Suspense fallback=''><StoragesManagement/></Suspense>},
     {path: '/account', element: <Suspense fallback=''><Account/></Suspense>},
-    {path: '/edit-page', element: <Suspense fallback=''><EditPage/></Suspense>}  
+    { 
+        path: '/gallery/:name', 
+        element: (
+            <EntriesProvider>
+                <Suspense fallback=''><GalleryContent/></Suspense>
+            </EntriesProvider>
+        ) 
+    },
+    { 
+        path: '/pdf', 
+        element: (
+            <EntriesProvider>
+                <Suspense fallback=''><PdfMaker/></Suspense>
+            </EntriesProvider>
+        ) 
+    },
+    { 
+        path: '/edit-page', 
+        element: (
+            <EntriesProvider>
+                <Suspense fallback=''><EditPage/></Suspense>
+            </EntriesProvider>
+        ) 
+    }
 ]
 
 const router = createBrowserRouter(
@@ -118,9 +139,7 @@ const router = createBrowserRouter(
 
 root.render(
     <ThemeProvider theme={theme}>
-        <EntriesProvider>
             <RouterProvider router={router}/> 
-        </EntriesProvider>
     </ThemeProvider>
 );
 
