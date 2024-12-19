@@ -1,4 +1,3 @@
-import './DetailsView.css'
 import Masonry, {ResponsiveMasonry} from "react-responsive-masonry"
 import Card from './Card';
 
