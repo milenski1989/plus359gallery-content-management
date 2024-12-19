@@ -28,46 +28,46 @@ const Card = ({handleDialogType, searchResults, art}) => {
     setImageLoaded(true);
   };
   
-    return (
-        <div className="card" key={art.id}>
-            <div className="card-header-container">
-                <p className="card-header">{art.artist || 'No Artist'}</p>
-                {art.position !== 0 ? (
-                    <div
-                        className="card-position-container"
-                        style={{backgroundColor: generateBackGroundColor(art.storage?.name || art.storage_name)}}>
-                        <p style={{ padding: "0.7rem" }}>{art.position}</p>
-                    </div>
-                ) : null}
-                <Checkbox
-                    onChange={() => checkBoxHandler(currentImages, setCurrentImages, searchResults, art.id)}
-                    checked={currentImages.some(image => image.id === art.id)}
-                    sx={{
-                        "&.Mui-checked": {
-                            color: "black",
-                        },
-                    }}
-                    icon={<RadioButtonUncheckedIcon />}
-                    checkedIcon={<CheckCircleOutlineIcon />}
-                />
-            </div>
-            <div className="card-image-container" style={{
-                height: imageLoaded ? 'auto' : `${(dimensions.height / dimensions.width) * 100}%`,
-            }}>
-                   {!imageLoaded && 
+  return (
+    <div className="card" key={art.id}>
+      <div className="card-header-container">
+        <p className="card-header">{art.artist || 'No Artist'}</p>
+        {art.position !== 0 ? (
+          <div
+            className="card-position-container"
+            style={{backgroundColor: generateBackGroundColor(art.storage?.name || art.storage_name)}}>
+            <p style={{ padding: "0.7rem" }}>{art.position}</p>
+          </div>
+        ) : null}
+        <Checkbox
+          onChange={() => checkBoxHandler(currentImages, setCurrentImages, searchResults, art.id)}
+          checked={currentImages.some(image => image.id === art.id)}
+          sx={{
+            "&.Mui-checked": {
+              color: "black",
+            },
+          }}
+          icon={<RadioButtonUncheckedIcon />}
+          checkedIcon={<CheckCircleOutlineIcon />}
+        />
+      </div>
+      <div className="card-image-container" style={{
+        height: imageLoaded ? 'auto' : `${(dimensions.height / dimensions.width) * 100}%`,
+      }}>
+        {!imageLoaded && 
                     <div className="card-image-placeholder"></div>
-                }
-                <img
-                    className="card-image"
-                    src={art.image_url}
-                    alt="image"
-                    onLoad={handleImageLoad}
-                    style={{
-                        display: imageLoaded ? 'block' : 'none',
-                    }}
-                />
-            </div>
-            {!imageLoaded && 
+        }
+        <img
+          className="card-image"
+          src={art.image_url}
+          alt="image"
+          onLoad={handleImageLoad}
+          style={{
+            display: imageLoaded ? 'block' : 'none',
+          }}
+        />
+      </div>
+      {!imageLoaded && 
                 <div className="card-image-placeholder"></div>
       }
       <>
