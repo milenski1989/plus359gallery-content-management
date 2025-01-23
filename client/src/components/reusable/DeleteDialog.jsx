@@ -25,12 +25,10 @@ const DeleteDialog = ({ handleDialogType, handleTriggerRefresh }) => {
         setCurrentImages([]);
       } else {
         const { download_key, image_key, id } = artworks;
-        const response = await deleteOne({ originalFilename: download_key, filename: image_key, id });
-        if (response.status === 200) {
-          showSuccess('Entry deleted successfully!');
-        }
-        setCurrentImages(prev => prev.filter(image => image.id !== id));
-                
+        await deleteOne({ originalFilename: download_key, filename: image_key, id });
+       
+        showSuccess('Entry deleted successfully!');
+        setCurrentImages(prev => prev.filter(image => image.id !== id));      
       }
       stopLoading();
       handleTriggerRefresh();

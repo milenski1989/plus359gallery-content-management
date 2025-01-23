@@ -51,15 +51,15 @@ function EditPage() {
 
   const handleUpdateEntry = async (id, index) => {
     try {
-      const response = await updateOne(updatedEntries[index], id);
-      if (response.status === 200) {
-        showSuccess('Entry updated successfully!');
-        const updatedEntriesCopy = [...updatedEntries];
-        updatedEntriesCopy[index] = { ...updatedEntries[index] };
+      await updateOne(updatedEntries[index], id);
+   
+      showSuccess('Entry updated successfully!');
+      const updatedEntriesCopy = [...updatedEntries];
+      updatedEntriesCopy[index] = { ...updatedEntries[index] };
 
-        setUpdatedEntries(updatedEntriesCopy);
-        myStorage.setItem('currentImages', JSON.stringify(updatedEntriesCopy));
-      }
+      setUpdatedEntries(updatedEntriesCopy);
+      myStorage.setItem('currentImages', JSON.stringify(updatedEntriesCopy));
+      
     } catch (error) {
       showError(error.response.data.message);
     }

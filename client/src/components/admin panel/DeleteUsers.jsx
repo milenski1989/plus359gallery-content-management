@@ -50,14 +50,12 @@ function DeleteUsers() {
     const emails = users.map(user => user.email);
     startLoading();
     try {
-      const response = await deleteUser(emails);
-      if (response.status === 200) {
-        setIsDialogOpen(false);
-        showSuccess('Users deleted successfully!');
-        setSelectedUsers([]);
-        getUsers();
-      }
-         
+      await deleteUser(emails);
+    
+      setIsDialogOpen(false);
+      showSuccess('Users deleted successfully!');
+      setSelectedUsers([]);
+      getUsers();  
     } catch (error) {
       showError(error.response.data.message);
       stopLoading();

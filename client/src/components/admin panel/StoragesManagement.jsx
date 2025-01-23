@@ -49,12 +49,11 @@ const StoragesManagement = () => {
   const handleDeleteStorage = async (name) => {
     startLoading();
     try {
-      const response = await deleteStorage(name);
-      if (response.status === 200) {
-        const filteredStorages = storages.filter(filter => filter.name !== name);
-        setStorages(filteredStorages);
-        showSuccess('Storage deleted successfully!');
-      }
+      await deleteStorage(name);
+    
+      const filteredStorages = storages.filter(filter => filter.name !== name);
+      setStorages(filteredStorages);
+      showSuccess('Storage deleted successfully!');
       stopLoading();
     } catch (error) {
       stopLoading();

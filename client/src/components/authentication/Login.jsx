@@ -42,18 +42,17 @@ const Login = () => {
     startLoading();
     try {
       const response = await login(_email, _password);
-      if (response.status === 200) {
-        const { id, userName, email, superUser, createdAt } = response.data.user;
-        myStorage.setItem('user', JSON.stringify({
-          id,
-          userName,
-          email,
-          superUser,
-          createdAt
-        }));
-        stopLoading();
-        navigate('/');
-      }
+    
+      const { id, userName, email, superUser, createdAt } = response.data.user;
+      myStorage.setItem('user', JSON.stringify({
+        id,
+        userName,
+        email,
+        superUser,
+        createdAt
+      }));
+      stopLoading();
+      navigate('/');
     } catch (error) {
       showError(error.response?.data?.message);
       stopLoading();

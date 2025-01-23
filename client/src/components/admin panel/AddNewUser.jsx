@@ -23,10 +23,9 @@ function AddNewUser() {
     };
 
     try {
-      const response = await signup(data);
-      if (response.status === 200) {
-        showSuccess('User created successfully!');
-      }
+      await signup(data);
+
+      showSuccess('User created successfully!');
       stopLoading();
       setEmail("");
       setUserName("");
@@ -34,7 +33,6 @@ function AddNewUser() {
       setConfirmedPassword(false);
     } catch (error) {
       stopLoading();
-      console.log(error);
       showError(error.response.data.message);
     }
   };
