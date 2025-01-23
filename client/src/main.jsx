@@ -2,16 +2,16 @@ import { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from 'react-router-dom';
-const Login = lazy(() => import('./components/authentication/Login.jsx'))
-const HomePage = lazy(() => import('./components/home/HomePage.jsx'))
-const Upload = lazy(() => import('./components/upload/Upload.jsx'))
-const PdfMaker = lazy(() => import('./components/pdf/PdfMaker.jsx'))
-const AdminPanel = lazy(() => import('./components/admin panel/AdminPanel.jsx'))
-const StoragesManagement = lazy(() => import('./components/admin panel/StoragesManagement.jsx'))
-const Account = lazy(() => import('./components/account/Account.jsx'))
-const EditPage = lazy(() => import('./components/EditPage.jsx'))
-import ProtectedRoute from './components/ProtectedRoute.jsx'
-import { ThemeProvider, createTheme } from '@mui/material'
+const Login = lazy(() => import('./components/authentication/Login.jsx'));
+const HomePage = lazy(() => import('./components/home/HomePage.jsx'));
+const Upload = lazy(() => import('./components/upload/Upload.jsx'));
+const PdfMaker = lazy(() => import('./components/pdf/PdfMaker.jsx'));
+const AdminPanel = lazy(() => import('./components/admin panel/AdminPanel.jsx'));
+const StoragesManagement = lazy(() => import('./components/admin panel/StoragesManagement.jsx'));
+const Account = lazy(() => import('./components/account/Account.jsx'));
+const EditPage = lazy(() => import('./components/EditPage.jsx'));
+import ProtectedRoute from './components/ProtectedRoute.jsx';
+import { ThemeProvider, createTheme } from '@mui/material';
 import { EntriesProvider } from './components/contexts/EntriesContext.jsx';
 import App from './App.jsx';
 import NavigationLayout from './components/navigation/NavigationLayout.jsx';
@@ -81,36 +81,36 @@ const theme = createTheme({
 
 
 const routes  = [
-    {path: '/', element: <Suspense fallback=''><HomePage/></Suspense>},
-    {path: '/upload', element: <Suspense fallback=''><Upload/></Suspense>},
-    {path: '/admin-panel', element: <Suspense fallback=''><AdminPanel/></Suspense>},
-    {path: '/storages-management', element: <Suspense fallback=''><StoragesManagement/></Suspense>},
-    {path: '/account', element: <Suspense fallback=''><Account/></Suspense>},
-    { 
-        path: '/gallery/:name', 
-        element: (
-            <EntriesProvider>
-                <Suspense fallback=''><GalleryContent/></Suspense>
-            </EntriesProvider>
-        ) 
-    },
-    { 
-        path: '/pdf', 
-        element: (
-            <EntriesProvider>
-                <Suspense fallback=''><PdfMaker/></Suspense>
-            </EntriesProvider>
-        ) 
-    },
-    { 
-        path: '/edit-page', 
-        element: (
-            <EntriesProvider>
-                <Suspense fallback=''><EditPage/></Suspense>
-            </EntriesProvider>
-        ) 
-    }
-]
+  {path: '/', element: <Suspense fallback=''><HomePage/></Suspense>},
+  {path: '/upload', element: <Suspense fallback=''><EntriesProvider><Upload/></EntriesProvider></Suspense>},
+  {path: '/admin-panel', element: <Suspense fallback=''><AdminPanel/></Suspense>},
+  {path: '/storages-management', element: <Suspense fallback=''><StoragesManagement/></Suspense>},
+  {path: '/account', element: <Suspense fallback=''><Account/></Suspense>},
+  { 
+    path: '/gallery/:name', 
+    element: (
+      <EntriesProvider>
+        <Suspense fallback=''><GalleryContent/></Suspense>
+      </EntriesProvider>
+    ) 
+  },
+  { 
+    path: '/pdf', 
+    element: (
+      <EntriesProvider>
+        <Suspense fallback=''><PdfMaker/></Suspense>
+      </EntriesProvider>
+    ) 
+  },
+  { 
+    path: '/edit-page', 
+    element: (
+      <EntriesProvider>
+        <Suspense fallback=''><EditPage/></Suspense>
+      </EntriesProvider>
+    ) 
+  }
+];
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -135,12 +135,12 @@ const router = createBrowserRouter(
       </Route>
     </Route>
   )
-)
+);
 
 root.render(
-    <ThemeProvider theme={theme}>
-            <RouterProvider router={router}/> 
-    </ThemeProvider>
+  <ThemeProvider theme={theme}>
+    <RouterProvider router={router}/> 
+  </ThemeProvider>
 );
 
 

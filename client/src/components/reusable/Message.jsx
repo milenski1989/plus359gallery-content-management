@@ -1,4 +1,4 @@
-import { Alert, Snackbar } from "@mui/material"
+import { Alert, Snackbar } from "@mui/material";
 
 const Message = ({ open, handleClose, message, severity }) => {
 
@@ -8,7 +8,7 @@ const Message = ({ open, handleClose, message, severity }) => {
         {message}
       </Alert>
     </Snackbar>
-  </>
-}
+  </>;
+};
 
-export default Message
+export default Message;

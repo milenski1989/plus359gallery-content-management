@@ -61,7 +61,7 @@ function EditPage() {
         myStorage.setItem('currentImages', JSON.stringify(updatedEntriesCopy));
       }
     } catch (error) {
-      showError(error.response.data.message)
+      showError(error.response.data.message);
     }
   };
 
@@ -102,11 +102,11 @@ function EditPage() {
       setUpdatedEntries(updatedEntriesCopy);
       myStorage.setItem('currentImages', JSON.stringify(updatedEntriesCopy));
       setImageReplaceDialogIsOpen(false);
-      stopLoading()
+      stopLoading();
       showSuccess('Image replaced successfully!');
     } catch (error) {
-      stopLoading()
-      showError(error.response.data.message)
+      stopLoading();
+      showError(error.response.data.message);
     }
   };
 

@@ -6,10 +6,10 @@ const EntriesProvider = ({ children }) => {
   const [currentImages, setCurrentImages] = useState([]);
   const [updatedEntry, setUpdatedEntry] = useState({});
   const [isEditMode, setIsEditMode] = useState(false);
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [pagesCount, setPagesCount] = useState(0);
-  const [countPerPage, setCountPerPage] = useState(25)
+  const [countPerPage, setCountPerPage] = useState(25);
 
   const startItem = (page - 1) * countPerPage + 1;
   const endItem = Math.min(page * countPerPage, totalCount);

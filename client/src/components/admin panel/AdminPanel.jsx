@@ -1,6 +1,6 @@
-import TabsWrapper from '../reusable/TabsWrapper'
-import StoragesManagement from './StoragesManagement'
-import UsersManagement from './UsersManagement'
+import TabsWrapper from '../reusable/TabsWrapper';
+import StoragesManagement from './StoragesManagement';
+import UsersManagement from './UsersManagement';
 function AdminPanel() {
      
   return <>
@@ -8,7 +8,7 @@ function AdminPanel() {
       labels={['Storages', 'Users']}
       components={[StoragesManagement, UsersManagement]}
     /> 
-  </>
+  </>;
 }
 
-export default AdminPanel
+export default AdminPanel;

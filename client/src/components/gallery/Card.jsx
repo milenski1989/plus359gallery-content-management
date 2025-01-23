@@ -4,7 +4,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { checkBoxHandler, generateBackGroundColor } from "../utils/helpers";
 import { useContext, useState } from "react";
 import { EntriesContext } from "../contexts/EntriesContext";
-import './Card.css'
+import './Card.css';
 import ArtInfoContainer from "./ArtInfoContainer";
 import Actions from "../reusable/Actions";
 

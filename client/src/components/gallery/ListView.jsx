@@ -10,36 +10,37 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import EditIcon from '@mui/icons-material/Edit';
 import { Dialog, DialogContent } from "@mui/material";
-import './ListView.css'
 import { checkBoxHandler, downloadOriginalImages, generateBackGroundColor, handleEdit } from "../utils/helpers";
 import ArtInfoContainer from "./ArtInfoContainer";
 import { useNavigate } from "react-router-dom";
 import Actions from "../reusable/Actions";
 
+import './ListView.css';
+
 const ListView = ({ searchResults, handleDialogType }) => {
-  const { currentImages, setCurrentImages } = useContext(EntriesContext)
+  const { currentImages, setCurrentImages } = useContext(EntriesContext);
 
-  const [selectedRow, setSelectedRow] = useState(null)
+  const [selectedRow, setSelectedRow] = useState(null);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const truncateInfoProp = (propValue, length) => {
     if (!propValue) return '';
     if (propValue.length > length) {
-      return `${propValue.slice(0, length)}...`
+      return `${propValue.slice(0, length)}...`;
     } else {
-      return propValue
+      return propValue;
     }
-  }
+  };
 
   const prepareImagesForLocationChange = (art) => {
-    setCurrentImages([art])
-    handleDialogType('location')
-  }
+    setCurrentImages([art]);
+    handleDialogType('location');
+  };
 
   const openFullInfoDialog = (art) => {
     setSelectedRow(art);
-    setCurrentImages([art])
+    setCurrentImages([art]);
   };
 
   return (
@@ -151,6 +152,6 @@ const ListView = ({ searchResults, handleDialogType }) => {
       )}
     </>
   );
-}
+};
 
 export default ListView;

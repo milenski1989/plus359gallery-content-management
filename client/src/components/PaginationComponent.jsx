@@ -1,6 +1,6 @@
-import { useContext } from 'react'
+import { useContext } from 'react';
 import { Pagination } from '@mui/material';
-import './PaginationComponent.css'
+import './PaginationComponent.css';
 import { EntriesContext } from './contexts/EntriesContext';
 
 const PaginationComponent = ({handlePage}) => {
@@ -31,7 +31,7 @@ const PaginationComponent = ({handlePage}) => {
     showFirstButton={isTherePrevPage && true}
     showLastButton={noNextPage && true}
     siblingCount={3}
-    boundaryCount={2} />
-}
+    boundaryCount={2} />;
+};
 
-export default PaginationComponent
+export default PaginationComponent;

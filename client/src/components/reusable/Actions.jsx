@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
@@ -9,7 +9,7 @@ import { downloadOriginalImages, handleEdit, prepareImagesForLocationChange } fr
 import { EntriesContext } from '../contexts/EntriesContext';
 
 function Actions({classes, style = {}, arts, fontSize, handleDialogType}) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   let myStorage = window.localStorage;
 
   const {
@@ -17,20 +17,20 @@ function Actions({classes, style = {}, arts, fontSize, handleDialogType}) {
   } = useContext(EntriesContext);
 
   const hadleDelete = () => {
-    setCurrentImages(arts)
-    handleDialogType('delete')
-  }
+    setCurrentImages(arts);
+    handleDialogType('delete');
+  };
 
   const handleLocationChange = () => {
-    setCurrentImages(arts)
-    prepareImagesForLocationChange(handleDialogType)
-  }
+    setCurrentImages(arts);
+    prepareImagesForLocationChange(handleDialogType);
+  };
 
   const handleOpenPdfMaker = () => {
-    setCurrentImages(arts)
+    setCurrentImages(arts);
     myStorage.setItem('currentImages', JSON.stringify(arts));
-    navigate('/pdf')
-  }
+    navigate('/pdf');
+  };
 
   return <>
     <div style={style} className={classes}>
@@ -42,7 +42,7 @@ function Actions({classes, style = {}, arts, fontSize, handleDialogType}) {
         <FileDownloadIcon fontSize={fontSize} onClick={() => downloadOriginalImages(arts.map(art => art.download_key))} />
       </> 
     </div>
-  </>  
+  </>;  
 }
 
-export default Actions
+export default Actions;

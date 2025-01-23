@@ -1,7 +1,7 @@
 import { Autocomplete, TextField, useMediaQuery } from '@mui/material';
-import AscIcon from '../../assets/ascending-solid.svg'
-import DescIcon from '../../assets/descending-solid.svg'
-import './Sort.css'
+import AscIcon from '../../assets/ascending-solid.svg';
+import DescIcon from '../../assets/descending-solid.svg';
+import './Sort.css';
 
 const sortOptions = [
   { label: 'Date', field: 'id' },
@@ -65,7 +65,7 @@ function Sort({sortField, handleSortField, handleSortOrder, sortOrder}) {
         )} 
       />
     </div>
-  )
+  );
 }
 
-export default Sort
+export default Sort;

@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
 import { jsPDF } from "jspdf";
-import { EntriesContext } from '../contexts/EntriesContext'
+import { EntriesContext } from '../contexts/EntriesContext';
 import '../../fonts/Raleway';
 import Editor from './Editor';
 
-import './PdfMaker.css'
+import './PdfMaker.css';
 import useNotification from '../hooks/useNotification';
 import Message from '../reusable/Message';
 import { CONTENT_SPACING, EXTRA_CONTENT_SPACING, HEADER_FONT_SIZE, IMAGE_Y_POSITION, SECOND_PAGE_MAX_WIDTH, SECOND_PAGE_VERTICAL_OFFSET, SECTION_CONTENT_FONT_SIZE, SECTION_HEADER_FONT_SIZE, SECTION_SPACING, SIGNATURE_FONT_SIZE } from './pdfSizes';
@@ -13,7 +13,7 @@ import { CONTENT_SPACING, EXTRA_CONTENT_SPACING, HEADER_FONT_SIZE, IMAGE_Y_POSIT
 const PdfMaker = () => {
 
   const {showError, error} = useNotification();
-  const { currentImages } = useContext(EntriesContext)
+  const { currentImages } = useContext(EntriesContext);
   let myStorage = window.localStorage;
   let storedImages = JSON.parse(myStorage.getItem('currentImages')) || [];
   const selectedImage = (currentImages && currentImages.length > 0) 
@@ -36,10 +36,10 @@ const PdfMaker = () => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      generatePdf()
+      generatePdf();
     }, 2000);
 
-    return () => clearTimeout(timeout)
+    return () => clearTimeout(timeout);
 
   }, [pdfData.artists, pdfData.titles, pdfData.techniques, pdfData.notes, pdfData.bio, pdfData.logo, pdfData.website, pdfData.email]);
 
@@ -119,7 +119,7 @@ const PdfMaker = () => {
       format: 'a5',
     });
 
-    const {imageData, imageWidth, autoHeight} = await preparePdfImageData()
+    const {imageData, imageWidth, autoHeight} = await preparePdfImageData();
 
     doc.addImage(pdfData.logo, 'JPEG', 10, 10, 15, 15);
 
@@ -129,10 +129,10 @@ const PdfMaker = () => {
     doc.text("AUTHENTICITY", 74, 22, null, null, 'center');
 
     doc.setFontSize(SECTION_HEADER_FONT_SIZE);
-    doc.text('Автор | Artist', 74, 30, null, null, 'center')
+    doc.text('Автор | Artist', 74, 30, null, null, 'center');
     doc.setFontSize(SECTION_CONTENT_FONT_SIZE);
 
-    doc.text(`${pdfData.artists[0]} | ${pdfData.artists[1]}`, 74, 35, null, null, 'center')
+    doc.text(`${pdfData.artists[0]} | ${pdfData.artists[1]}`, 74, 35, null, null, 'center');
 
     const pageWidth = doc.internal.pageSize.width;
 
@@ -193,10 +193,10 @@ const PdfMaker = () => {
       doc.setFont('Raleway', 'normal');
       doc.setFontSize(SECTION_HEADER_FONT_SIZE);
             
-      doc.text('Автор | Artist', 74, 15, null, null, 'center')
+      doc.text('Автор | Artist', 74, 15, null, null, 'center');
       doc.setFontSize(SECTION_CONTENT_FONT_SIZE);
 
-      doc.text(`${pdfData.artists[0]} | ${pdfData.artists[1]}`, 74, 20, null, null, 'center')
+      doc.text(`${pdfData.artists[0]} | ${pdfData.artists[1]}`, 74, 20, null, null, 'center');
 
       const textlines = doc.setFont('Raleway', 'normal')
         .setFontSize(10)
@@ -254,7 +254,7 @@ const PdfMaker = () => {
           </>}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default PdfMaker
+export default PdfMaker;

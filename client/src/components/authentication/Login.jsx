@@ -1,10 +1,10 @@
-import { Box, Button, CircularProgress, Container, CssBaseline, Link, TextField } from "@mui/material"
-import { useState } from "react"
-import Message from "../reusable/Message"
+import { Box, Button, CircularProgress, Container, CssBaseline, Link, TextField } from "@mui/material";
+import { useState } from "react";
+import Message from "../reusable/Message";
 import { useNavigate } from "react-router-dom";
-import  './Login.css'
+import  './Login.css';
 import {Typography} from '@mui/material';
-import Logo from '../../assets/logo359 gallery-black.png'
+import Logo from '../../assets/logo359 gallery-black.png';
 import { login } from "../../api/authService";
 import useNotification from "../hooks/useNotification";
 
@@ -23,10 +23,10 @@ function Copyright(props) {
 
 const Login = () => {
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  let myStorage = window.localStorage
+  let myStorage = window.localStorage;
   let navigate = useNavigate();
   const { error, showError, clearNotifications, isLoading, startLoading, stopLoading } = useNotification();
 
@@ -37,11 +37,11 @@ const Login = () => {
 
 
   const handleLogin = async () => {
-    const _email = email
-    const _password = password
-    startLoading()
+    const _email = email;
+    const _password = password;
+    startLoading();
     try {
-      const response = await login(_email, _password)
+      const response = await login(_email, _password);
       if (response.status === 200) {
         const { id, userName, email, superUser, createdAt } = response.data.user;
         myStorage.setItem('user', JSON.stringify({
@@ -51,23 +51,23 @@ const Login = () => {
           superUser,
           createdAt
         }));
-        stopLoading()
+        stopLoading();
         navigate('/');
       }
     } catch (error) {
       showError(error.response?.data?.message);
-      stopLoading()
+      stopLoading();
     }
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     if (!validateEmail(email)) {
       showError('Invalid email format!');
       return;
     }
-    handleLogin()
-  }
+    handleLogin();
+  };
 
   return <>
     <Message 
@@ -108,7 +108,7 @@ const Login = () => {
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-                clearNotifications
+                clearNotifications;
               }}
               required
               error={error.state}
@@ -140,7 +140,7 @@ const Login = () => {
 
                
     }
-  </>
-}
+  </>;
+};
 
-export default Login
+export default Login;

@@ -9,3 +9,7 @@
 .cascading-dropdown {
     width: 50vw;
 }
+
+.cascading-dropdown.in-location-change {
+    width: 100%;
+}

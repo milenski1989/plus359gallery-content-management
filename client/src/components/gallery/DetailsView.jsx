@@ -1,4 +1,4 @@
-import Masonry, {ResponsiveMasonry} from "react-responsive-masonry"
+import Masonry, {ResponsiveMasonry} from "react-responsive-masonry";
 import Card from './Card';
 
 const DetailsView = ({handleDialogType, searchResults}) => {
@@ -17,7 +17,7 @@ const DetailsView = ({handleDialogType, searchResults}) => {
         ))} 
       </Masonry>
     </ResponsiveMasonry>
-  </div>
-}
+  </div>;
+};
 
-export default DetailsView
+export default DetailsView;

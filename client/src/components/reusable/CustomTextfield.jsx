@@ -7,7 +7,7 @@ function CustomTextfield({placeholder, sx, handleChange, slotProps}) {
       style={sx}
       onChange={handleChange}
       slotProps={ slotProps ? slotProps : null}/>
-  )
+  );
 }
 
-export default CustomTextfield
+export default CustomTextfield;

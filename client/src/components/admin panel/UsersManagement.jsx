@@ -9,8 +9,8 @@ function UsersManagement() {
       labels={['Add A New User', 'Delete Users']}
       components={[AddNewUser, DeleteUsers]}
     />
-  </>
+  </>;
     
 }
 
-export default UsersManagement
+export default UsersManagement;

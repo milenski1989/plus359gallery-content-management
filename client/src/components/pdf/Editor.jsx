@@ -7,7 +7,7 @@ const multiValuesInputs = [
   {type: 'titles', placeholder: 'Title'},
   {type: 'techniques', placeholder: 'Technique'},
   {type: 'notes', placeholder: 'Notes'}
-]
+];
 
 function Editor({pdfData, updatePdfData, handleSwap, helperText}) {
 
@@ -27,7 +27,7 @@ function Editor({pdfData, updatePdfData, handleSwap, helperText}) {
     let reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function () {
-      callBack(reader.result)
+      callBack(reader.result);
     };
     reader.onerror = function (error) {
       console.log('Error: ', error);
@@ -78,7 +78,7 @@ function Editor({pdfData, updatePdfData, handleSwap, helperText}) {
         value={email}
       />
     </div>
-  )
+  );
 }
 
-export default Editor
+export default Editor;

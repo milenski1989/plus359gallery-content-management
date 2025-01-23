@@ -2,8 +2,8 @@ import './Account.css';
 
 const Account = () => {
 
-  let myStorage = window.localStorage
-  let user = JSON.parse(myStorage.getItem('user'))
+  let myStorage = window.localStorage;
+  let user = JSON.parse(myStorage.getItem('user'));
 
   return (
     <>

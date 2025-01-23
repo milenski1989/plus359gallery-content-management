@@ -1,5 +1,5 @@
-import { useContext } from 'react'
-import './ArtInfoContainer.css'
+import { useContext } from 'react';
+import './ArtInfoContainer.css';
 import { EntriesContext } from '../contexts/EntriesContext';
 
 const keysToMap = ['Artist', 'Title', 'Technique', 'Dimensions', 'Price', 'Notes'];
@@ -24,8 +24,8 @@ const ArtInfoContainer = ({art}) => {
       <p><span className='input-label'>Cell: </span>{art.cell}</p> 
       <p><span className='input-label'>Position: </span>{art.position}</p>
     </div>
-  </>
+  </>;
    
-}
+};
 
-export default ArtInfoContainer
+export default ArtInfoContainer;

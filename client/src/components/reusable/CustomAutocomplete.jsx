@@ -1,4 +1,4 @@
-import { Autocomplete, TextField } from '@mui/material'
+import { Autocomplete, TextField } from '@mui/material';
 
 function CustomAutocomplete({options, value, label, onChange, disabled = false, className = ''}) {
   return (
@@ -13,7 +13,7 @@ function CustomAutocomplete({options, value, label, onChange, disabled = false, 
       isOptionEqualToValue={(option, value) => option === value}
       getOptionLabel={(option) => option.toString()}
     />
-  )
+  );
 }
 
-export default CustomAutocomplete
+export default CustomAutocomplete;

@@ -54,7 +54,7 @@ const LocationChangeDialog = ({
           storageLocation: "",
           cell: "",
           position: ""});
-        handleDialogType(null)}}
+        handleDialogType(null);}}
         confirmButtonText="Yes"
         cancelButtonText="No"
       >
@@ -71,6 +71,7 @@ const LocationChangeDialog = ({
         <CascadingDropdowns
           formControlData={formControlData}
           onDropdownChange={handleDropdownChange}
+          classes={['in-location-change']}
         />
       </CustomDialog>
     </>

@@ -1,5 +1,5 @@
-import Dropzone from 'react-dropzone'
-import './CustomDropZone.css'
+import Dropzone from 'react-dropzone';
+import './CustomDropZone.css';
 
 export default function CustomDropZone({handleOndrop, acceptedFormats, isRequired = false, classes, customText}) {
 
@@ -20,6 +20,6 @@ export default function CustomDropZone({handleOndrop, acceptedFormats, isRequire
       )}
           
     </Dropzone>
-  </>
+  </>;
 }
 
