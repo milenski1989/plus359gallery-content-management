@@ -21,11 +21,11 @@ const MobileListView = ({ searchResults, handleDialogType }) => {
   const { currentImages, setCurrentImages } = useContext(EntriesContext);
   const [selectedRow, setSelectedRow] = useState(null);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const openFullInfoDialog = (art) => {
     setSelectedRow(art);
-    setCurrentImages([art])
+    setCurrentImages([art]);
   };
 
   const truncateInfoProp = (propValue, length) => {
@@ -37,9 +37,9 @@ const MobileListView = ({ searchResults, handleDialogType }) => {
   };
 
   const handleLocationChange = (art) => {
-    setCurrentImages([art])
-    prepareImagesForLocationChange(handleDialogType)
-  }
+    setCurrentImages([art]);
+    prepareImagesForLocationChange(handleDialogType);
+  };
 
   return (
     <>

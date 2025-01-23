@@ -1,29 +1,29 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import './HomePage.css'
+import './HomePage.css';
 import { getAllStorages } from '../../api/storageService';
 
 const HomePage = () => {
 
-  const [storages, setStorages] = useState([])
+  const [storages, setStorages] = useState([]);
   let navigate = useNavigate();
 
   useEffect(() => {
-    getStorages()
-  },[])
+    getStorages();
+  },[]);
 
   const getStorages = async () => {
     try {
-      const response = await getAllStorages()
+      const response = await getAllStorages();
       setStorages(response.data);
     } catch (error) {
-      throw new Error(error)
+      throw new Error(error);
     }
-  }
+  };
 
   const handleStorageSelect = (name) => {
-    navigate(`/gallery/:${name}`)
-  }
+    navigate(`/gallery/:${name}`);
+  };
   
   return <>
     <div className="locations-container">
@@ -38,7 +38,7 @@ const HomePage = () => {
         </div>
       ))} 
     </div>
-  </>  
-}
+  </>;  
+};
 
-export default HomePage
+export default HomePage;
