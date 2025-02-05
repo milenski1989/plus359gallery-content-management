@@ -30,7 +30,7 @@ function Navigation() {
     <nav className="navbar">
       <div className="navbar-elements-container">
         <Link to='/'><img className="logo" alt="logo" src={Logo} /></Link>
-        <p className="current-location">{pathname === '/admin-panel' || pathname === '/storages-management' ? '' : pathname.slice(10).replace(/%20/g, ' ').replace(/([A-Z])/g, ' $1')}</p>
+        <p className="current-location">{pathname.includes('gallery') ? pathname.slice(10).replace(/%20/g, ' ').replace(/([A-Z])/g, ' $1') : ''}</p>
         <div className="right-side">
           {renderNavLinks()}
         </div>
