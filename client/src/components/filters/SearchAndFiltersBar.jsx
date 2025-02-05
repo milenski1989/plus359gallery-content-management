@@ -113,7 +113,7 @@ function SearchAndFiltersBar({
     else {
       filterTimeOut = setTimeout(() => {
         filterData()
-      }, 500)
+      }, 1000)
     }
 
     return () =>  clearTimeout(filterTimeOut)
