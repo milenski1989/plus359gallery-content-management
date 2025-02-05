@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import './SearchAndFiltersBar.css';
 import { useParams } from 'react-router-dom';
 import { filterAll, getAll } from '../../api/artworksService';
@@ -20,7 +20,7 @@ function SearchAndFiltersBar({
   viewMode,
   handleViewMode,
 }) {
-  const { showError, isLoading } = useNotification();
+  const { showError } = useNotification();
 
   const [artists, setArtists] = useState([]);
   const [cells, setCells] = useState([]);
@@ -54,6 +54,8 @@ function SearchAndFiltersBar({
     }
   };
 
+  const artistOptions = useMemo(() => artists.map(artist => artist.artist), [artists]);
+
   const getCells = async () => {
     try {
       const response = await getCellsFromStorage(name);
@@ -64,13 +66,10 @@ function SearchAndFiltersBar({
     }
   };
 
-  const onChange = event => {
-
+  const onChange = useCallback((event) => {
     if (!event.target.value) return setKeywords([]);
-
-    const inputKeywords = event.target.value.split(' ');
-    setKeywords(inputKeywords);
-  };
+    setKeywords(event.target.value.split(' '));
+  }, []);
 
   const getPaginatedData = async () => {
     try {
@@ -112,11 +111,11 @@ function SearchAndFiltersBar({
     else {
       filterTimeOut = setTimeout(() => {
         filterData();
-      }, 1000);
+      }, 500);
     }
 
     return () =>  clearTimeout(filterTimeOut);
-  }, [page, sortField, sortOrder, isLoading, triggerFetch, selectedArtist, selectedCell, keywords, countPerPage]);
+  }, [page, sortField, sortOrder, triggerFetch, selectedArtist, selectedCell, keywords, countPerPage]);
 
     
   const handleCountPerPageChange = (event) => {
@@ -124,18 +123,12 @@ function SearchAndFiltersBar({
     setCountPerPage(event.target.value);
   };
 
-  const renderCountInfo = () => {
+  const renderCountInfo = useMemo(() => {
     if (keywords.length || selectedArtist || selectedCell) {
-      return <>
-            Showing <span className="bolded">{startItem}-{totalCount}</span> of <span className="bolded">{totalCount}</span>
-      </>;
-    } else {
-      return <>
-            Showing <span className="bolded">{startItem}-{endItem}</span> of <span className="bolded">{totalCount}</span>
-      </>;
+      return <>Showing <span className="bolded">{startItem}-{totalCount}</span> of <span className="bolded">{totalCount}</span></>;
     }
-           
-  };
+    return <>Showing <span className="bolded">{startItem}-{endItem}</span> of <span className="bolded">{totalCount}</span></>;
+  }, [keywords, selectedArtist, selectedCell, startItem, endItem, totalCount]);
 
   return <>
     <div className="filters-container">
@@ -175,7 +168,7 @@ function SearchAndFiltersBar({
       />
       <CustomAutocomplete
         className="filter-input"
-        options={artists.map(artist => artist.artist)}
+        options={artistOptions}
         label="Select artist"
         onChange={setSelectedArtist}
       />
@@ -194,7 +187,7 @@ function SearchAndFiltersBar({
       />
       <div className="entries-shown-view-mode-icons">
         <div className="entries-shown">
-          {renderCountInfo()}
+          {renderCountInfo}
         </div>
         <ViewModeIcons viewMode={viewMode} handleViewMode={handleViewMode} />
       </div>
