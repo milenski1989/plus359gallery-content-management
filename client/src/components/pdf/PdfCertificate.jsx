@@ -43,7 +43,7 @@ const PdfCertificate = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       generatePdf();
-    }, 2000);
+    }, 1000);
 
     return () => clearTimeout(timeout);
 
