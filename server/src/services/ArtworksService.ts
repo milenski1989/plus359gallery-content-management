@@ -74,122 +74,80 @@ export default class ArtworksService {
     selectedArtist?: string,
     selectedCell?: string
   ) {
-    let query: string;
-    let results;
-    let whereConditions;
-    let additionalCondition;
-    let whereParams;
 
-    if (selectedArtist && !selectedCell && !keywords.length) {
-      additionalCondition = `artworks.artist = '${selectedArtist}' AND artworks.storageLocation NOT IN ('Sold')`;
-    } else if (selectedArtist && selectedCell && !keywords.length) {
-      additionalCondition = `artworks.artist = '${selectedArtist}' AND artworks.cell = '${selectedCell}' AND artworks.storageLocation NOT IN ('Sold')`;
-    } else if (!selectedArtist && !selectedCell && keywords.length) {
-      whereConditions = keywords
-        .map(
-          (keyword) =>
-            `(CONCAT(artworks.artist, ' ', artworks.title, ' ', artworks.technique, ' ', artworks.notes, ' ', artworks.storageLocation, ' ', artworks.cell) LIKE ?)`
-        )
-        .join(" AND ");
-
-      whereParams = keywords.map((keyword) => `%${keyword}%`);
-      additionalCondition = `AND artworks.storageLocation NOT IN ('Sold')`;
-    } else if (!selectedArtist && selectedCell && keywords.length) {
-      whereConditions = keywords
-        .map(
-          (keyword) =>
-            `(CONCAT(artworks.artist, ' ', artworks.title, ' ', artworks.technique, ' ', artworks.notes, ' ', artworks.storageLocation) LIKE ?)`
-        )
-        .join(" AND ");
-
-      whereParams = keywords.map((keyword) => `%${keyword}%`);
-      additionalCondition = `AND artworks.cell = '${selectedCell}' AND artworks.storageLocation NOT IN ('Sold')`;
-    } else if (!selectedArtist && selectedCell && !keywords.length) {
-      additionalCondition = `artworks.cell = '${selectedCell}' AND artworks.storageLocation NOT IN ('Sold')`;
-    } else if (selectedArtist && !selectedCell && keywords.length) {
-      whereConditions = keywords
-        .map(
-          (keyword) =>
-            `(CONCAT(artworks.title, ' ', artworks.technique, ' ', artworks.notes, ' ', artworks.storageLocation, ' ', artworks.cell) LIKE ?)`
-        )
-        .join(" AND ");
-
-      whereParams = keywords.map((keyword) => `%${keyword}%`);
-      additionalCondition = `AND artworks.artist = '${selectedArtist}' AND artworks.storageLocation NOT IN ('Sold')`;
-    } else {
-      whereConditions = keywords
-        .map(
-          (keyword) =>
-            `(CONCAT(artworks.title, ' ', artworks.technique, ' ', artworks.notes, ' ', artworks.storageLocation) LIKE ?)`
-        )
-        .join(" AND ");
-
-      whereParams = keywords.map((keyword) => `%${keyword}%`);
-      additionalCondition = `AND artworks.artist = '${selectedArtist}' AND artworks.cell = '${selectedCell}' AND artworks.storageLocation NOT IN ('Sold')`;
+    // Base condition: exclude 'Sold'
+    const conditions: string[] = ["artworks.storageLocation NOT IN ('Sold')"];
+    const params: any[] = [];
+  
+    // Add filter for artist if provided
+    if (selectedArtist) {
+      conditions.push("artworks.artist = ?");
+      params.push(selectedArtist);
     }
-
-    if (whereConditions) {
-      query = `
-    SELECT artworks.*, storages.name AS storage_name, cells.name AS cell_name, positions.name AS position_name
-    FROM artworks
-    LEFT JOIN storages ON artworks.storage_id = storages.id
-    LEFT JOIN cells ON artworks.cell_id = cells.id
-    LEFT JOIN positions ON artworks.position_id = positions.id
-    WHERE ${whereConditions} ${additionalCondition}
-    ORDER BY ${sortField} ${sortOrder.toUpperCase()}
-  `;
-    } else {
-      query = `
-    SELECT artworks.*, storages.name AS storage_name, cells.name AS cell_name, positions.name AS position_name
-    FROM artworks
-    LEFT JOIN storages ON artworks.storage_id = storages.id
-    LEFT JOIN cells ON artworks.cell_id = cells.id
-    LEFT JOIN positions ON artworks.position_id = positions.id
-    WHERE ${additionalCondition}
-    ORDER BY ${sortField} ${sortOrder.toUpperCase()}
-  `;
+  
+    // Add filter for cell if provided
+    if (selectedCell) {
+      conditions.push("artworks.cell = ?");
+      params.push(selectedCell);
     }
-
-    let countQuery;
-    if (whereConditions) {
-      countQuery = `
-  SELECT COUNT(*) AS total_count
-  FROM artworks
-  LEFT JOIN storages ON artworks.storage_id = storages.id
-  LEFT JOIN cells ON artworks.cell_id = cells.id
-  LEFT JOIN positions ON artworks.position_id = positions.id
-  WHERE ${whereConditions} ${additionalCondition}
-`;
-    } else {
-      countQuery = `
-  SELECT COUNT(*) AS total_count
-  FROM artworks
-  LEFT JOIN storages ON artworks.storage_id = storages.id
-  LEFT JOIN cells ON artworks.cell_id = cells.id
-  LEFT JOIN positions ON artworks.position_id = positions.id
-  WHERE ${additionalCondition}
-`;
+  
+    // Determine the concatenation of fields for keyword search
+    if (keywords.length) {
+      let concatFields: string;
+      if (!selectedArtist && !selectedCell) {
+        // When no filters are applied, search all fields.
+        concatFields = "CONCAT_WS(' ', artworks.artist, artworks.title, artworks.technique, artworks.notes, artworks.storageLocation, artworks.cell)";
+      } else if (!selectedArtist && selectedCell) {
+        concatFields = "CONCAT_WS(' ', artworks.artist, artworks.title, artworks.technique, artworks.notes, artworks.storageLocation)";
+      } else if (selectedArtist && !selectedCell) {
+        concatFields = "CONCAT_WS(' ', artworks.title, artworks.technique, artworks.notes, artworks.storageLocation, artworks.cell)";
+      } else {
+        concatFields = "CONCAT_WS(' ', artworks.title, artworks.technique, artworks.notes, artworks.storageLocation)";
+      }
+    
+      // Add a LIKE condition for each keyword
+      keywords.forEach((keyword) => {
+        conditions.push(`(${concatFields} LIKE ?)`);
+        params.push(`%${keyword}%`);
+      });
     }
-
-    if (whereParams) {
-      const finalParams = [...whereParams];
-      results = await dbConnection.query(query, finalParams);
-      const [artworks, totalCount]: [artworks: Artworks, totalCount: number] = await Promise.all([
-        dbConnection.query(query, finalParams),
-        dbConnection.query(countQuery, finalParams),
-      ]);
-
-      return { artworks, totalCount: totalCount[0].total_count };
-    } else {
-      results = await dbConnection.query(query);
-      const [artworks, totalCount]: [artworks: Artworks, totalCount: number]  = await Promise.all([
-        dbConnection.query(query),
-        dbConnection.query(countQuery),
-      ]);
-      return { artworks, totalCount: totalCount[0].total_count };
-    }
+  
+    // Build the WHERE clause
+    const whereClause = conditions.length ? "WHERE " + conditions.join(" AND ") : "";
+  
+    // Construct the main query
+    const query = `
+      SELECT artworks.*, 
+             storages.name AS storage_name, 
+             cells.name AS cell_name, 
+             positions.name AS position_name
+      FROM artworks
+      LEFT JOIN storages ON artworks.storage_id = storages.id
+      LEFT JOIN cells ON artworks.cell_id = cells.id
+      LEFT JOIN positions ON artworks.position_id = positions.id
+      ${whereClause}
+      ORDER BY ${sortField} ${sortOrder.toUpperCase()}
+    `;
+  
+    // Construct the count query
+    const countQuery = `
+      SELECT COUNT(*) AS total_count
+      FROM artworks
+      LEFT JOIN storages ON artworks.storage_id = storages.id
+      LEFT JOIN cells ON artworks.cell_id = cells.id
+      LEFT JOIN positions ON artworks.position_id = positions.id
+      ${whereClause}
+    `;
+  
+    // Execute both queries in parallel
+    const [artworks, totalCount] = await Promise.all([
+      dbConnection.query(query, params),
+      dbConnection.query(countQuery, params),
+    ]);
+  
+    return { artworks, totalCount: totalCount[0].total_count };
   }
-
+  
   async allByArtist(storage: string) {
     try {
       if (storage !== "All") {
@@ -236,7 +194,7 @@ export default class ArtworksService {
         foundCellId = foundCell ? foundCell.id : null;
       }
 
-      if (positionParam) {
+      if (foundCellId && positionParam) {
         const foundPosition: Positions = await positionsRepository.findOne({
           where: { cell_id: foundCellId, name: positionParam.toString() },
         });

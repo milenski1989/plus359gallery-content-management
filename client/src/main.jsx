@@ -5,7 +5,8 @@ import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterP
 const Login = lazy(() => import('./components/authentication/Login.jsx'));
 const HomePage = lazy(() => import('./components/home/HomePage.jsx'));
 const Upload = lazy(() => import('./components/upload/Upload.jsx'));
-const PdfMaker = lazy(() => import('./components/pdf/PdfMaker.jsx'));
+const PdfCertificate = lazy(() => import('./components/pdf/PdfCertificate.jsx'));
+const PdfCatalogue = lazy(() => import('./components/pdf/PdfCatalogue.jsx'));
 const AdminPanel = lazy(() => import('./components/admin panel/AdminPanel.jsx'));
 const StoragesManagement = lazy(() => import('./components/admin panel/StoragesManagement.jsx'));
 const Account = lazy(() => import('./components/account/Account.jsx'));
@@ -95,10 +96,18 @@ const routes  = [
     ) 
   },
   { 
-    path: '/pdf', 
+    path: '/pdf/certificate', 
     element: (
       <EntriesProvider>
-        <Suspense fallback=''><PdfMaker/></Suspense>
+        <Suspense fallback=''><PdfCertificate/></Suspense>
+      </EntriesProvider>
+    ) 
+  },
+  { 
+    path: '/pdf/catalogue', 
+    element: (
+      <EntriesProvider>
+        <Suspense fallback=''><PdfCatalogue/></Suspense>
       </EntriesProvider>
     ) 
   },
