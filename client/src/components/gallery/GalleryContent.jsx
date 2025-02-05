@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useMemo, useState } from "react";
 import Message from "../reusable/Message";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { EntriesContext } from "../contexts/EntriesContext";
@@ -37,7 +37,7 @@ const GalleryContent = () => {
 
   const handleDialogType = useCallback((type) => setDialogType(type), []);
 
-  const renderViewMode = useCallback(() => {
+  const memoizedViewMode = useMemo(() => {
     if (viewMode === 'thumbnail') {
       return <ThumbnailView searchResults={searchResults} />;
     } else if (viewMode === 'details') {
@@ -140,7 +140,7 @@ const GalleryContent = () => {
         />
       </div>
       {!searchResults.length && <div className="no-data-container">Nothing was found!</div>}
-      {renderViewMode()}
+      {memoizedViewMode}
       {searchResults.length && !paginationDisabled ?
         <PaginationComponent 
           page={page}

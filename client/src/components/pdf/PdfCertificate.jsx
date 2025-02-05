@@ -7,6 +7,8 @@ import PdfCertificateEditor from './PdfCertificateEditor';
 import useNotification from '../hooks/useNotification';
 import Message from '../reusable/Message';
 import { createCertificatePageTwo, createPdfCertificatePageOne } from './helpers/utilityFunctions';
+import GoBack from '../reusable/GoBack';
+import { useNavigate } from 'react-router-dom';
 
 import './PdfCertificate.css';
 
@@ -14,6 +16,8 @@ const PdfCertificate = () => {
 
   const {showError, error} = useNotification();
   const { currentImages } = useContext(EntriesContext);
+  const navigate = useNavigate();
+
   let myStorage = window.localStorage;
   let storedImages = JSON.parse(myStorage.getItem('currentImages')) || [];
   const selectedImage = (currentImages && currentImages.length > 0) 
@@ -140,6 +144,7 @@ const PdfCertificate = () => {
 
   return (
     <>
+      <GoBack handleGoBack={() => { myStorage.removeItem('currentImages'); navigate(-1); }}/>
       {!pdfUrl && !error.state && <CircularProgress className="loader" color="primary" />}
       <Message
         open={error.state}

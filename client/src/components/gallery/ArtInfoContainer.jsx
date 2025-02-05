@@ -1,17 +1,11 @@
-import { useContext } from 'react';
 import './ArtInfoContainer.css';
-import { EntriesContext } from '../contexts/EntriesContext';
 
 const keysToMap = ['Artist', 'Title', 'Technique', 'Dimensions', 'Price', 'Notes'];
 
 const ArtInfoContainer = ({art}) => {
 
-  const {
-    currentImages
-  } = useContext(EntriesContext);
-
   return <>
-    <div className={`art-info-container ${currentImages.length ? 'margin-top' : ''}`}>
+    <div className="art-info-container">
       <div>
         {keysToMap.slice(1, keysToMap.length).map(key => (
           <p key={key} className="art-info-item">

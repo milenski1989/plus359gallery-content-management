@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { EntriesContext } from '../contexts/EntriesContext';
 import { Checkbox } from '@mui/material';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
@@ -14,19 +14,21 @@ const Thumbnail = ({artwork, searchResults}) => {
     setCurrentImages,
   } = useContext(EntriesContext);
 
-  const checkBoxHandler = (id) => {
-    if (currentImages.some(image => image.id === id)) {
-      setCurrentImages(currentImages.filter(image => image.id !== id));
-    } else {
-      setCurrentImages([...currentImages, searchResults.find(image => image.id === id)]);
-    }
-  };
-    
+  const handleCheckboxChange = useCallback((id) => {
+    setCurrentImages((prevSelected) => {
+      if (prevSelected.some((item) => item.id === id)) {
+        return prevSelected.filter((image) => image.id !== id);
+      } else {
+        return [...prevSelected, searchResults.find((image) => image.id === id)];
+      }
+    });
+  }, [setCurrentImages, searchResults]);
+
   return <>
     <div
       key={artwork.id}>
       <Checkbox
-        onChange={() => checkBoxHandler(artwork.id)}
+        onChange={() => handleCheckboxChange(artwork.id)}
         checked={currentImages.some(image => image.id === artwork.id)}
         sx={{
           position: "absolute",

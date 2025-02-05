@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import { EntriesContext } from "../contexts/EntriesContext";
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
@@ -10,7 +10,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import EditIcon from '@mui/icons-material/Edit';
 import { Dialog, DialogContent } from "@mui/material";
-import { checkBoxHandler, downloadOriginalImages, generateBackGroundColor, handleEdit } from "../utils/helpers";
+import { downloadOriginalImages, generateBackGroundColor, handleEdit } from "../utils/helpers";
 import ArtInfoContainer from "./ArtInfoContainer";
 import { useNavigate } from "react-router-dom";
 import Actions from "../reusable/Actions";
@@ -42,6 +42,16 @@ const ListView = ({ searchResults, handleDialogType }) => {
     setSelectedRow(art);
     setCurrentImages([art]);
   };
+
+  const handleCheckboxChange = useCallback((id) => {
+    setCurrentImages((prevSelected) => {
+      if (prevSelected.some((item) => item.id === id)) {
+        return prevSelected.filter((image) => image.id !== id);
+      } else {
+        return [...prevSelected, searchResults.find((image) => image.id === id)];
+      }
+    });
+  }, [setCurrentImages, searchResults]);
 
   return (
     <>
@@ -91,7 +101,7 @@ const ListView = ({ searchResults, handleDialogType }) => {
                 <p>{truncateInfoProp(art.cell, 25)}</p>
               </div>
               <Checkbox
-                onChange={() => checkBoxHandler(currentImages, setCurrentImages, searchResults, art.id)}
+                onChange={() => handleCheckboxChange(art.id)}
                 checked={currentImages.some(image => image.id === art.id)}
                 sx={{
                   padding: 0,
@@ -102,16 +112,12 @@ const ListView = ({ searchResults, handleDialogType }) => {
                 }}
                 icon={<RadioButtonUncheckedIcon />}
                 checkedIcon={<CheckCircleOutlineIcon />} />
-              {currentImages.length === 1 && currentImages[0].id === art.id || !currentImages.length ?
-                <Actions 
-                  classes="row-actions"
-                  fontSize="medium"
-                  arts={[art]}
-                  handleDialogType={handleDialogType}
-                />
-                :
-                null
-              }
+              <Actions 
+                classes="row-actions"
+                fontSize="medium"
+                arts={[art]}
+                handleDialogType={handleDialogType}
+              />
               <MoreHorizIcon className="more-horizon-icon" fontSize="medium" onClick={() =>  openFullInfoDialog(art)} />
             </div>
           );

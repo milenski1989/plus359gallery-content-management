@@ -102,7 +102,7 @@ function SearchAndFiltersBar({
   useEffect(() => {
     getArtists();
     getCells();
-  },[]);
+  },[name]);
 
   useEffect(() => {
     let filterTimeOut = null;

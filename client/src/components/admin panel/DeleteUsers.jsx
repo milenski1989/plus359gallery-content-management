@@ -1,5 +1,5 @@
 import { Checkbox, CircularProgress } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Message from "../reusable/Message";
 import CustomDialog from "../reusable/CustomDialog";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -7,9 +7,10 @@ import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import SelectAllIcon from '../../assets/select-all.svg';
 import UnselectAllIcon from '../../assets/unselect-all.svg';
-import './DeleteUsers.css';
 import { deleteUser, getAllUsers } from "../../api/authService";
 import useNotification from "../hooks/useNotification";
+
+import './DeleteUsers.css';
 
 function DeleteUsers() {
   const { success, error, showSuccess, showError, clearNotifications, isLoading, startLoading, stopLoading } = useNotification();
@@ -24,13 +25,13 @@ function DeleteUsers() {
     getUsers();
   }, []);
 
-  const checkBoxHandler = (id) => {
+  const handleCheckboxChange = useCallback((id) => {
     if (selectedUsers.some((user) => user.id === id)) {
       setSelectedUsers(selectedUsers.filter((user) => user.id !== id));
     } else {
       setSelectedUsers([...selectedUsers, users.find((user) => user.id === id)]);
     }
-  };
+  }, [selectedUsers, users]);
 
   const handleSelectAll = () => {
     if (users.length === selectedUsers.length) {
@@ -123,7 +124,7 @@ function DeleteUsers() {
         {users.map((user) => (
           <div key={user.id} className="user location">
             <Checkbox
-              onChange={() => checkBoxHandler(user.id)}
+              onChange={() => handleCheckboxChange(user.id)}
               checked={selectedUsers.some(
                 (selectedUser) => selectedUser.id === user.id
               )}

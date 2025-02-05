@@ -12,7 +12,6 @@ const LocationChangeDialog = ({
   const {
     currentImages,
     setCurrentImages,
-    setIsEditMode
   } = useContext(EntriesContext);
 
   const [formControlData, setFormControlData] = useState({
@@ -25,7 +24,6 @@ const LocationChangeDialog = ({
     const ids = currentImages.map(image => image.id);
     try {
       await updateLocations(ids, formControlData);
-      setIsEditMode(false);
       setCurrentImages([]);
     } catch (error) {
       console.log(error);

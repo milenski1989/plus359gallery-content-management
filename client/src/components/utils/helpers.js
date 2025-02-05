@@ -29,14 +29,6 @@ export const prepareImagesForLocationChange = (handleDialogType) => {
   handleDialogType('location');
 };
 
-export const checkBoxHandler = (selectedItems, setSelectedItems, items, id) => {
-  if (selectedItems.some(selectedItem => selectedItem.id === id)) {
-    setSelectedItems(selectedItems.filter(image => image.id !== id));
-  } else {
-    setSelectedItems([...selectedItems, items.find(image => image.id === id)]);
-  }
-};
-
 export const handleEdit = (arts, navigate) => {
   localStorage.setItem('currentImages', JSON.stringify(arts));
   navigate('/edit-page');

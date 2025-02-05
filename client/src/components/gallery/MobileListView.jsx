@@ -1,8 +1,8 @@
-import { useContext, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import { Dialog, DialogContent } from "@mui/material";
 import { EntriesContext } from "../contexts/EntriesContext";
-import { checkBoxHandler, downloadOriginalImages, generateBackGroundColor, prepareImagesForLocationChange } from "../utils/helpers";
+import { downloadOriginalImages, generateBackGroundColor, prepareImagesForLocationChange } from "../utils/helpers";
 import './ListView.css';
 import { handleEdit } from "../utils/helpers";
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
@@ -41,6 +41,16 @@ const MobileListView = ({ searchResults, handleDialogType }) => {
     prepareImagesForLocationChange(handleDialogType);
   };
 
+  const handleCheckboxChange = useCallback((id) => {
+    setCurrentImages((prevSelected) => {
+      if (prevSelected.some((item) => item.id === id)) {
+        return prevSelected.filter((image) => image.id !== id);
+      } else {
+        return [...prevSelected, searchResults.find((image) => image.id === id)];
+      }
+    });
+  }, [setCurrentImages, searchResults]);
+
   return (
     <>
       <div className="mobile-header-container">
@@ -62,7 +72,7 @@ const MobileListView = ({ searchResults, handleDialogType }) => {
                 className={`mobile-row-position-container ${art.position ? 'position-text' : ''}`}
                 style={{backgroundColor: generateBackGroundColor(art.storage?.name || art.storage_name)}}>
                 <Checkbox
-                  onChange={() => checkBoxHandler(currentImages, setCurrentImages, searchResults, art.id)}
+                  onChange={() => handleCheckboxChange(art.id)}
                   checked={currentImages.some(image => image.id === art.id)}
                   sx={{
                     padding: 0,
