@@ -174,14 +174,9 @@ export const createPdfCatalogue = (doc, pdfDataList, website, logo, imagesData, 
       currentY = (pageHeight - autoHeight) / 2 + autoHeight;
       doc.addImage(imageData, "JPEG", xPosition, (pageHeight - totalHeight) / 2, imageWidth, autoHeight);
     } else {
-      if (Math.abs(imageWidth - autoHeight) < 10) {
-        currentY = IMAGE_Y_POSITION_CATALOGUE + autoHeight + 50;
-        doc.addImage(imageData, "JPEG", xPosition, (pageHeight - totalHeight) / 2, imageWidth, autoHeight);
-      } else {
-        currentY = IMAGE_Y_POSITION_CATALOGUE + autoHeight + 30;
-        doc.addImage(imageData, "JPEG", xPosition, (pageHeight - totalHeight) / 2, imageWidth, autoHeight);
-      } 
-    } 
+      currentY = IMAGE_Y_POSITION_CATALOGUE + autoHeight + 30;
+      doc.addImage(imageData, "JPEG", xPosition, (pageHeight - totalHeight) / 2, imageWidth, autoHeight); 
+    }
 
     rows.forEach((row) => {
       doc.setFontSize(row.fontSize);

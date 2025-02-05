@@ -14,6 +14,7 @@ import './PdfCertificate.css';
 
 const PdfCertificate = () => {
 
+  // eslint-disable-next-line no-unused-vars
   const {showError, error} = useNotification();
   const { currentImages } = useContext(EntriesContext);
   const navigate = useNavigate();
@@ -72,50 +73,85 @@ const PdfCertificate = () => {
     });
   };
   
-  const loadImage = (url) => {
+  // const loadImage = (url) => {
+  //   return new Promise((resolve) => {
+  //     const img = new Image();
+  //     img.src = url;
+  //     img.onload = () => {
+  //       resolve({
+  //         naturalWidth: img.width,
+  //         naturalHeight: img.height,
+  //       });
+  //     };
+  //   });
+  // };
+
+  const loadImage = (url, targetWidth = 1000) => {
     return new Promise((resolve) => {
       const img = new Image();
+      img.crossOrigin = "Anonymous"; // Prevent CORS issues
       img.src = url;
       img.onload = () => {
+        const aspectRatio = img.height / img.width;
+        const targetHeight = targetWidth * aspectRatio; // Maintain aspect ratio
+  
+        const canvas = document.createElement("canvas");
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+        const ctx = canvas.getContext("2d");
+  
+        // Draw the image resized on the canvas
+        ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+  
+        // Convert the canvas to a Base64 Data URL
+        const resizedImageUrl = canvas.toDataURL("image/jpeg"); // or "image/jpeg"
+  
         resolve({
           naturalWidth: img.width,
           naturalHeight: img.height,
+          resizedWidth: targetWidth,
+          resizedHeight: targetHeight,
+          resizedUrl: resizedImageUrl, // Already in Base64 format
         });
       };
     });
   };
 
-  const toDataURL = async (url) => {
-    try {
-      const response = await fetch(url);
-      const blob = await response.blob();
+  // const toDataURL = async (url) => {
+  //   try {
+  //     const response = await fetch(url);
+  //     const blob = await response.blob();
   
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      });
-    } catch (error) {
-      console.log(error);
-      showError('Failed to load image for the PDF, please, check your connection!');
-    }
-  };
+  //     return new Promise((resolve, reject) => {
+  //       const reader = new FileReader();
+  //       reader.onloadend = () => resolve(reader.result);
+  //       reader.onerror = reject;
+  //       reader.readAsDataURL(blob);
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //     showError('Failed to load image for the PDF, please, check your connection!');
+  //   }
+  // };
 
   const preparePdfImageData = async () => {
     try {
-      const imageUrl = selectedImage?.image_url;
-      const imageData = await toDataURL(imageUrl);
-      
-      const { naturalWidth, naturalHeight } = await loadImage(imageUrl);
+      const imageUrl = selectedImage?.download_url;
+      //const imageData = await toDataURL(imageUrl);
+
+      const { resizedWidth, resizedHeight, resizedUrl } = await loadImage(imageUrl);
+  
       let imageWidth;
-
-      if (naturalWidth > naturalHeight) imageWidth = 110;
+  
+      // Determine image width for PDF
+      if (resizedWidth > resizedHeight) imageWidth = 95;
+      else if (Math.abs(resizedWidth - resizedHeight) < 30) imageWidth = 95;
       else imageWidth = 60;
-
-      const aspectRatio = naturalHeight / naturalWidth;
+  
+      const aspectRatio = resizedHeight / resizedWidth;
       const autoHeight = imageWidth * aspectRatio;
-      return { imageData, imageWidth, autoHeight };
+  
+      return { imageData: resizedUrl, imageWidth, autoHeight }; // Use resizedUrl directly
     } catch (error) {
       console.error("Error preparing PDF image data:", error);
     }
