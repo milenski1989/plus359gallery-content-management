@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
@@ -7,12 +7,15 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { useNavigate } from 'react-router-dom';
 import { downloadOriginalImages, handleEdit, prepareImagesForLocationChange } from '../utils/helpers';
 import { EntriesContext } from '../contexts/EntriesContext';
+import { Menu, MenuItem } from '@mui/material';
 
 function Actions({classes, style = {}, arts, fontSize, handleDialogType}) {
   const navigate = useNavigate()
   let myStorage = window.localStorage;
-
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [isPdfActionsMenuOpen, setIsPdfActionsMenuOpen] = useState(false);
   const {
+    currentImages,
     setCurrentImages,
   } = useContext(EntriesContext);
 
@@ -26,11 +29,11 @@ function Actions({classes, style = {}, arts, fontSize, handleDialogType}) {
     prepareImagesForLocationChange(handleDialogType)
   }
 
-  const handleOpenPdfMaker = () => {
-    setCurrentImages(arts)
+  const handlePdfButtonClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    setIsPdfActionsMenuOpen(true);
     myStorage.setItem('currentImages', JSON.stringify(arts));
-    navigate('/pdf')
-  }
+  };
 
   return <>
     <div style={style} className={classes}>
@@ -38,7 +41,16 @@ function Actions({classes, style = {}, arts, fontSize, handleDialogType}) {
         <EditIcon fontSize={fontSize} onClick={() => handleEdit(arts, navigate)}/>
         <DriveFileMoveIcon fontSize={fontSize} onClick={handleLocationChange} />
         <DeleteOutlineIcon fontSize={fontSize} onClick={hadleDelete}/>
-        <PictureAsPdfIcon fontSize={fontSize} onClick={handleOpenPdfMaker} />
+        <PictureAsPdfIcon onClick={handlePdfButtonClick} fontSize={fontSize}  />
+        <Menu
+          anchorEl={anchorEl}
+          open={isPdfActionsMenuOpen}
+          onClose={() => setIsPdfActionsMenuOpen(false)}
+        >
+          {currentImages.length === 1 ? <MenuItem onClick={() => navigate('/pdf/certificate')}>Certificate</MenuItem> : null}
+          <MenuItem onClick={() => navigate('/pdf/catalogue')}>Catalogue</MenuItem>
+        </Menu>
+        
         <FileDownloadIcon fontSize={fontSize} onClick={() => downloadOriginalImages(arts.map(art => art.download_key))} />
       </> 
     </div>
