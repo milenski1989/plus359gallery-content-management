@@ -14,8 +14,8 @@ import PaginationComponent from "../PaginationComponent";
 import { useMediaQuery } from "@mui/material";
 import MobileListView from "./MobileListView";
 import './GalleryContent.css';
-import Actions from '../reusable/Actions';
 import useNotification from "../hooks/useNotification";
+import VerticalActions from "../reusable/VerticalActions";
 
 const GalleryContent = () => {
 
@@ -107,7 +107,7 @@ const GalleryContent = () => {
   const renderActions = () => {
     if (currentImages.length > 1 || (viewMode === 'thumbnail' && currentImages.length)) {
       return (
-        <Actions 
+        <VerticalActions 
           classes="action-buttons-container"
           style={{ top: isSmallDevice ? '100px' : '130px' }}
           fontSize={isSmallDevice ? 'medium' : 'large'}
