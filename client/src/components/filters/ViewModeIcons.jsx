@@ -1,9 +1,9 @@
-import { useContext } from 'react'
+import { useContext } from 'react';
 import { EntriesContext } from '../contexts/EntriesContext';
 import ListViewIcon from '../../assets/list-view-solid.svg';
 import ThumbnailViewIcon from '../../assets/thumbnail-view-solid.svg';
 import DetailsViewIcon from '../../assets/details-view-solid.svg';
-import './ViewModeIcons.css'
+import './ViewModeIcons.css';
 
 function ViewModeIcons({viewMode, handleViewMode}) {
 
@@ -12,9 +12,9 @@ function ViewModeIcons({viewMode, handleViewMode}) {
   } = useContext(EntriesContext);
 
   const handleChangeViewMode = (mode) => {
-    handleViewMode(mode)
-    setCurrentImages([])
-  }
+    handleViewMode(mode);
+    setCurrentImages([]);
+  };
 
   return (
     <div className='view-mode-icons-container'>
@@ -37,7 +37,7 @@ function ViewModeIcons({viewMode, handleViewMode}) {
         alt="List View"
       />
     </div>
-  )
+  );
 }
 
-export default ViewModeIcons
+export default ViewModeIcons;

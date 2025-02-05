@@ -1,4 +1,4 @@
-import { downloadFiles } from "../../api/s3Service"
+import { downloadFiles } from "../../api/s3Service";
 import { saveAs } from 'file-saver';
 
 export const generateBackGroundColor = (storage_name) => {
@@ -6,44 +6,36 @@ export const generateBackGroundColor = (storage_name) => {
   case "Vasil Levski":
     return "#FFDA0A";
   case "Vasil Levski Folders":
-    return "#1EA896"
+    return "#1EA896";
   case "Charta":
-    return "#FF715B"
+    return "#FF715B";
   case "Lozenets":
-    return "#8A89C0"
+    return "#8A89C0";
   case "South Park":
-    return "#020887"
+    return "#020887";
   case "Vasil Levski Rooms":
-    return "#AB3428"
+    return "#AB3428";
   case "Collect":
-    return "#130303"
+    return "#130303";
   case "Other": 
-    return "#FFCDBC"
+    return "#FFCDBC";
   default:
-    return "#627264"
+    return "#627264";
   }
  
-}
+};
 
 export const prepareImagesForLocationChange = (handleDialogType) => {
-  handleDialogType('location')
-}
-
-export const checkBoxHandler = (selectedItems, setSelectedItems, items, id) => {
-  if (selectedItems.some(selectedItem => selectedItem.id === id)) {
-    setSelectedItems(selectedItems.filter(image => image.id !== id));
-  } else {
-    setSelectedItems([...selectedItems, items.find(image => image.id === id)]);
-  }
-}
+  handleDialogType('location');
+};
 
 export const handleEdit = (arts, navigate) => {
   localStorage.setItem('currentImages', JSON.stringify(arts));
-  navigate('/edit-page')
+  navigate('/edit-page');
 };
 
 export const downloadOriginalImages = async (downloadKeys) => {
-  const response = await downloadFiles(downloadKeys)
+  const response = await downloadFiles(downloadKeys);
   for (let fileUrl of response.data.result) {
     try {
       const fileResponse = await fetch(fileUrl);
@@ -51,7 +43,7 @@ export const downloadOriginalImages = async (downloadKeys) => {
       const imageName =  fileUrl.split('?')[0].split('/').pop(); 
       saveAs(blob, imageName);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
-}
+};

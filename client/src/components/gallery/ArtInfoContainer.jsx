@@ -1,17 +1,11 @@
-import { useContext } from 'react'
-import './ArtInfoContainer.css'
-import { EntriesContext } from '../contexts/EntriesContext';
+import './ArtInfoContainer.css';
 
 const keysToMap = ['Artist', 'Title', 'Technique', 'Dimensions', 'Price', 'Notes'];
 
 const ArtInfoContainer = ({art}) => {
 
-  const {
-    currentImages
-  } = useContext(EntriesContext);
-
   return <>
-    <div className={`art-info-container ${currentImages.length ? 'margin-top' : ''}`}>
+    <div className="art-info-container">
       <div>
         {keysToMap.slice(1, keysToMap.length).map(key => (
           <p key={key} className="art-info-item">
@@ -24,8 +18,8 @@ const ArtInfoContainer = ({art}) => {
       <p><span className='input-label'>Cell: </span>{art.cell}</p> 
       <p><span className='input-label'>Position: </span>{art.position}</p>
     </div>
-  </>
+  </>;
    
-}
+};
 
-export default ArtInfoContainer
+export default ArtInfoContainer;

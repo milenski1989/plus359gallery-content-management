@@ -9,10 +9,13 @@ import Message from '../reusable/Message';
 import PdfCatalogueEditor from './PdfCatalogueEditor';
 
 import './PdfCertificate.css';
+import { useNavigate } from 'react-router-dom';
+import GoBack from '../reusable/GoBack';
 
 function PdfCatalogue() {
 
   const {showError, error} = useNotification();
+  const navigate = useNavigate();
   const { currentImages } = useContext(EntriesContext);
   let myStorage = window.localStorage;
   let storedImages = JSON.parse(myStorage.getItem('currentImages')) || [];
@@ -121,6 +124,7 @@ function PdfCatalogue() {
   
   return (
     <>
+      <GoBack handleGoBack={() => { myStorage.removeItem('currentImages'); navigate(-1); }}/>
       {!pdfUrl && !error.state && <CircularProgress className="loader" color="primary" />}
       <Message
         open={error.state}

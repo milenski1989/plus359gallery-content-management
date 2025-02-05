@@ -12,7 +12,6 @@ const LocationChangeDialog = ({
   const {
     currentImages,
     setCurrentImages,
-    setIsEditMode
   } = useContext(EntriesContext);
 
   const [formControlData, setFormControlData] = useState({
@@ -25,7 +24,6 @@ const LocationChangeDialog = ({
     const ids = currentImages.map(image => image.id);
     try {
       await updateLocations(ids, formControlData);
-      setIsEditMode(false);
       setCurrentImages([]);
     } catch (error) {
       console.log(error);
@@ -54,7 +52,7 @@ const LocationChangeDialog = ({
           storageLocation: "",
           cell: "",
           position: ""});
-        handleDialogType(null)}}
+        handleDialogType(null);}}
         confirmButtonText="Yes"
         cancelButtonText="No"
       >
@@ -71,6 +69,7 @@ const LocationChangeDialog = ({
         <CascadingDropdowns
           formControlData={formControlData}
           onDropdownChange={handleDropdownChange}
+          classes={['in-location-change']}
         />
       </CustomDialog>
     </>

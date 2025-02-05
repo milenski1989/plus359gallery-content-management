@@ -1,4 +1,4 @@
-import { InputAdornment, Tooltip } from '@mui/material'
+import { InputAdornment, Tooltip } from '@mui/material';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 
 function EndAdornment({handleClick}) {
@@ -8,7 +8,7 @@ function EndAdornment({handleClick}) {
         <SwapHorizIcon onClick={handleClick} />
       </InputAdornment>
     </Tooltip>
-  )
+  );
 }
 
-export default EndAdornment
+export default EndAdornment;

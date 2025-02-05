@@ -1,10 +1,10 @@
 import { Checkbox, useMediaQuery } from "@mui/material";
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { checkBoxHandler, generateBackGroundColor } from "../utils/helpers";
-import { useContext, useState } from "react";
+import { generateBackGroundColor } from "../utils/helpers";
+import { useCallback, useContext, useState } from "react";
 import { EntriesContext } from "../contexts/EntriesContext";
-import './Card.css'
+import './Card.css';
 import ArtInfoContainer from "./ArtInfoContainer";
 import Actions from "../reusable/Actions";
 
@@ -27,6 +27,16 @@ const Card = ({handleDialogType, searchResults, art}) => {
     setDimensions({ width: naturalWidth, height: naturalHeight });
     setImageLoaded(true);
   };
+
+  const handleCheckboxChange = useCallback((id) => {
+    setCurrentImages((prevSelected) => {
+      if (prevSelected.some((item) => item.id === id)) {
+        return prevSelected.filter((image) => image.id !== id);
+      } else {
+        return [...prevSelected, searchResults.find((image) => image.id === id)];
+      }
+    });
+  }, [setCurrentImages, searchResults]);
   
   return (
     <div className="card" key={art.id}>
@@ -40,7 +50,7 @@ const Card = ({handleDialogType, searchResults, art}) => {
           </div>
         ) : null}
         <Checkbox
-          onChange={() => checkBoxHandler(currentImages, setCurrentImages, searchResults, art.id)}
+          onChange={() => handleCheckboxChange(art.id)}
           checked={currentImages.some(image => image.id === art.id)}
           sx={{
             "&.Mui-checked": {
@@ -71,16 +81,12 @@ const Card = ({handleDialogType, searchResults, art}) => {
                 <div className="card-image-placeholder"></div>
       }
       <>
-        {currentImages.length === 1 && currentImages[0].id === art.id || !currentImages.length ?
-          <Actions 
-            classes={isSmallDevice ? "mobile-card-actions": "card-actions"}
-            fontSize="medium"
-            arts={[art]}
-            handleDialogType={handleDialogType}
-          />
-          :
-          null
-        }
+        <Actions 
+          classes={isSmallDevice ? "mobile-card-actions": "card-actions"}
+          fontSize="medium"
+          arts={[art]}
+          handleDialogType={handleDialogType}
+        />
         <ArtInfoContainer art={art} />
       </>
     </div>

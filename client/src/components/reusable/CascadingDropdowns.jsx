@@ -7,12 +7,15 @@ import CustomAutocomplete from './CustomAutocomplete';
 function CascadingDropdowns({
   formControlData,
   onDropdownChange,
+  classes
 }) {
   const {currentImages} = useContext(EntriesContext);
   const [location, setLocation] = useState();
   const [cells, setCells] = useState([]);
   const [availablePositions, setAvailablePositions] = useState([]);
   const [storages, setStorages] = useState([]);
+
+  const classNames = classes ? classes.join('') : '';
 
   useEffect(() => {
     getStorages();
@@ -68,14 +71,14 @@ function CascadingDropdowns({
   return (
     <div className="dropdowns-container">
       <CustomAutocomplete
-        className="cascading-dropdown"
+        className={`cascading-dropdown ${classNames}`}
         options={storages.map((storage) => storage.name)}
         value={formControlData?.storageLocation || null}
         label="Location *"
         onChange={changeLocation}
       />
       <CustomAutocomplete
-        className="cascading-dropdown"
+        className={`cascading-dropdown ${classNames}`}
         options={cells}
         value={formControlData?.cell || null}
         label="Cell"
@@ -83,7 +86,7 @@ function CascadingDropdowns({
         onChange={changeCell}
       />
       <CustomAutocomplete
-        className="cascading-dropdown"
+        className={`cascading-dropdown ${classNames}`}
         options={availablePositions}
         value={formControlData?.position || null}
         label="Position"

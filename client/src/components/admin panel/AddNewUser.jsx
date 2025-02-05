@@ -1,20 +1,20 @@
-import { useState } from 'react'
-import Message from '../reusable/Message'
+import { useState } from 'react';
+import Message from '../reusable/Message';
 import { Button, CircularProgress, TextField } from '@mui/material';
 import { signup } from '../../api/authService';
-import './AddNewUser.css'
+import './AddNewUser.css';
 import useNotification from '../hooks/useNotification';
 
 function AddNewUser() {
   const { success, error, showSuccess, showError, clearNotifications, isLoading, startLoading, stopLoading } = useNotification();
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmedPassword, setConfirmedPassword] = useState(false)
-  const [userName, setUserName] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmedPassword, setConfirmedPassword] = useState(false);
+  const [userName, setUserName] = useState('');
 
   const handleSignupUser = async () => {
-    startLoading()
+    startLoading();
     
     const data = {
       email,
@@ -23,32 +23,30 @@ function AddNewUser() {
     };
 
     try {
-      const response = await signup(data);
-      if (response.status === 200) {
-        showSuccess('User created successfully!');
-      }
-      stopLoading()
+      await signup(data);
+
+      showSuccess('User created successfully!');
+      stopLoading();
       setEmail("");
       setUserName("");
       setPassword("");
       setConfirmedPassword(false);
     } catch (error) {
-      stopLoading()
-      console.log(error)
+      stopLoading();
       showError(error.response.data.message);
     }
   };
     
   const handleSubmit = (event) => {
-    event.preventDefault()
-    startLoading()
-    handleSignupUser()
-  }
+    event.preventDefault();
+    startLoading();
+    handleSignupUser();
+  };
 
   const checkPasswordMatch = (e) => {
-    if (e.target.value === password) setConfirmedPassword(true)
-    else setConfirmedPassword(false)
-  }
+    if (e.target.value === password) setConfirmedPassword(true);
+    else setConfirmedPassword(false);
+  };
 
   return  <>
     <Message
@@ -108,7 +106,7 @@ function AddNewUser() {
               </Button>
             </div>
     }
-  </>
+  </>;
 }
 
-export default AddNewUser
+export default AddNewUser;

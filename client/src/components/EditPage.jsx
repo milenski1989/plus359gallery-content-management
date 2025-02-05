@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { EntriesContext } from "./contexts/EntriesContext";
 import { generateBackGroundColor } from "./utils/helpers";
-import { Button, TextField, Tooltip, useMediaQuery } from "@mui/material";
+import { TextField, Tooltip, useMediaQuery } from "@mui/material";
 import { updateOne } from "../api/artworksService";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import SaveIcon from '../assets/save-solid.svg';
@@ -11,6 +11,7 @@ import Message from "./reusable/Message";
 import { replaceImage } from "../api/s3Service";
 import './EditPage.css';
 import useNotification from "./hooks/useNotification";
+import GoBack from "./reusable/GoBack";
 
 const keysToMap = ['Artist', 'Title', 'Technique', 'Dimensions', 'Price', 'Notes'];
 
@@ -19,10 +20,7 @@ function EditPage() {
 
   let storedImages = JSON.parse(myStorage.getItem('currentImages')) || [];
   const navigate = useNavigate();
-  const {
-    setIsEditMode,
-    setCurrentImages
-  } = useContext(EntriesContext);
+  const {setCurrentImages} = useContext(EntriesContext);
 
   const { success, error, showSuccess, showError, clearNotifications, isLoading, startLoading, stopLoading } = useNotification();
   const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
@@ -51,24 +49,23 @@ function EditPage() {
 
   const handleUpdateEntry = async (id, index) => {
     try {
-      const response = await updateOne(updatedEntries[index], id);
-      if (response.status === 200) {
-        showSuccess('Entry updated successfully!');
-        const updatedEntriesCopy = [...updatedEntries];
-        updatedEntriesCopy[index] = { ...updatedEntries[index] };
+      await updateOne(updatedEntries[index], id);
+   
+      showSuccess('Entry updated successfully!');
+      const updatedEntriesCopy = [...updatedEntries];
+      updatedEntriesCopy[index] = { ...updatedEntries[index] };
 
-        setUpdatedEntries(updatedEntriesCopy);
-        myStorage.setItem('currentImages', JSON.stringify(updatedEntriesCopy));
-      }
+      setUpdatedEntries(updatedEntriesCopy);
+      myStorage.setItem('currentImages', JSON.stringify(updatedEntriesCopy));
+      
     } catch (error) {
-      showError(error.response.data.message)
+      showError(error.response.data.message);
     }
   };
 
   const handleGoBack = () => {
     myStorage.removeItem('currentImages');
     setUpdatedEntries([]);
-    setIsEditMode(false);
     setCurrentImages([]);
     navigate(-1);
   };
@@ -102,11 +99,11 @@ function EditPage() {
       setUpdatedEntries(updatedEntriesCopy);
       myStorage.setItem('currentImages', JSON.stringify(updatedEntriesCopy));
       setImageReplaceDialogIsOpen(false);
-      stopLoading()
+      stopLoading();
       showSuccess('Image replaced successfully!');
     } catch (error) {
-      stopLoading()
-      showError(error.response.data.message)
+      stopLoading();
+      showError(error.response.data.message);
     }
   };
 
@@ -117,13 +114,7 @@ function EditPage() {
 
   return (
     <>
-      <Button className="edit-page-go-back" variant="contained" onClick={handleGoBack}>Go back</Button>
-      <div style={{width: isSmallDevice ? '80vw' : '50vw'}} className="edit-page-helper-text">
-                    Replacing an image does not require saving.
-                    Changes in text fields DO require saving !
-                    Once you are ready with all edits and they are saved, click Go back button.
-                    This will return you to the gallery&apos;s main view and unselect all images.
-      </div>
+      <GoBack handleGoBack={handleGoBack}/>
       <div className="edit-page-main-section">
         <Message
           open={success.state}

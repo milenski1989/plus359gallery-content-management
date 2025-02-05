@@ -1,5 +1,5 @@
-import './ThumbnailView.css'
-import Masonry, {ResponsiveMasonry} from "react-responsive-masonry"
+import './ThumbnailView.css';
+import Masonry, {ResponsiveMasonry} from "react-responsive-masonry";
 import Thumbnail from './Thumbnail';
 
 const ThumbnailView = ({searchResults}) => {
@@ -16,7 +16,7 @@ const ThumbnailView = ({searchResults}) => {
         ))}
       </Masonry>
     </ResponsiveMasonry>
-  </>
-}
+  </>;
+};
 
-export default ThumbnailView
+export default ThumbnailView;

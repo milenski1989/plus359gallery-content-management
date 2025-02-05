@@ -20,24 +20,22 @@ const DeleteDialog = ({ handleDialogType, handleTriggerRefresh }) => {
         );
         const response = await Promise.allSettled(deletePromises);
         if (response.every(resp => resp.status === 'fulfilled')) {
-          showSuccess('Entries deleted successfully!')
+          showSuccess('Entries deleted successfully!');
         }
         setCurrentImages([]);
       } else {
         const { download_key, image_key, id } = artworks;
-        const response = await deleteOne({ originalFilename: download_key, filename: image_key, id });
-        if (response.status === 200) {
-          showSuccess('Entry deleted successfully!')
-        }
-        setCurrentImages(prev => prev.filter(image => image.id !== id));
-                
+        await deleteOne({ originalFilename: download_key, filename: image_key, id });
+       
+        showSuccess('Entry deleted successfully!');
+        setCurrentImages(prev => prev.filter(image => image.id !== id));      
       }
       stopLoading();
       handleTriggerRefresh();
       handleDialogType(null);
             
     } catch (error) {
-      showError( error.response.data.message)
+      showError( error.response.data.message);
       stopLoading();
       handleDialogType(null);
     }

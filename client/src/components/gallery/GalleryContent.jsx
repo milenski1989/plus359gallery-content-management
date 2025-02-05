@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useMemo, useState } from "react";
 import Message from "../reusable/Message";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { EntriesContext } from "../contexts/EntriesContext";
@@ -6,15 +6,15 @@ import SearchAndFiltersBar from "../filters/SearchAndFiltersBar";
 import ThumbnailView from "./ThumbnailView";
 import DetailsView from "./DetailsView";
 import ListView from "./ListView";
-import SelectAllIcon from '../../assets/select-all.svg'
-import UnselectAllIcon from '../../assets/unselect-all.svg'
+import SelectAllIcon from '../../assets/select-all.svg';
+import UnselectAllIcon from '../../assets/unselect-all.svg';
 import DeleteDialog from "../reusable/DeleteDialog";
 import LocationChangeDialog from "../LocationChangeDialog";
 import PaginationComponent from "../PaginationComponent";
 import { useMediaQuery } from "@mui/material";
 import MobileListView from "./MobileListView";
-import './GalleryContent.css'
-import Actions from '../reusable/Actions'
+import './GalleryContent.css';
+import Actions from '../reusable/Actions';
 import useNotification from "../hooks/useNotification";
 
 const GalleryContent = () => {
@@ -28,16 +28,16 @@ const GalleryContent = () => {
 
   const { error, clearNotifications } = useNotification();
 
-  const [triggerFetch, setTriggerFetch] = useState(false)
+  const [triggerFetch, setTriggerFetch] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [dialogType, setDialogType] = useState(null);
   const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
-  const [viewMode, setViewMode] = useState('details')
+  const [viewMode, setViewMode] = useState('details');
   const [paginationDisabled, setPaginationDisabled] = useState(false);
 
   const handleDialogType = useCallback((type) => setDialogType(type), []);
 
-  const renderViewMode = useCallback(() => {
+  const memoizedViewMode = useMemo(() => {
     if (viewMode === 'thumbnail') {
       return <ThumbnailView searchResults={searchResults} />;
     } else if (viewMode === 'details') {
@@ -52,8 +52,8 @@ const GalleryContent = () => {
   const handleTriggerRefresh = useCallback(() => setTriggerFetch(prev => !prev), []);
 
   const handlePage = (newPage) => {
-    setPage(newPage)
-  }
+    setPage(newPage);
+  };
 
   const handleSelectAll = () => {
     if (currentImages.length === searchResults.length) {
@@ -67,7 +67,7 @@ const GalleryContent = () => {
           ))
       ]);
     }
-  }
+  };
 
   const renderDialog = () => {
     if (dialogType === 'location') {
@@ -140,7 +140,7 @@ const GalleryContent = () => {
         />
       </div>
       {!searchResults.length && <div className="no-data-container">Nothing was found!</div>}
-      {renderViewMode()}
+      {memoizedViewMode}
       {searchResults.length && !paginationDisabled ?
         <PaginationComponent 
           page={page}

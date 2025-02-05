@@ -144,12 +144,12 @@ const router = createBrowserRouter(
       </Route>
     </Route>
   )
-)
+);
 
 root.render(
-    <ThemeProvider theme={theme}>
-            <RouterProvider router={router}/> 
-    </ThemeProvider>
+  <ThemeProvider theme={theme}>
+    <RouterProvider router={router}/> 
+  </ThemeProvider>
 );
 
 

@@ -18,5 +18,5 @@ export const useLoadedImages = (searchResults) => {
     });
   }, [searchResults]);
 
-  return [allImagesLoaded]
-}
+  return [allImagesLoaded];
+};

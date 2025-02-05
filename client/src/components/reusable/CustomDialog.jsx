@@ -1,5 +1,5 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, styled } from '@mui/material'
-import './CustomDialog.css'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, styled } from '@mui/material';
+import './CustomDialog.css';
 
 const StyledDialogActions = styled(DialogActions)({
   '&.MuiDialogActions-root': {
@@ -7,7 +7,7 @@ const StyledDialogActions = styled(DialogActions)({
     justifyContent: 'space-around',
     padding: '1rem'
   }
-})
+});
 
 function CustomDialog({children, openModal, setOpenModal, title, handleClickYes, handleClickNo, confirmButtonText, cancelButtonText, disabledConfirmButton, style}) {
   return (
@@ -41,7 +41,7 @@ function CustomDialog({children, openModal, setOpenModal, title, handleClickYes,
         />
       </StyledDialogActions>
     </Dialog>
-  )
+  );
 }
 
-export default CustomDialog
+export default CustomDialog;

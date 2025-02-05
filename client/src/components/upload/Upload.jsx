@@ -114,7 +114,7 @@ const Upload = () => {
 
   const handleSubmit = async () => {
     try {
-      startLoading()
+      startLoading();
       for (const artwork of artworks) {
         const data = new FormData();
         data.append("file", artwork.file);
@@ -128,12 +128,12 @@ const Upload = () => {
         });
       }
 
-      stopLoading()
+      stopLoading();
       showSuccess('Entries uploaded successfully');
       setArtworks([]);
     } catch (error) {
       setProgress(0);
-      stopLoading()
+      stopLoading();
       showError(error.response.data.error);
     }
   };

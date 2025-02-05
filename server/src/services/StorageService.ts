@@ -68,6 +68,8 @@ export default class StorageService {
       where: { id: foundCell.id, storage_id: foundStorage.id},
       relations: ['artworks']
     });
+
+    console.log(cells)
     const positions: Positions[] = await positionsRepository.find({
       where: {cell_id: foundCell.id, cell: {storage_id: foundStorage.id}}
     })

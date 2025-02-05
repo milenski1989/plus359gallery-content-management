@@ -43,7 +43,8 @@ export default [
       'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }], // Warn for JSX in non-JSX files
       'react/prop-types': 'off', // Disable prop-types validation
       'react/no-children-prop': 'off',
-      indent: ['error', 2], // Enforce 2 spaces for indentation
+      indent: ['error', 2], // Enforce 2 spaces for indentation,
+      "semi": [2, "always"],
       'no-restricted-imports': 'off',
       'no-mixed-spaces-and-tabs': 'off',
     },

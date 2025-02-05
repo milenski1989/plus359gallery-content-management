@@ -196,7 +196,7 @@ export default class ArtworksService {
 
       if (foundCellId && positionParam) {
         const foundPosition: Positions = await positionsRepository.findOne({
-          where: { cell_id: foundCellId },
+          where: { cell_id: foundCellId, name: positionParam.toString() },
         });
         foundPositionId = foundPosition ? foundPosition.id : null;
       }

@@ -1,15 +1,16 @@
 import { Checkbox, CircularProgress } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Message from "../reusable/Message";
 import CustomDialog from "../reusable/CustomDialog";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import SelectAllIcon from '../../assets/select-all.svg'
-import UnselectAllIcon from '../../assets/unselect-all.svg'
-import './DeleteUsers.css'
+import SelectAllIcon from '../../assets/select-all.svg';
+import UnselectAllIcon from '../../assets/unselect-all.svg';
 import { deleteUser, getAllUsers } from "../../api/authService";
 import useNotification from "../hooks/useNotification";
+
+import './DeleteUsers.css';
 
 function DeleteUsers() {
   const { success, error, showSuccess, showError, clearNotifications, isLoading, startLoading, stopLoading } = useNotification();
@@ -24,13 +25,13 @@ function DeleteUsers() {
     getUsers();
   }, []);
 
-  const checkBoxHandler = (id) => {
+  const handleCheckboxChange = useCallback((id) => {
     if (selectedUsers.some((user) => user.id === id)) {
       setSelectedUsers(selectedUsers.filter((user) => user.id !== id));
     } else {
       setSelectedUsers([...selectedUsers, users.find((user) => user.id === id)]);
     }
-  };
+  }, [selectedUsers, users]);
 
   const handleSelectAll = () => {
     if (users.length === selectedUsers.length) {
@@ -44,34 +45,32 @@ function DeleteUsers() {
           ))
       ]);
     }
-  }
+  };
 
   const deleteUsers = async (users) => {
-    const emails = users.map(user => user.email)
-    startLoading()
+    const emails = users.map(user => user.email);
+    startLoading();
     try {
-      const response = await deleteUser(emails)
-      if (response.status === 200) {
-        setIsDialogOpen(false);
-        showSuccess('Users deleted successfully!')
-        setSelectedUsers([])
-        getUsers();
-      }
-         
+      await deleteUser(emails);
+    
+      setIsDialogOpen(false);
+      showSuccess('Users deleted successfully!');
+      setSelectedUsers([]);
+      getUsers();  
     } catch (error) {
       showError(error.response.data.message);
-      stopLoading()
+      stopLoading();
     }
   };
 
   const getUsers = async () => {
-    startLoading()
+    startLoading();
     try {
-      const response = await getAllUsers()
+      const response = await getAllUsers();
       setUsers(response.data.users.filter((item) => item.id !== user.id));
-      stopLoading()
+      stopLoading();
     } catch (error) {
-      stopLoading()
+      stopLoading();
       showError(error.response.data.message);
     }
   };
@@ -125,7 +124,7 @@ function DeleteUsers() {
         {users.map((user) => (
           <div key={user.id} className="user location">
             <Checkbox
-              onChange={() => checkBoxHandler(user.id)}
+              onChange={() => handleCheckboxChange(user.id)}
               checked={selectedUsers.some(
                 (selectedUser) => selectedUser.id === user.id
               )}

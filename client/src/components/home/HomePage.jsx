@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import './HomePage.css'
+import './HomePage.css';
 import { getAllStorages } from '../../api/storageService';
 import useNotification from '../hooks/useNotification';
 import { CircularProgress } from '@mui/material';
@@ -8,26 +8,26 @@ import Message from '../reusable/Message';
 
 const HomePage = () => {
 
-  const [storages, setStorages] = useState([])
+  const [storages, setStorages] = useState([]);
   let navigate = useNavigate();
 
   const { error, showError, isLoading, startLoading, stopLoading, clearNotifications } = useNotification();
 
   useEffect(() => {
-    getStorages()
-  },[])
+    getStorages();
+  },[]);
 
   const getStorages = async () => {
     startLoading();
     try {
-      const response = await getAllStorages()
+      const response = await getAllStorages();
       setStorages(response.data);
       stopLoading();
     } catch (error) {
       stopLoading();
       showError(error.response.data.message);
     }
-  }
+  };
 
   const handleStorageSelect = (name) => {
     navigate(`/gallery/:${name}`);
@@ -55,7 +55,7 @@ const HomePage = () => {
         </div>
       ))} 
     </div>
-  </>  
-}
+  </>;  
+};
 
-export default HomePage
+export default HomePage;

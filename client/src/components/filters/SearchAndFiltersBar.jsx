@@ -1,6 +1,6 @@
-import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
-import { useContext, useEffect, useState } from 'react'
-import './SearchAndFiltersBar.css'
+import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import './SearchAndFiltersBar.css';
 import { useParams } from 'react-router-dom';
 import { filterAll, getAll } from '../../api/artworksService';
 import { getCellsFromStorage } from '../../api/storageService';
@@ -11,7 +11,7 @@ import ViewModeIcons from './ViewModeIcons';
 import useNotification from '../hooks/useNotification';
 import CustomAutocomplete from '../reusable/CustomAutocomplete';
 
-const countPerPageOptions = [25, 50, 100, 150, 200]
+const countPerPageOptions = [25, 50, 100, 150, 200];
 
 function SearchAndFiltersBar({
   setPaginationDisabled,
@@ -20,17 +20,17 @@ function SearchAndFiltersBar({
   viewMode,
   handleViewMode,
 }) {
-  const { showError, isLoading } = useNotification();
+  const { showError } = useNotification();
 
-  const [artists, setArtists] = useState([])
-  const [cells, setCells] = useState([])
-  const [selectedArtist, setSelectedArtist] = useState()
-  const [selectedCell, setSelectedCell] = useState()
-  const [sortField, setSortField] = useState('id')
-  const [sortOrder, setSortOrder] = useState('desc')
+  const [artists, setArtists] = useState([]);
+  const [cells, setCells] = useState([]);
+  const [selectedArtist, setSelectedArtist] = useState();
+  const [selectedCell, setSelectedCell] = useState();
+  const [sortField, setSortField] = useState('id');
+  const [sortOrder, setSortOrder] = useState('desc');
   const [keywords, setKeywords] = useState([]);
 
-  const {name} = useParams()
+  const {name} = useParams();
 
   const {
     page,
@@ -46,31 +46,30 @@ function SearchAndFiltersBar({
 
   const getArtists = async () => {
     try {
-      const response = await getArtistsInStorage(name)
+      const response = await getArtistsInStorage(name);
       const data = response.data;
       setArtists(data);
     } catch (error) {
       showError(error.response.data.message);
     }
-  }
+  };
+
+  const artistOptions = useMemo(() => artists.map(artist => artist.artist), [artists]);
 
   const getCells = async () => {
     try {
-      const response = await getCellsFromStorage(name)
-      const uniqueCells = [...new Set(response.data)]
+      const response = await getCellsFromStorage(name);
+      const uniqueCells = [...new Set(response.data)];
       setCells(uniqueCells);
     } catch (error) {
       showError(error.response.data.message);
     }
-  }
-
-  const onChange = event => {
-
-    if (!event.target.value) return setKeywords([])
-
-    const inputKeywords = event.target.value.split(' ');
-    setKeywords(inputKeywords);
   };
+
+  const onChange = useCallback((event) => {
+    if (!event.target.value) return setKeywords([]);
+    setKeywords(event.target.value.split(' '));
+  }, []);
 
   const getPaginatedData = async () => {
     try {
@@ -78,65 +77,58 @@ function SearchAndFiltersBar({
 
       const { arts, artsCount } = await response.data;
       handleSearchResults(arts);
-      setPaginationDisabled(false)
+      setPaginationDisabled(false);
       setPagesCount(Math.ceil(artsCount / countPerPage));
       setTotalCount(artsCount);
     } catch(error) {
       showError(error.response.data.message);
     }
-  }
+  };
 
   const filterData = async () => {
     try {
 
-      const response = await filterAll(keywords, selectedArtist, selectedCell, sortField, sortOrder)
-      const {artworks, totalCount} = response.data
+      const response = await filterAll(keywords, selectedArtist, selectedCell, sortField, sortOrder);
+      const {artworks, totalCount} = response.data;
       handleSearchResults(artworks);
       setTotalCount(totalCount);
-      setPaginationDisabled(true)
+      setPaginationDisabled(true);
     } catch(error) {
       showError(error.response.data.message);
     }
-  }
+  };
 
   useEffect(() => {
-    getArtists()
-    getCells()
-  },[])
+    getArtists();
+    getCells();
+  },[name]);
 
   useEffect(() => {
     let filterTimeOut = null;
     if (!selectedArtist && !selectedCell && !keywords.length) {
-      getPaginatedData()
-      // eslint-disable-next-line indent
-        }
+      getPaginatedData();
+    }
     else {
       filterTimeOut = setTimeout(() => {
-        filterData()
-      }, 1000)
+        filterData();
+      }, 500);
     }
 
-    return () =>  clearTimeout(filterTimeOut)
-  }, [page, sortField, sortOrder, isLoading, triggerFetch, selectedArtist, selectedCell, keywords, countPerPage]);
+    return () =>  clearTimeout(filterTimeOut);
+  }, [page, sortField, sortOrder, triggerFetch, selectedArtist, selectedCell, keywords, countPerPage]);
 
     
   const handleCountPerPageChange = (event) => {
-    setPage(1)
-    setCountPerPage(event.target.value)
-  }
+    setPage(1);
+    setCountPerPage(event.target.value);
+  };
 
-  const renderCountInfo = () => {
+  const renderCountInfo = useMemo(() => {
     if (keywords.length || selectedArtist || selectedCell) {
-      return <>
-            Showing <span className="bolded">{startItem}-{totalCount}</span> of <span className="bolded">{totalCount}</span>
-      </>
-    } else {
-      return <>
-            Showing <span className="bolded">{startItem}-{endItem}</span> of <span className="bolded">{totalCount}</span>
-      </>
+      return <>Showing <span className="bolded">{startItem}-{totalCount}</span> of <span className="bolded">{totalCount}</span></>;
     }
-           
-  }
+    return <>Showing <span className="bolded">{startItem}-{endItem}</span> of <span className="bolded">{totalCount}</span></>;
+  }, [keywords, selectedArtist, selectedCell, startItem, endItem, totalCount]);
 
   return <>
     <div className="filters-container">
@@ -176,7 +168,7 @@ function SearchAndFiltersBar({
       />
       <CustomAutocomplete
         className="filter-input"
-        options={artists.map(artist => artist.artist)}
+        options={artistOptions}
         label="Select artist"
         onChange={setSelectedArtist}
       />
@@ -195,12 +187,12 @@ function SearchAndFiltersBar({
       />
       <div className="entries-shown-view-mode-icons">
         <div className="entries-shown">
-          {renderCountInfo()}
+          {renderCountInfo}
         </div>
         <ViewModeIcons viewMode={viewMode} handleViewMode={handleViewMode} />
       </div>
     </div>
-  </>
+  </>;
 }
 
-export default SearchAndFiltersBar
+export default SearchAndFiltersBar;
