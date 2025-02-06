@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { TextField, Button } from "@mui/material";
 import LogoSelector from "./LogoSelector";
+import { handleOndrop } from "./helpers/utilityFunctions";
+import CustomDropZone from "../upload/CustomDropZone";
 
 const textFields = [
   { name: "artist", placeholder: "Artist" },
@@ -22,6 +24,13 @@ function PdfCatalogueEditor({ pdfDataList, setPdfDataList, setLogo, website, set
 
   return (
     <div className="pdf-maker-editor-zone">
+      <CustomDropZone
+        handleOndrop={(acceptedFiles) => handleOndrop(acceptedFiles, setLogo,null, setLogoName)}          
+        acceptedFormats={{ 'image/jpeg': ['.jpeg', '.png'] }}
+        isRequired={true}
+        classes={['in-pdf']}
+        customText="Drag and drop or select a file"
+      />
       <LogoSelector
         logoName={logoName} 
         setLogoName={setLogoName} 

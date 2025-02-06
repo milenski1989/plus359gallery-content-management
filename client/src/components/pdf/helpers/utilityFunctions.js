@@ -1,13 +1,13 @@
 import { ralewayMedium } from "../../../../public/fonts/Raleway-medium";
 import {cinzelDecorativeNormal} from "../../../../public/fonts/CinzelDecorative-normal";
-import { chartaLogoSize, collectLogoSize, CONTENT_SPACING, EXTRA_CONTENT_SPACING, HEADER_FONT_SIZE, IMAGE_Y_POSITION_CATALOGUE, mhgLogoSize, plus359LogoSize, SECOND_PAGE_MAX_WIDTH, SECOND_PAGE_VERTICAL_OFFSET, SECTION_CONTENT_FONT_SIZE, SECTION_HEADER_FONT_SIZE, SECTION_SPACING, SIGNATURE_FONT_SIZE } from "../helpers/constants";
+import { CONTENT_SPACING, EXTRA_CONTENT_SPACING, HEADER_FONT_SIZE, IMAGE_Y_POSITION_CATALOGUE, logoSize, SECOND_PAGE_MAX_WIDTH, SECOND_PAGE_VERTICAL_OFFSET, SECTION_CONTENT_FONT_SIZE, SECTION_HEADER_FONT_SIZE, SECTION_SPACING, SIGNATURE_FONT_SIZE } from "../helpers/constants";
 
-export const createPdfCertificatePageOne = (doc, pdfData, imageData, imageWidth, autoHeight, selectedImage, logoName) => {
+export const createPdfCertificatePageOne = (doc, pdfData, imageData, imageWidth, autoHeight, selectedImage) => {
 
-  if (logoName.includes('collect')) doc.addImage(pdfData.logo, 'JPEG', 7, -1, collectLogoSize.width, collectLogoSize.height);
-  else if (logoName.includes('plus359')) doc.addImage(pdfData.logo, 'JPEG', 6, 7, plus359LogoSize.width, plus359LogoSize.height);
-  else if (logoName.includes('mhg')) doc.addImage(pdfData.logo, 'JPEG', 0, 10, mhgLogoSize.width, mhgLogoSize.height);
-  else doc.addImage(pdfData.logo, 'JPEG', -4, -1, chartaLogoSize.width, chartaLogoSize.height);
+  // if (logoName.includes('collect')) doc.addImage(pdfData.logo, 'JPEG', 7, -1, collectLogoSize.width, collectLogoSize.height);
+  // else if (logoName.includes('plus359')) doc.addImage(pdfData.logo, 'JPEG', 6, 7, plus359LogoSize.width, plus359LogoSize.height);
+  // else if (logoName.includes('mhg')) doc.addImage(pdfData.logo, 'JPEG', 0, 10, mhgLogoSize.width, mhgLogoSize.height);
+  doc.addImage(pdfData.logo, 'JPEG', 0, 0, logoSize.width, logoSize.height);
 
   doc.setFontSize(HEADER_FONT_SIZE);
 
@@ -98,7 +98,7 @@ export const createPdfCertificatePageOne = (doc, pdfData, imageData, imageWidth,
   });
 };
 
-export const createCertificatePageTwo = (doc, pdfData, logoName) => {
+export const createCertificatePageTwo = (doc, pdfData) => {
 
   doc.addPage();
 
@@ -127,17 +127,24 @@ export const createCertificatePageTwo = (doc, pdfData, logoName) => {
 
   verticalOffset += (textlines.length + 1) * 10 / 72;
 
-  const textToAlign = `${pdfData.website} | ${pdfData.email}`;
-  const textToAlignWidth = doc.getTextWidth(textToAlign);
-  const rightAlignedXPosition = pageWidth - 18 - textToAlignWidth;
+  //const emailWebsite = `${pdfData.website} | ${pdfData.email}`;
+
+  const websiteTextWidth = doc.getTextWidth(pdfData.website);
+  const emailTextWidth = doc.getTextWidth(pdfData.email);
+
+  const rightAlignedWebsite = pageWidth - 15 - websiteTextWidth;
+  const rightAlignedEmail = pageWidth - 15 - emailTextWidth;
 
   doc.setFontSize(10);
-  doc.text(rightAlignedXPosition, 205 + 10 / 72, textToAlign);
+  doc.text(rightAlignedWebsite, 200 + 10 / 72, pdfData.website);
+  doc.text(rightAlignedEmail, 205 + 10 / 72, pdfData.email);
 
-  if (logoName.includes('collect')) doc.addImage(pdfData.logo, 'JPEG', 10, 185, collectLogoSize.width, collectLogoSize.height);
-  else if (logoName.includes('plus359')) doc.addImage(pdfData.logo, 'JPEG', 10, 190, plus359LogoSize.width, plus359LogoSize.height);
-  else if (logoName.includes('mhg')) doc.addImage(pdfData.logo, 'JPEG', 4, 180, mhgLogoSize.width, mhgLogoSize.height);
-  else doc.addImage(pdfData.logo, 'JPEG', -4, 178, chartaLogoSize.width, mhgLogoSize.height);
+  // if (logoName.includes('collect')) doc.addImage(pdfData.logo, 'JPEG', 10, 185, collectLogoSize.width, collectLogoSize.height);
+  // else if (logoName.includes('plus359')) doc.addImage(pdfData.logo, 'JPEG', 10, 190, plus359LogoSize.width, plus359LogoSize.height);
+  // else if (logoName.includes('mhg')) doc.addImage(pdfData.logo, 'JPEG', 4, 180, mhgLogoSize.width, mhgLogoSize.height);
+  // else doc.addImage(pdfData.logo, 'JPEG', -4, 178, chartaLogoSize.width, chartaLogoSize.height);
+  
+  doc.addImage(pdfData.logo, 'JPEG', (pageWidth - logoSize.width) / 2 , 180, logoSize.width, logoSize.height);
 };
 
 export const createPdfCatalogue = (doc, pdfDataList, website, logo, imagesData, selectedImages, logoName) => {
@@ -195,19 +202,76 @@ export const createPdfCatalogue = (doc, pdfDataList, website, logo, imagesData, 
     if (logoName.includes('collect')) {
       logoXPos = pageWidth - logoMargin - 30;
       logoYPos = pageHeight + logoMargin - 30;
-      doc.addImage(logo, 'JPEG', logoXPos, logoYPos, collectLogoSize.width, collectLogoSize.height);
+      doc.addImage(logo, 'JPEG', logoXPos, logoYPos, logoSize.width, logoSize.height);
     } else if (logoName.includes('plus359')) {
       logoXPos = pageWidth - logoMargin - 25;
       logoYPos = pageHeight - logoMargin - 20;
-      doc.addImage(logo, 'JPEG', logoXPos, logoYPos, plus359LogoSize.width, plus359LogoSize.height);
+      doc.addImage(logo, 'JPEG', logoXPos, logoYPos, logoSize.width, logoSize.height);
     }  else if (logoName.includes('mhg')) {
-      logoXPos = pageWidth - logoMargin - 20;
+      logoXPos = pageWidth - logoMargin - 15;
       logoYPos = pageHeight - logoMargin - 27;
-      doc.addImage(logo, 'JPEG', logoXPos, logoYPos, mhgLogoSize.width, mhgLogoSize.height);
+      doc.addImage(logo, 'JPEG', logoXPos, logoYPos, logoSize.width, logoSize.height);
     } else {
-      logoXPos = pageWidth + logoMargin - 40;
-      logoYPos = pageHeight + logoMargin - 40;
-      doc.addImage(logo, 'JPEG', logoXPos, logoYPos, chartaLogoSize.width, chartaLogoSize.height);
+      console.log('here');
+      logoXPos = pageWidth + logoMargin - 30;
+      logoYPos = pageHeight + logoMargin - 35;
+      doc.addImage(logo, 'JPEG', logoXPos, logoYPos, logoSize.width, logoSize.height);
     }
   });
 };
+
+export const loadAndResizeImage = (url, targetWidth = 1000) => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.src = url;
+    img.onload = () => {
+      const aspectRatio = img.height / img.width;
+      const targetHeight = targetWidth * aspectRatio;
+
+      const canvas = document.createElement("canvas");
+      canvas.width = targetWidth;
+      canvas.height = targetHeight;
+      const ctx = canvas.getContext("2d");
+
+      ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+      const resizedImageUrl = canvas.toDataURL("image/jpeg");
+
+      resolve({
+        resizedWidth: targetWidth,
+        resizedHeight: targetHeight,
+        resizedUrl: resizedImageUrl,
+      });
+    };
+  });
+};
+
+const fileToBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    
+    reader.readAsDataURL(file);
+  });
+};
+
+export const handleOndrop = async (acceptedFiles, updatePdfData, key = null, updateLogoName) => {
+  for (const file of acceptedFiles) {
+    const base64Url = await fileToBase64(file);
+    const result = await loadAndResizeImage(base64Url);
+
+    if (key) {
+      updatePdfData(key, result.resizedUrl);
+    } else {
+      updatePdfData(result.resizedUrl);
+    }
+
+    if (updateLogoName) {
+      updateLogoName(file.name);
+    }
+  }
+};
+

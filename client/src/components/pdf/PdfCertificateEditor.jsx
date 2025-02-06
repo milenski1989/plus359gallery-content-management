@@ -1,6 +1,8 @@
 import { TextField } from "@mui/material";
 import EndAdornment from "./EndAdornment";
 import LogoSelector from "./LogoSelector";
+import CustomDropZone from "../upload/CustomDropZone";
+import { handleOndrop } from "./helpers/utilityFunctions";
 
 const multiValuesInputs = [
   {type: 'artists', placeholder: 'Artist'},
@@ -16,10 +18,16 @@ function PdfCertificateEditor({pdfData, updatePdfData, handleSwap, helperText, l
   const handleChangeInputField = (field, value, index = null) => {
     updatePdfData(field, value, index);
   };
-
+  
   return (
     <>
       <div className="pdf-maker-editor-zone">
+        <CustomDropZone
+          handleOndrop={(acceptedFiles) => handleOndrop(acceptedFiles, updatePdfData, 'logo')}          acceptedFormats={{ 'image/jpeg': ['.jpeg', '.png'] }}
+          isRequired={true}
+          classes={['in-pdf']}
+          customText="Drag and drop or select a file"
+        />
         <LogoSelector 
           logoName={logoName} 
           setLogoName={setLogoName} 

@@ -13,9 +13,10 @@
     width: 50vw;
 }
 
-.in-pdf-maker {
+.in-pdf {
     width: 70%;
     height: 15%;
+    margin-bottom: 0.5rem;
 }
 
 .drop-zone-text {

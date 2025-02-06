@@ -63,29 +63,25 @@ function PdfCatalogue() {
   const loadImage = (url, targetWidth = 1000) => {
     return new Promise((resolve) => {
       const img = new Image();
-      img.crossOrigin = "Anonymous"; // Prevent CORS issues
+      img.crossOrigin = "Anonymous";
       img.src = url;
       img.onload = () => {
         const aspectRatio = img.height / img.width;
-        const targetHeight = targetWidth * aspectRatio; // Maintain aspect ratio
+        const targetHeight = targetWidth * aspectRatio;
   
         const canvas = document.createElement("canvas");
         canvas.width = targetWidth;
         canvas.height = targetHeight;
         const ctx = canvas.getContext("2d");
   
-        // Draw the image resized on the canvas
         ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
   
-        // Convert the canvas to a Base64 Data URL
-        const resizedImageUrl = canvas.toDataURL("image/jpeg"); // or "image/jpeg"
+        const resizedImageUrl = canvas.toDataURL("image/jpeg");
   
         resolve({
-          naturalWidth: img.width,
-          naturalHeight: img.height,
           resizedWidth: targetWidth,
           resizedHeight: targetHeight,
-          resizedUrl: resizedImageUrl, // Already in Base64 format
+          resizedUrl: resizedImageUrl,
         });
       };
     });

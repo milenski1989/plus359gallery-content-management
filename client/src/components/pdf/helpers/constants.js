@@ -1,9 +1,6 @@
-export const logos = ['charta-bg', 'charta-en', 'collect', 'mhg', 'plus359'];
+export const logos = ['charta', 'collect', 'mhg', 'plus359'];
 
-export const collectLogoSize = {width: 30, height: 30};
-export const plus359LogoSize = {width: 20, height: 20};
-export const mhgLogoSize = {width: 25, height: 25};
-export const chartaLogoSize = {width: 40, height: 40};
+export const logoSize = {width: 30, height: 30};
 
 export const IMAGE_WIDTH = 50;
 export const HEADER_FONT_SIZE = 20;
