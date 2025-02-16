@@ -1,11 +1,10 @@
 export const logos = ['charta', 'collect', 'mhg', 'plus359'];
-
-export const logoSize = {width: 30, height: 30};
+export const mmToPoints = 2.83465;
 
 export const IMAGE_WIDTH = 50;
 export const HEADER_FONT_SIZE = 20;
 export const SECTION_HEADER_FONT_SIZE = 8;
-export const SECTION_CONTENT_FONT_SIZE = 10;
+export const SECTION_CONTENT_FONT_SIZE = 8;
 export const SIGNATURE_FONT_SIZE = 6;
 export const IMAGE_Y_POSITION_CERTIFICATE = 40;
 export const IMAGE_Y_POSITION_CATALOGUE = 15;

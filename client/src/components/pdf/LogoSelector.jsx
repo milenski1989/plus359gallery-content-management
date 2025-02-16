@@ -1,41 +1,28 @@
-import { InputLabel, MenuItem, Select } from '@mui/material';
+import { InputLabel, MenuItem, Select, useMediaQuery } from '@mui/material';
 import { logos } from './helpers/constants';
+import { loadAndResizeImage } from './helpers/utilityFunctions';
 
-function LogoSelector({logoName, setLogoName, onLogoUpdate }) {
+function LogoSelector({onLogoUpdate }) {
 
-  const getBase64FromPath = async (imagePath, callBack) => {
+  const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
+  const sx = {width: isSmallDevice ? '80vw' : '70%'};
+
+  const handleSelectLogo = async (name) => {
     try {
-      const response = await fetch(imagePath);
-      const blob = await response.blob();
-          
-      const reader = new FileReader();
-      reader.readAsDataURL(blob);
-          
-      reader.onload = function () {
-        callBack(reader.result);
-      };
-          
-      reader.onerror = function (error) {
-        console.error('Error converting image to base64:', error);
-      };
+      const imageUrl = `/images/${name}.jpg`;
+      const { resizedUrl, resizedWidth, resizedHeight } = await loadAndResizeImage(imageUrl, 700);
+      
+      onLogoUpdate({url: resizedUrl, width: resizedWidth, height: resizedHeight});
     } catch (error) {
-      console.error('Error fetching image:', error);
+      console.error("Error handling logo selection:", error);
     }
-  };
-    
-  const handleSelectLogo = (name) => {
-    getBase64FromPath(`/images/${name}.jpg`, (result) => {
-      setLogoName(name);
-      onLogoUpdate(result);
-    });
   };
   
   return (
     <>
       <InputLabel>Select logo</InputLabel>
       <Select
-        value={logoName}
-        sx={{ width: '70%' }}
+        sx={sx}
         onChange={(e) => handleSelectLogo(e.target.value)}
                  
       >

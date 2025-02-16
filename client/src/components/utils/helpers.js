@@ -31,6 +31,7 @@ export const prepareImagesForLocationChange = (handleDialogType) => {
 
 export const handleEdit = (arts, navigate) => {
   localStorage.setItem('currentImages', JSON.stringify(arts));
+  localStorage.setItem('scrollPosition', window.scrollY);
   navigate('/edit-page');
 };
 

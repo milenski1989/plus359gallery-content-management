@@ -19,6 +19,11 @@
     margin-bottom: 0.5rem;
 }
 
+.in-mobile-pdf {
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
 .drop-zone-text {
      position: absolute;
      top: 40%;

@@ -28,6 +28,7 @@ function Actions({classes, style = {}, arts, fontSize, handleDialogType}) {
 
   const handleGoToCertificate = () => {
     myStorage.setItem('currentImages', JSON.stringify(arts));
+    myStorage.setItem('scrollPosition', window.scrollY);
     navigate('/pdf/certificate');
   };
 

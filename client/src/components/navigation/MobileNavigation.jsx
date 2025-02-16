@@ -44,7 +44,7 @@ function MobileNavigation() {
   return (
     <nav className="mobile-navbar">
       <Link to='/'><img className="mobile-logo" alt="logo" src={Logo} /></Link>
-      <p className="mobile-current-location">{pathname === '/admin-panel' || pathname === '/storages-management' ? '' : pathname.slice(10).replace(/%20/g, ' ').replace(/([A-Z])/g, ' $1')}</p>
+      <p className="mobile-current-location">{pathname.includes('gallery') ? pathname.slice(10).replace(/%20/g, ' ').replace(/([A-Z])/g, ' $1') : ''}</p>
       {isOpen ? (
         <CloseIcon sx={{color: '#40C8F4'}} onClick={() => setIsOpen(false)}/>
       ) : (

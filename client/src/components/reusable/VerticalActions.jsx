@@ -35,6 +35,7 @@ function VerticalActions({classes, style = {}, arts, fontSize, handleDialogType}
 
   const handleGoToCatalogue = () => {
     myStorage.setItem('currentImages', JSON.stringify(arts));
+    myStorage.setItem('scrollPosition', window.scrollY);
     navigate('/pdf/catalogue');
   };
 
