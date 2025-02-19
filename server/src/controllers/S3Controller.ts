@@ -2,9 +2,10 @@
 import * as express from 'express';
 import {Request, Response} from 'express';
 import ArtworksService from '../services/ArtworksService';
-import { MulterRequest, ProcessReplaceRequestBody, ProcessUploadRequestBody } from '../interfaces/S3Interfaces';
+import { MulterRequest, ProcessReplaceRequestBody, ProcessUploadDocRequestBody, ProcessUploadRequestBody } from '../interfaces/S3Interfaces';
 import { Artworks } from '../entities/Artworks';
 import { S3Service } from '../services/S3Service';
+import DocsService from '../services/DocsService';
 
 export class S3Controller{
 
@@ -17,22 +18,11 @@ export class S3Controller{
 
     private initializeRoutes() {
         this.router.post('/upload', this.upload)
+        this.router.post('/docs-upload', this.uploadDoc)
         this.router.post('/replace', this.replace)
-        //this.router.get('/:name', this.getArts)
         this.router.get('/file/download', this.download);
     }
 
-    // getArts = async (req, res) => {
-    //   const {page, count, sortField, sortOrder} = req.query
-    //   const {name} = req.params
-    //   try {
-    //    const {arts, artsCount} = await ArtworksService.getInstance().all(name, page, count, sortField, sortOrder)
-    
-    //    res.status(200).json({arts, artsCount});
-    //   } catch (error) {
-    //     res.status(400).json(error);
-    //   }
-    // }
 
     processUploadRequestBody = async (req: Request<{}, {}, ProcessUploadRequestBody, {}>, res: Response) => {
         const { title, artist, technique, dimensions, price, notes, storageLocation, cell, position, by_user } = req.body;
@@ -69,7 +59,6 @@ export class S3Controller{
     upload = async (req: Request<{}, {}, ProcessUploadRequestBody, {}>, res: Response) => { 
         try {
             S3Service.getInstance().uploadSingleFile('file')(req, res, async (uploadErr) => { 
-                console.log('here')
 
                 if (uploadErr) {
                     console.error({uploadErr})
@@ -77,6 +66,45 @@ export class S3Controller{
                 } 
                 try {
                     await this.processUploadRequestBody(req, res);
+                } catch (err) {
+                    res.status(400).json({ error: uploadErr });
+                }
+            });
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }; 
+
+    processUploadDocRequestBody = async (req: Request<{}, {}, ProcessUploadDocRequestBody, {}>, res: Response) => {
+        const { title, notes, by_user } = req.body;
+        
+        const digitalOceanParams = {
+            download_url: (req as MulterRequest).file.location,
+            download_key: (req as MulterRequest).file.key
+        }
+    
+        const result = await DocsService.getInstance().saveDoc(
+            title,
+            notes,
+            digitalOceanParams,
+            by_user,
+        );
+    
+        res.status(200).json({
+            results: result
+        });
+    };
+    
+    uploadDoc = async (req: Request<{}, {}, ProcessUploadDocRequestBody, {}>, res: Response) => { 
+        try {
+            S3Service.getInstance().uploadSingleFile('file')(req, res, async (uploadErr) => { 
+    
+                if (uploadErr) {
+                    console.error({uploadErr})
+                    res.status(400).json({error:'Error during upload'})
+                } 
+                try {
+                    await this.processUploadDocRequestBody(req, res);
                 } catch (err) {
                     res.status(400).json({ error: uploadErr });
                 }

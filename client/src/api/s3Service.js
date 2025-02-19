@@ -9,6 +9,16 @@ export const uploadImageWithData = async (data, onUploadProgress) => {
     onUploadProgress
   });
 };
+
+export const uploadDocWithData = async (data, onUploadProgress) => {
+  return await axios.post(`${API_URL}/s3/docs-upload`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    onUploadProgress
+  });
+};
+
 export const replaceImage = async (data) => {
   return await axios.post(`${API_URL}/s3/replace`, data, {
     headers: {

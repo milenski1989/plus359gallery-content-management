@@ -9,7 +9,7 @@ import CustomDropZone from "./CustomDropZone";
 import DeleteIcon from '../../assets/delete-solid.svg';
 import useNotification from "../hooks/useNotification";
 
-function CircularProgressWithLabel(props) {
+export function CircularProgressWithLabel(props) {
   return (
     <Box sx={{ position: 'relative', display: 'inline-flex' }}>
       <CircularProgress variant="determinate" {...props} />

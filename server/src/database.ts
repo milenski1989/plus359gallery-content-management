@@ -7,6 +7,8 @@ import { ArtistsBios } from "./entities/ArtistsBios";
 import { Storages } from "./entities/Storages";
 import { Cells } from "./entities/Cells";
 import { Positions } from "./entities/Positions";
+import { Docs } from "./entities/Docs";
+
 dotenv.config()
 
 export const dbConnection = new DataSource({
@@ -19,7 +21,7 @@ export const dbConnection = new DataSource({
         logging: true,
         synchronize: false,
         entities: [
-            User, Artworks, Artists, ArtistsBios, Storages, Cells, Positions
+            User, Artworks, Artists, ArtistsBios, Storages, Cells, Positions, Docs
         ]
     })
 

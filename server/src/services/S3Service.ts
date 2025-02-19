@@ -64,8 +64,15 @@ export class S3Service {
         acl: 'public-read-write',
       }),
       limits: { fileSize: 20 * 1024 * 1024 },
+      fileFilter: (req, file, cb) => {
+        if (/^image\//.test(file.mimetype) || /application\/(pdf|vnd.ms-excel|csv|spreadsheetml)/.test(file.mimetype)) {
+          cb(null, true);
+        } else {
+          cb(new Error("Only images, PDF, and CSV files are allowed"), false);
+        }
+      },
     });
-  }
+  }    
 
   static getInstance() {
     if (!S3Service.s3Service) {

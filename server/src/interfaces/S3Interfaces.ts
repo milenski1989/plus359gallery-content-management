@@ -13,6 +13,12 @@ interface ProcessUploadRequestBody {
     by_user: string;
 }
 
+interface ProcessUploadDocRequestBody {
+    title: string;
+    notes: string;
+    by_user: string;
+}
+
 interface ProcessReplaceRequestBody {
     id: number;
     old_image_key: string;
@@ -25,6 +31,7 @@ interface MulterRequest extends Request {
 
 export {
     ProcessUploadRequestBody,
+    ProcessUploadDocRequestBody,
     ProcessReplaceRequestBody,
     MulterRequest
 }

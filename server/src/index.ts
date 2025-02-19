@@ -13,6 +13,7 @@ import { StorageController } from "./controllers/StorageController"
 import { PdfController } from "./controllers/PdfController"
 import { BiosController } from "./controllers/BiosController"
 import { ArtistsController } from "./controllers/ArtistsController"
+import { DocsController } from "./controllers/DocsController"
 dotenv.config()
 
     const app = express()
@@ -72,6 +73,7 @@ dotenv.config()
     const pdfController = new PdfController()
     const biosController = new BiosController()
     const artistsController = new ArtistsController()
+    const docsController = new DocsController()
 
     app.use('/auth', authController.router);
     app.use('/artworks', artworksController.router)
@@ -80,6 +82,8 @@ dotenv.config()
     app.use('/pdf', pdfController.router)
     app.use('/bios', biosController.router)
     app.use('/artists', artistsController.router)
+    app.use('/docs', docsController.router)
+    
     console.log(__dirname)
     
     app.get('*', (req,res) =>{

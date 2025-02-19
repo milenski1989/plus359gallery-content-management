@@ -10,6 +10,7 @@ const PdfCatalogue = lazy(() => import('./components/pdf/PdfCatalogue.jsx'));
 const AdminPanel = lazy(() => import('./components/admin panel/AdminPanel.jsx'));
 const StoragesManagement = lazy(() => import('./components/admin panel/StoragesManagement.jsx'));
 const Account = lazy(() => import('./components/account/Account.jsx'));
+const Docs = lazy(() => import('./components/upload/docs/Docs.jsx'));
 const EditPage = lazy(() => import('./components/EditPage.jsx'));
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { ThemeProvider, createTheme } from '@mui/material';
@@ -87,6 +88,7 @@ const routes  = [
   {path: '/admin-panel', element: <Suspense fallback=''><AdminPanel/></Suspense>},
   {path: '/storages-management', element: <Suspense fallback=''><StoragesManagement/></Suspense>},
   {path: '/account', element: <Suspense fallback=''><Account/></Suspense>},
+  {path: '/docs', element: <Suspense fallback=''><Docs/></Suspense>},
   { 
     path: '/gallery/:name', 
     element: (
