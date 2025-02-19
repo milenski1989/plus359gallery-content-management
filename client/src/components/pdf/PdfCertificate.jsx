@@ -31,7 +31,7 @@ const PdfCertificate = () => {
     artists: [selectedImage?.artist, ''],
     titles: [selectedImage?.title, ''],
     techniques: [selectedImage?.technique, ''],
-    notes: [selectedImage?.notes, ''],
+    dimensions: selectedImage?.dimensions,
     website: '',
     email: ''
   });
@@ -47,7 +47,7 @@ const PdfCertificate = () => {
 
     return () => clearTimeout(timeout);
 
-  }, [pdfData.artists, pdfData.titles, pdfData.techniques, pdfData.notes, pdfData.bio, logo, pdfData.website, pdfData.email]);
+  }, [pdfData.artists, pdfData.titles, pdfData.techniques, pdfData.dimensions, pdfData.bio, logo, pdfData.website, pdfData.email]);
 
   const updatePdfData = (field, value, index = 1) => {
     setPdfData((prev) => {
@@ -65,7 +65,7 @@ const PdfCertificate = () => {
     setPdfData((prev) => {
       if (Array.isArray(prev[field]) && prev[field].length >= 2) {
         const updatedField = [...prev[field]];
-        [updatedField[0], updatedField[1]] = [updatedField[1], updatedField[0]];
+        [updatedField[1], updatedField[0]] = [updatedField[0], updatedField[1]];
         return { ...prev, [field]: updatedField };
       }
       return prev;
@@ -161,6 +161,7 @@ const PdfCertificate = () => {
                 handleSwap={handleSwap}
                 helperText={helperText}
                 setLogo={setLogo}
+                selectedImage={selectedImage}
               />
               <Button variant="contained" onClick={() => savePdfOnMobile(pdfBlob, 'certificate')}>Save</Button>   
             </div>

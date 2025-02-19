@@ -113,7 +113,7 @@ function PdfCatalogue() {
               setPdfDataList={setPdfDataList}
               setLogo={setLogo}
               website={website} 
-              setWebsite={setWebsite} 
+              setWebsite={setWebsite}
             />       
           </>
         </div>
@@ -125,7 +125,8 @@ function PdfCatalogue() {
               setPdfDataList={setPdfDataList}
               setLogo={setLogo}
               website={website} 
-              setWebsite={setWebsite} 
+              setWebsite={setWebsite}
+              selectedImages={selectedImages}
             />   
             <Button variant="contained" onClick={() => savePdfOnMobile(pdfBlob, 'catalogue')}>Save</Button>    
           </div>

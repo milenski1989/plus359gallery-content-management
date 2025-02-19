@@ -27,7 +27,7 @@ export const createCertFirstPageContent = async (pdfDoc, page, font1, font2, ima
   let currentY = pageHeightPoints - 105;
 
   const artistHeaderText = 'Автор | Artist';
-  const artistValueText = `${pdfData.artists[0]} | ${pdfData.artists[1]}`;
+  const artistValueText = `${pdfData.artists[1]} | ${pdfData.artists[0]}`;
   const artistHeaderWidth = font2.widthOfTextAtSize(artistHeaderText, 3 * mmToPoints);
   const artistHeaderX = (pageWidthPoints - artistHeaderWidth) / 2;
 
@@ -49,13 +49,13 @@ export const createCertFirstPageContent = async (pdfDoc, page, font1, font2, ima
 
   const rows = [
     { text: 'Заглавие на произведението | Artwork', fontSize: 3 * mmToPoints, type: 'header' },
-    { text: `${pdfData.titles[0]} | ${pdfData.titles[1]}`, fontSize: 4 * mmToPoints, type: 'content' },
+    { text: `${pdfData.titles[1]} | ${pdfData.titles[0]}`, fontSize: 4 * mmToPoints, type: 'content' },
     { text: '', fontSize: 2 * mmToPoints },
     { text: 'Детайли | Details', fontSize: 3 * mmToPoints, type: 'header' },
-    { text: `${pdfData.techniques[0]} | ${pdfData.techniques[1]}`, fontSize: 4 * mmToPoints, type: 'content' },
+    { text: `${pdfData.techniques[1]} | ${pdfData.techniques[0]}`, fontSize: 4 * mmToPoints, type: 'content' },
     { text: '', fontSize: 2 * mmToPoints },
     { text: 'Размери | Dimensions', fontSize: 3 * mmToPoints, type: 'header' },
-    { text: `${image?.dimensions}`, fontSize: 4 * mmToPoints, type: 'content' },
+    { text: `${pdfData?.dimensions}`, fontSize: 4 * mmToPoints, type: 'content' },
   ];
 
   rows.forEach((row) => {
