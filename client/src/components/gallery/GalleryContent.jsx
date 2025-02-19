@@ -1,4 +1,4 @@
-import { useCallback, useContext, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Message from "../reusable/Message";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { EntriesContext } from "../contexts/EntriesContext";
@@ -36,6 +36,18 @@ const GalleryContent = () => {
   const [paginationDisabled, setPaginationDisabled] = useState(false);
 
   const handleDialogType = useCallback((type) => setDialogType(type), []);
+
+  useEffect(() => {
+    const scrollPosition = window.localStorage.getItem('scrollPosition');
+
+    setTimeout(() => {
+      if (scrollPosition) {
+        window.scrollTo(0, scrollPosition, 'smooth');
+        window.localStorage.removeItem('scrollPosition');
+      }
+    }, 100);
+    
+  },[]);
 
   const memoizedViewMode = useMemo(() => {
     if (viewMode === 'thumbnail') {

@@ -90,17 +90,9 @@ function PdfCatalogue() {
   };
 
   const handleGoBack = () => {
-    myStorage.removeItem('currentImages');
+    window.localStorage.removeItem('currentImages');
     setCurrentImages([]);
-    const scrollPosition = myStorage.getItem('scrollPosition');
     navigate(-1);
-
-    setTimeout(() => {
-      if (scrollPosition) {
-        window.scrollTo(0, parseInt(scrollPosition, 10));
-        myStorage.removeItem('scrollPosition');
-      }
-    }, 100);
   };
 
   return (

@@ -4,7 +4,6 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CatalogueIcon from '@mui/icons-material/FormatListNumbered';
-import CertificateIcon from '@mui/icons-material/WorkspacePremium';
 import { useNavigate } from 'react-router-dom';
 import { downloadOriginalImages, handleEdit, prepareImagesForLocationChange } from '../utils/helpers';
 import { EntriesContext } from '../contexts/EntriesContext';
@@ -14,7 +13,6 @@ function VerticalActions({classes, style = {}, arts, fontSize, handleDialogType}
   let myStorage = window.localStorage;
 
   const {
-    currentImages,
     setCurrentImages,
   } = useContext(EntriesContext);
 
@@ -28,14 +26,9 @@ function VerticalActions({classes, style = {}, arts, fontSize, handleDialogType}
     prepareImagesForLocationChange(handleDialogType);
   };
 
-  const handleGoToCertificate = () => {
-    myStorage.setItem('currentImages', JSON.stringify(arts));
-    navigate('/pdf/certificate');
-  };
-
   const handleGoToCatalogue = () => {
     myStorage.setItem('currentImages', JSON.stringify(arts));
-    myStorage.setItem('scrollPosition', window.scrollY);
+    window.localStorage.setItem('scrollPosition', JSON.stringify(window.scrollY));
     navigate('/pdf/catalogue');
   };
 
@@ -45,11 +38,7 @@ function VerticalActions({classes, style = {}, arts, fontSize, handleDialogType}
         <EditIcon fontSize={fontSize} onClick={() => handleEdit(arts, navigate)}/>
         <DriveFileMoveIcon fontSize={fontSize} onClick={handleLocationChange} />
         <DeleteOutlineIcon fontSize={fontSize} onClick={hadleDelete}/>
-        {currentImages.length > 1 ?
-          <CatalogueIcon onClick={handleGoToCatalogue} fontSize={fontSize} />
-          :
-          <CertificateIcon onClick={handleGoToCertificate} fontSize={fontSize} />
-        }
+        <CatalogueIcon onClick={handleGoToCatalogue} fontSize={fontSize} />
         <FileDownloadIcon fontSize={fontSize} onClick={() => downloadOriginalImages(arts.map(art => art.download_key))} />
       </> 
     </div>

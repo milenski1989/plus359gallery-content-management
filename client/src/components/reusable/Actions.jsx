@@ -10,7 +10,6 @@ import { EntriesContext } from '../contexts/EntriesContext';
 
 function Actions({classes, style = {}, arts, fontSize, handleDialogType}) {
   const navigate = useNavigate();
-  let myStorage = window.localStorage;
 
   const {
     setCurrentImages,
@@ -27,8 +26,8 @@ function Actions({classes, style = {}, arts, fontSize, handleDialogType}) {
   };
 
   const handleGoToCertificate = () => {
-    myStorage.setItem('currentImages', JSON.stringify(arts));
-    myStorage.setItem('scrollPosition', window.scrollY);
+    window.localStorage.setItem('currentImages', JSON.stringify(arts));
+    window.localStorage.setItem('scrollPosition', JSON.stringify(window.scrollY));
     navigate('/pdf/certificate');
   };
 
