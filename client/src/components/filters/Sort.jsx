@@ -1,7 +1,6 @@
 import { Autocomplete, TextField } from '@mui/material';
 import AscIcon from '../../assets/ascending-solid.svg';
 import DescIcon from '../../assets/descending-solid.svg';
-import './Sort.css';
 
 const sortOptions = [
   { label: 'Date', field: 'id' },

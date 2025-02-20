@@ -4,6 +4,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from 'react-router-dom';
 const Login = lazy(() => import('./components/authentication/Login.jsx'));
 const HomePage = lazy(() => import('./components/home/HomePage.jsx'));
+const Locations = lazy(() => import('./components/home/_Locations.jsx'));
+const Documents = lazy(() => import('./components/home/_Documents.jsx'));
 const Upload = lazy(() => import('./components/upload/Upload.jsx'));
 const PdfCertificate = lazy(() => import('./components/pdf/PdfCertificate.jsx'));
 const PdfCatalogue = lazy(() => import('./components/pdf/PdfCatalogue.jsx'));
@@ -83,7 +85,10 @@ const theme = createTheme({
 
 const routes  = [
   {path: '/', element: <Suspense fallback=''><HomePage/></Suspense>},
-  {path: '/upload', element: <Suspense fallback=''><EntriesProvider><Upload/></EntriesProvider></Suspense>},
+  {path: '/locations', element: <Suspense fallback=''><Locations/></Suspense>},
+  {path: '/documents', element: <Suspense fallback=''><Documents/></Suspense>},
+  {path: '/upload-artworks', element: <Suspense fallback=''><EntriesProvider><Upload/></EntriesProvider></Suspense>},
+  {path: '/upload-documents', element: <Suspense fallback=''><Upload/></Suspense>},
   {path: '/admin-panel', element: <Suspense fallback=''><AdminPanel/></Suspense>},
   {path: '/storages-management', element: <Suspense fallback=''><StoragesManagement/></Suspense>},
   {path: '/account', element: <Suspense fallback=''><Account/></Suspense>},
