@@ -59,7 +59,6 @@ function GalleryContent({searchResults, dialogType, setDialogType, viewMode, set
         message={error.message}
         severity="error" />
       {renderDialog()}
-
       <StickyActions
         classes="sticky-actions-container"
         style={{ top: isSmallDevice ? '100px' : '130px' }}

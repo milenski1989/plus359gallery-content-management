@@ -96,7 +96,7 @@ function GalleryLayout() {
     case 'thumbnail':
       return <ThumbnailView searchResults={searchResults} />;
     case 'details': 
-      return <DetailsView handleDialogType={setDialogType} searchResults={searchResults} />;
+      return <DetailsView setDialogType={setDialogType} searchResults={searchResults} />;
     default:
       return isSmallDevice 
         ? <MobileListView searchResults={searchResults} handleDialogType={setDialogType} /> 
@@ -113,13 +113,7 @@ function GalleryLayout() {
 
   return (
     <>
-      <GalleryContent 
-        searchResults={searchResults} 
-        dialogType={dialogType} 
-        setDialogType={setDialogType}
-        viewMode={viewMode}
-        setTriggeredFetchArtworks={setTriggeredFetchArtworks}
-      />
+   
       <Filters  
         setKeywords={setKeywords}
         setSelectedArtist={setSelectedArtist}
@@ -133,7 +127,17 @@ function GalleryLayout() {
         {renderCountInfo}
         <ViewModeIcons viewMode={viewMode} handleViewMode={setViewMode} />
       </div>
-      {!searchResults.length && <div className="no-data-container">Nothing was found!</div>}
+      {!searchResults.length ?
+        <div className="no-data-container">Nothing was found!</div>
+        :
+        <GalleryContent 
+          searchResults={searchResults} 
+          dialogType={dialogType} 
+          setDialogType={setDialogType}
+          viewMode={viewMode}
+          setTriggeredFetchArtworks={setTriggeredFetchArtworks}
+        />
+      }
       {memoizedViewMode}
       {searchResults.length && !paginationDisabled ?
         <PaginationComponent /> :

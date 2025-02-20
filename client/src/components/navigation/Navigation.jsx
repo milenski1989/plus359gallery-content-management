@@ -30,7 +30,11 @@ function Navigation() {
     <nav className="navbar">
       <div className="navbar-elements-container">
         <Link to='/'><img className="logo" alt="logo" src={Logo} /></Link>
-        <p className="current-location">{pathname.includes('gallery') ? pathname.slice(10).replace(/%20/g, ' ').replace(/([A-Z])/g, ' $1') : ''}</p>
+        {pathname.includes('gallery') ?
+          <p className="current-location">{pathname.slice(10).replace(/%20/g, ' ').replace(/([A-Z])/g, ' $1')}</p>
+          :
+          null
+        }
         <div className="right-side">
           {renderNavLinks()}
         </div>

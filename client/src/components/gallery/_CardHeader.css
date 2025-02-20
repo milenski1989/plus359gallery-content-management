@@ -1,0 +1,23 @@
+.card-header {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 10px;
+  }
+
+  .card-header .header {
+    font-size: small;
+    font-weight: 600;
+  }
+
+  .card-position {
+    height: auto;
+    color: #FFFFFF;
+    text-align: center;
+    margin-right: 0.5rem;
+  }
+
+  .card-position p {
+    padding: 0.7rem;
+  }
