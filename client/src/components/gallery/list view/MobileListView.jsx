@@ -1,10 +1,10 @@
 import { useCallback, useContext, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import { Dialog, DialogContent } from "@mui/material";
-import { EntriesContext } from "../contexts/EntriesContext";
-import { downloadOriginalImages, generateBackGroundColor, prepareImagesForLocationChange } from "../utils/helpers";
+import { EntriesContext } from "../../contexts/EntriesContext";
+import { downloadOriginalImages, generateBackGroundColor, prepareImagesForLocationChange } from "../../utils/helpers";
 import './ListView.css';
-import { handleEdit } from "../utils/helpers";
+import { handleEdit } from "../../utils/helpers";
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -15,7 +15,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useNavigate } from "react-router-dom";
 import './MobileListView.css';
-import ArtInfoContainer from "./details view/CardFooter";
+import ArtInfoContainer from "../details view/CardFooter";
 
 const MobileListView = ({ searchResults, handleDialogType }) => {
   const { currentImages, setCurrentImages } = useContext(EntriesContext);
@@ -59,8 +59,8 @@ const MobileListView = ({ searchResults, handleDialogType }) => {
         <div className="info-text">
                                 Artist
         </div>
-        <div className="info-text"> 
-                          More
+        <div style={{width: '70px'}}> 
+      
         </div>
       </div>
       <div className="mobile-rows">

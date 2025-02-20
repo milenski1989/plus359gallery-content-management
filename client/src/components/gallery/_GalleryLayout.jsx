@@ -8,8 +8,8 @@ import ViewModeIcons from "../filters/ViewModeIcons";
 import { useMediaQuery } from "@mui/material";
 import ThumbnailView from "./ThumbnailView";
 import DetailsView from "./details view/DetailsView";
-import MobileListView from "./MobileListView";
-import ListView from "./ListView";
+import MobileListView from "./list view/MobileListView";
+import ListView from "./list view/ListView";
 import GalleryContent from "./_GalleryContent";
 import PaginationComponent from '../PaginationComponent';
 
