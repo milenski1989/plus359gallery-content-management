@@ -1,5 +1,4 @@
-import { useCallback, useContext, useState } from "react";
-import Checkbox from "@mui/material/Checkbox";
+import { useContext, useState } from "react";
 import { Dialog, DialogContent } from "@mui/material";
 import { EntriesContext } from "../../contexts/EntriesContext";
 import { downloadOriginalImages, generateBackGroundColor, prepareImagesForLocationChange } from "../../utils/helpers";
@@ -16,6 +15,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useNavigate } from "react-router-dom";
 import './MobileListView.css';
 import ArtInfoContainer from "../details view/CardFooter";
+import CustomCheckbox from "../CustomCheckbox";
 
 const MobileListView = ({ searchResults, handleDialogType }) => {
   const { currentImages, setCurrentImages } = useContext(EntriesContext);
@@ -41,16 +41,6 @@ const MobileListView = ({ searchResults, handleDialogType }) => {
     prepareImagesForLocationChange(handleDialogType);
   };
 
-  const handleCheckboxChange = useCallback((id) => {
-    setCurrentImages((prevSelected) => {
-      if (prevSelected.some((item) => item.id === id)) {
-        return prevSelected.filter((image) => image.id !== id);
-      } else {
-        return [...prevSelected, searchResults.find((image) => image.id === id)];
-      }
-    });
-  }, [setCurrentImages, searchResults]);
-
   return (
     <>
       <div className="mobile-header-container">
@@ -71,12 +61,11 @@ const MobileListView = ({ searchResults, handleDialogType }) => {
               <div
                 className={`mobile-row-position-container ${art.position ? 'position-text' : ''}`}
                 style={{backgroundColor: generateBackGroundColor(art.storage?.name || art.storage_name)}}>
-                <Checkbox
-                  onChange={() => handleCheckboxChange(art.id)}
-                  checked={currentImages.some(image => image.id === art.id)}
+                <CustomCheckbox
+                  searchResults={searchResults} 
+                  id={art.id}
                   sx={{
-                    padding: 0,
-                    color: 'white',
+                    color: "white",
                     "&.Mui-checked": {
                       color: "white",
                     },

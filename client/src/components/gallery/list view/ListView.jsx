@@ -1,14 +1,12 @@
-import { useCallback, useContext, useState } from "react";
-import Checkbox from "@mui/material/Checkbox";
+import { useContext, useState } from "react";
 import { EntriesContext } from "../../contexts/EntriesContext";
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ShowMoreIcon from '@mui/icons-material/MoreHoriz';
 import { generateBackGroundColor } from "../../utils/helpers";
 import Actions from "../../reusable/Actions";
 import ListViewDialog from "./ListViewDialog";
 
 import './ListView.css';
+import CustomCheckbox from "../CustomCheckbox";
 
 const header = [
   {name: 'Position', className: ''},
@@ -29,7 +27,7 @@ const rowCells = [
 
 const ListView = ({ searchResults, handleDialogType }) => {
   
-  const { currentImages, setCurrentImages } = useContext(EntriesContext);
+  const { setCurrentImages } = useContext(EntriesContext);
 
   const [selectedRow, setSelectedRow] = useState(null);
 
@@ -45,16 +43,6 @@ const ListView = ({ searchResults, handleDialogType }) => {
     setSelectedRow(art);
     setCurrentImages([art]);
   };
-
-  const handleCheckboxChange = useCallback((id) => {
-    setCurrentImages((prevSelected) => {
-      if (prevSelected.some((item) => item.id === id)) {
-        return prevSelected.filter((image) => image.id !== id);
-      } else {
-        return [...prevSelected, searchResults.find((image) => image.id === id)];
-      }
-    });
-  }, [setCurrentImages, searchResults]);
 
   return (
     <>
@@ -82,11 +70,16 @@ const ListView = ({ searchResults, handleDialogType }) => {
                   <p>{truncateRowCell(art[name], 25)}</p>
                 </div>
               ))}
-              <Checkbox
-                onChange={() => handleCheckboxChange(art.id)}
-                checked={currentImages.some(image => image.id === art.id)}
-                icon={<RadioButtonUncheckedIcon />}
-                checkedIcon={<CheckCircleOutlineIcon />} />
+              <CustomCheckbox 
+                searchResults={searchResults} 
+                id={art.id}
+                sx={{
+                  color: "black",
+                  "&.Mui-checked": {
+                    color: "black",
+                  },
+                }}
+              />
               <Actions 
                 classes="row-actions"
                 fontSize="medium"

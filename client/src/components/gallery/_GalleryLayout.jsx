@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import Filters from "../filters/_Filters";
 import ViewModeIcons from "../filters/ViewModeIcons";
 import { useMediaQuery } from "@mui/material";
-import ThumbnailView from "./ThumbnailView";
+import ThumbnailView from "./thumbnails view/ThumbnailView";
 import DetailsView from "./details view/DetailsView";
 import MobileListView from "./list view/MobileListView";
 import ListView from "./list view/ListView";
