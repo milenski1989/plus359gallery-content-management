@@ -16,7 +16,7 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import { EntriesProvider } from './components/contexts/EntriesContext.jsx';
 import App from './App.jsx';
 import NavigationLayout from './components/navigation/NavigationLayout.jsx';
-import GalleryContent from './components/gallery/GalleryContent.jsx';
+import GalleryLayout from './components/gallery/_GalleryLayout.jsx';
 import './index.css';
 
 
@@ -91,7 +91,7 @@ const routes  = [
     path: '/gallery/:name', 
     element: (
       <EntriesProvider>
-        <Suspense fallback=''><GalleryContent/></Suspense>
+        <Suspense fallback=''><GalleryLayout/></Suspense>
       </EntriesProvider>
     ) 
   },

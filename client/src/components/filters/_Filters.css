@@ -1,0 +1,17 @@
+.filters-container {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    gap: 1rem
+}
+
+.filters-container > * {
+    flex: 1;
+    min-width: 150px;
+}
+
+@media (max-width: 600px) {
+    .filters-container .search-field {
+        flex: 100%;
+    }
+}

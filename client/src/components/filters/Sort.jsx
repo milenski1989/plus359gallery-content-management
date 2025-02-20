@@ -1,4 +1,4 @@
-import { Autocomplete, TextField, useMediaQuery } from '@mui/material';
+import { Autocomplete, TextField } from '@mui/material';
 import AscIcon from '../../assets/ascending-solid.svg';
 import DescIcon from '../../assets/descending-solid.svg';
 import './Sort.css';
@@ -11,8 +11,6 @@ const sortOptions = [
 ];
 
 function Sort({sortField, handleSortField, handleSortOrder, sortOrder}) {
-
-  const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
 
   const handleSort = (_, newValue) => {
     if (newValue) {
@@ -31,8 +29,6 @@ function Sort({sortField, handleSortField, handleSortOrder, sortOrder}) {
   return (
     <div>
       <Autocomplete
-        className={isSmallDevice ? 'mobile-sort-autocomplete' :
-          'sort-autocomplete'}
         value={{ label: `${sortOptions.find(option => option.field === sortField).label}`, field: sortField, order: sortOrder }}
         options={sortOptions}
         getOptionLabel={(option) => option.label}
@@ -41,7 +37,7 @@ function Sort({sortField, handleSortField, handleSortOrder, sortOrder}) {
         renderInput={(params) => 
           <TextField
             {...params}
-            InputProps={{
+            slotProps={{input: {
               ...params.InputProps,
               endAdornment: (
                 <>
@@ -49,7 +45,7 @@ function Sort({sortField, handleSortField, handleSortOrder, sortOrder}) {
                   {sortOrder === 'desc' && <img className='end-adornment' src={DescIcon} />}
                 </>
               )
-            }}
+            }}}
           />
         }
         renderOption={(props, option) => (
