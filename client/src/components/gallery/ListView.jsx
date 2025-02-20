@@ -11,7 +11,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import EditIcon from '@mui/icons-material/Edit';
 import { Dialog, DialogContent } from "@mui/material";
 import { downloadOriginalImages, generateBackGroundColor, handleEdit } from "../utils/helpers";
-import ArtInfoContainer from "./CardFooter";
+import ArtInfoContainer from "./details view/CardFooter";
 import { useNavigate } from "react-router-dom";
 import Actions from "../reusable/Actions";
 

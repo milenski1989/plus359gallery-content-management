@@ -15,7 +15,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useNavigate } from "react-router-dom";
 import './MobileListView.css';
-import ArtInfoContainer from "./CardFooter";
+import ArtInfoContainer from "./details view/CardFooter";
 
 const MobileListView = ({ searchResults, handleDialogType }) => {
   const { currentImages, setCurrentImages } = useContext(EntriesContext);

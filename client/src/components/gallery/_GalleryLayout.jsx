@@ -7,7 +7,7 @@ import Filters from "../filters/_Filters";
 import ViewModeIcons from "../filters/ViewModeIcons";
 import { useMediaQuery } from "@mui/material";
 import ThumbnailView from "./ThumbnailView";
-import DetailsView from "./DetailsView";
+import DetailsView from "./details view/DetailsView";
 import MobileListView from "./MobileListView";
 import ListView from "./ListView";
 import GalleryContent from "./_GalleryContent";

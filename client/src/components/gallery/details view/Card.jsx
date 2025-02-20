@@ -1,4 +1,4 @@
-import Actions from "../reusable/Actions";
+import Actions from "../../reusable/Actions";
 import CardHeader from "./_CardHeader";
 import CardImage from "./CardImage";
 import CardFooter from "./CardFooter";

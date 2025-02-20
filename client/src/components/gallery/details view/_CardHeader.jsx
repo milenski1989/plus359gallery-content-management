@@ -1,6 +1,6 @@
 import { useCallback, useContext } from "react";
-import { generateBackGroundColor } from "../utils/helpers";
-import { EntriesContext } from "../contexts/EntriesContext";
+import { generateBackGroundColor } from "../../utils/helpers";
+import { EntriesContext } from "../../contexts/EntriesContext";
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { Checkbox } from "@mui/material";
