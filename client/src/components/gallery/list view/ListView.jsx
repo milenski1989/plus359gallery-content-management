@@ -83,7 +83,7 @@ const ListView = ({ searchResults, handleDialogType }) => {
               <Actions 
                 classes="row-actions"
                 fontSize="medium"
-                arts={[art]}
+                artwork={art}
                 handleDialogType={handleDialogType}
               />
               <ShowMoreIcon className="more-horizon-icon" fontSize="medium" onClick={() =>  openFullInfoDialog(art)} />

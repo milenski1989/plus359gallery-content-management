@@ -15,7 +15,7 @@ const Card = ({handleDialogType, searchResults, art}) => {
         <Actions 
           classes="card-actions"
           fontSize="medium"
-          arts={[art]}
+          artwork={art}
           handleDialogType={handleDialogType}
         />
         <CardFooter art={art} />
