@@ -2,7 +2,7 @@ import { useCallback, useContext, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import { Dialog, DialogContent } from "@mui/material";
 import { EntriesContext } from "../contexts/EntriesContext";
-import { downloadOriginalImages, generateBackGroundColor, prepareImagesForLocationChange } from "../utils/helpers";
+import { downloadOriginalImage, generateBackGroundColor, prepareImagesForLocationChange } from "../utils/helpers";
 import './ListView.css';
 import { handleEdit } from "../utils/helpers";
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
@@ -129,7 +129,7 @@ const MobileListView = ({ searchResults, handleDialogType }) => {
                     onClick={() => handleEdit([selectedRow], navigate)}/>
                            
                   <>
-                    <FileDownloadIcon fontSize="medium" onClick={() => downloadOriginalImages([selectedRow.download_key])}/>
+                    <FileDownloadIcon fontSize="medium" onClick={() => downloadOriginalImage([selectedRow.download_key])}/>
                     <DeleteOutlineIcon
                       fontSize="medium"
                       onClick={() =>  handleDialogType('delete')} />

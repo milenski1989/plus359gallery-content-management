@@ -37,7 +37,7 @@ const Card = ({handleDialogType, searchResults, art}) => {
       }
     });
   }, [setCurrentImages, searchResults]);
-  
+
   return (
     <div className="card" key={art.id}>
       <div className="card-header-container">
@@ -51,7 +51,7 @@ const Card = ({handleDialogType, searchResults, art}) => {
         ) : null}
         <Checkbox
           onChange={() => handleCheckboxChange(art.id)}
-          checked={currentImages.some(image => image.id === art.id)}
+          checked={currentImages.length && currentImages.some(image => image.id === art.id)}
           sx={{
             "&.Mui-checked": {
               color: "black",
@@ -84,7 +84,7 @@ const Card = ({handleDialogType, searchResults, art}) => {
         <Actions 
           classes={isSmallDevice ? "mobile-card-actions": "card-actions"}
           fontSize="medium"
-          arts={[art]}
+          artwork={art}
           handleDialogType={handleDialogType}
         />
         <ArtInfoContainer art={art} />

@@ -5,7 +5,7 @@ import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CatalogueIcon from '@mui/icons-material/FormatListNumbered';
 import { useNavigate } from 'react-router-dom';
-import { downloadOriginalImages, handleEdit, prepareImagesForLocationChange } from '../utils/helpers';
+import { downloadOriginalImage, handleEdit, prepareImagesForLocationChange } from '../utils/helpers';
 import { EntriesContext } from '../contexts/EntriesContext';
 
 function VerticalActions({classes, style = {}, arts, fontSize, handleDialogType}) {
@@ -32,6 +32,11 @@ function VerticalActions({classes, style = {}, arts, fontSize, handleDialogType}
     navigate('/pdf/catalogue');
   };
 
+  const handleDownload = () => {
+    downloadOriginalImage(arts.map(art => art.download_key));
+    setCurrentImages([]);
+  };
+
   return <>
     <div style={style} className={classes}>
       <> 
@@ -39,7 +44,7 @@ function VerticalActions({classes, style = {}, arts, fontSize, handleDialogType}
         <DriveFileMoveIcon fontSize={fontSize} onClick={handleLocationChange} />
         <DeleteOutlineIcon fontSize={fontSize} onClick={hadleDelete}/>
         <CatalogueIcon onClick={handleGoToCatalogue} fontSize={fontSize} />
-        <FileDownloadIcon fontSize={fontSize} onClick={() => downloadOriginalImages(arts.map(art => art.download_key))} />
+        <FileDownloadIcon fontSize={fontSize} onClick={handleDownload} />
       </> 
     </div>
   </>;  

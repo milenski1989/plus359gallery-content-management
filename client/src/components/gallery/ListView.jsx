@@ -10,7 +10,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import EditIcon from '@mui/icons-material/Edit';
 import { Dialog, DialogContent } from "@mui/material";
-import { downloadOriginalImages, generateBackGroundColor, handleEdit } from "../utils/helpers";
+import { downloadOriginalImage, generateBackGroundColor, handleEdit } from "../utils/helpers";
 import ArtInfoContainer from "./ArtInfoContainer";
 import { useNavigate } from "react-router-dom";
 import Actions from "../reusable/Actions";
@@ -115,7 +115,7 @@ const ListView = ({ searchResults, handleDialogType }) => {
               <Actions 
                 classes="row-actions"
                 fontSize="medium"
-                arts={[art]}
+                artwork={art}
                 handleDialogType={handleDialogType}
               />
               <MoreHorizIcon className="more-horizon-icon" fontSize="medium" onClick={() =>  openFullInfoDialog(art)} />
@@ -138,7 +138,7 @@ const ListView = ({ searchResults, handleDialogType }) => {
                     fontSize="medium" 
                     onClick={() => handleEdit([selectedRow], setCurrentImages, navigate)}/>
                   <>
-                    <FileDownloadIcon fontSize="medium" onClick={() => downloadOriginalImages(currentImages.map(image => image.download_key))}/>
+                    <FileDownloadIcon fontSize="medium" onClick={() => downloadOriginalImage(currentImages.map(image => image.download_key))}/>
                     <DeleteOutlineIcon
                       fontSize="medium"
                       onClick={() => {

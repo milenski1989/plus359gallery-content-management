@@ -1,4 +1,4 @@
-import { downloadFiles } from "../../api/s3Service";
+import { downloadFile } from "../../api/s3Service";
 import { saveAs } from 'file-saver';
 
 export const generateBackGroundColor = (storage_name) => {
@@ -35,16 +35,21 @@ export const handleEdit = (arts, navigate) => {
   navigate('/edit-page');
 };
 
-export const downloadOriginalImages = async (downloadKeys) => {
-  const response = await downloadFiles(downloadKeys);
-  for (let fileUrl of response.data.result) {
-    try {
-      const fileResponse = await fetch(fileUrl);
-      const blob = await fileResponse.blob();
-      const imageName =  fileUrl.split('?')[0].split('/').pop(); 
-      saveAs(blob, imageName);
-    } catch (error) {
-      console.log(error);
+export const downloadOriginalImage = async (downloadKeys) => {
+  try {
+    const responses = await Promise.all(downloadKeys.map(key => downloadFile(encodeURIComponent(key))));
+    for (let response of responses) {
+      const {result} = response.data;
+      try {
+        const fileResponse = await fetch(result);
+        const blob = await fileResponse.blob();
+        const imageName = result.split("?")[0].split("/").pop();
+        saveAs(blob, imageName);
+      } catch (error) {
+        console.error("Error downloading file:", error);
+      }
     }
+  } catch (error) {
+    console.error("Error processing downloads:", error);
   }
 };
