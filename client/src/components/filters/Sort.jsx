@@ -1,6 +1,8 @@
 import { Autocomplete, TextField } from '@mui/material';
 import AscIcon from '../../assets/ascending-solid.svg';
 import DescIcon from '../../assets/descending-solid.svg';
+import { useContext } from 'react';
+import { EntriesContext } from '../contexts/EntriesContext';
 
 const sortOptions = [
   { label: 'Date', field: 'id' },
@@ -9,19 +11,26 @@ const sortOptions = [
   { label: 'Title', field: 'title' },
 ];
 
-function Sort({sortField, handleSortField, handleSortOrder, sortOrder}) {
+function Sort() {
+
+  const {
+    sortField,
+    sortOrder,
+    setSortField,
+    setSortOrder
+  } = useContext(EntriesContext);
 
   const handleSort = (_, newValue) => {
     if (newValue) {
       if (sortField === newValue.field) {
-        handleSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+        setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
       } else {
-        handleSortField(newValue.field);
-        handleSortOrder('asc');
+        setSortField(newValue.field);
+        setSortOrder('asc');
       }
     } else {
-      handleSortField('id');
-      handleSortOrder('desc');
+      setSortField('id');
+      setSortOrder('desc');
     }
   };
 

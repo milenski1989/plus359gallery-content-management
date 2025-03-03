@@ -1,11 +1,19 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import CustomAutocomplete from "../reusable/CustomAutocomplete";
 import { useParams } from "react-router-dom";
 import { getArtistsInStorage } from "../../api/artistsService";
 import { getCellsFromStorage } from "../../api/storageService";
 import useNotification from "../hooks/useNotification";
+import { EntriesContext } from "../contexts/EntriesContext";
 
-function ArtistCellFilter({setSelectedArtist, setSelectedCell}) {
+function ArtistCellFilter() {
+
+  const {
+    selectedCell,
+    selectedArtist,
+    setSelectedArtist,
+    setSelectedCell
+  } = useContext(EntriesContext);
 
   const {name} = useParams();
   const { showError } = useNotification();
@@ -47,11 +55,13 @@ function ArtistCellFilter({setSelectedArtist, setSelectedCell}) {
         options={artistOptions}
         label="Select artist"
         onChange={setSelectedArtist}
+        value={selectedArtist}
       />
       <CustomAutocomplete
         options={cells}
         label="Select cell"
         onChange={setSelectedCell}
+        value={selectedCell}
       />
     </>
   );

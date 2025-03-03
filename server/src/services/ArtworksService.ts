@@ -100,9 +100,9 @@ export default class ArtworksService {
       } else if (!selectedArtist && selectedCell) {
         concatFields = "CONCAT_WS(' ', artworks.artist, artworks.title, artworks.technique, artworks.notes, artworks.storageLocation)";
       } else if (selectedArtist && !selectedCell) {
-        concatFields = "CONCAT_WS(' ', artworks.title, artworks.technique, artworks.notes, artworks.storageLocation, artworks.cell)";
+        concatFields = "CONCAT_WS(' ', artworks.artist, artworks.title, artworks.technique, artworks.notes, artworks.storageLocation, artworks.cell)";
       } else {
-        concatFields = "CONCAT_WS(' ', artworks.title, artworks.technique, artworks.notes, artworks.storageLocation)";
+        concatFields = "CONCAT_WS(' ', artworks.artist, artworks.title, artworks.technique, artworks.notes, artworks.storageLocation)";
       }
     
       // Add a LIKE condition for each keyword

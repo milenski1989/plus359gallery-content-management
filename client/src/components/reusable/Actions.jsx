@@ -12,17 +12,19 @@ function Actions({classes, style = {}, artwork, fontSize, handleDialogType}) {
   const navigate = useNavigate();
 
   const {
-    setCurrentImages,
+    setCurrentImages
   } = useContext(EntriesContext);
 
   const hadleDelete = () => {
     setCurrentImages([artwork]);
     handleDialogType('delete');
+    window.localStorage.setItem('scrollPosition', JSON.stringify(window.scrollY));
   };
 
   const handleLocationChange = () => {
     setCurrentImages([artwork]);
     prepareImagesForLocationChange(handleDialogType);
+    window.localStorage.setItem('scrollPosition', JSON.stringify(window.scrollY));
   };
 
   const handleGoToCertificate = () => {
@@ -31,10 +33,15 @@ function Actions({classes, style = {}, artwork, fontSize, handleDialogType}) {
     navigate('/pdf/certificate');
   };
 
+  const handleGoToEditPage = () => {
+    window.localStorage.setItem('scrollPosition', JSON.stringify(window.scrollY));
+    handleEdit([artwork], navigate);
+  };
+
   return <>
     <div style={style} className={classes}>
       <> 
-        <EditIcon fontSize={fontSize} onClick={() => handleEdit([artwork], navigate)}/>
+        <EditIcon fontSize={fontSize} onClick={handleGoToEditPage}/>
         <DriveFileMoveIcon fontSize={fontSize} onClick={handleLocationChange} />
         <DeleteOutlineIcon fontSize={fontSize} onClick={hadleDelete}/>
         <CertificateIcon onClick={handleGoToCertificate} fontSize={fontSize} />

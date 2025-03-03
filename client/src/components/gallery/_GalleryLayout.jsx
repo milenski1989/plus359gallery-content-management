@@ -24,7 +24,12 @@ function GalleryLayout() {
     countPerPage,
     startItem,
     endItem,
-    totalCount
+    totalCount,
+    selectedArtist,
+    selectedCell,
+    keywords,
+    sortField,
+    sortOrder
   } = useContext(EntriesContext);
 
   const { showError } = useNotification();
@@ -36,11 +41,6 @@ function GalleryLayout() {
   const [dialogType, setDialogType] = useState(null);
   const [paginationDisabled, setPaginationDisabled] = useState(false);
   const [triggeredFetchArtworks, setTriggeredFetchArtworks] = useState(false);
-  const [sortField, setSortField] = useState('id');
-  const [sortOrder, setSortOrder] = useState('desc');
-  const [selectedArtist, setSelectedArtist] = useState();
-  const [selectedCell, setSelectedCell] = useState();
-  const [keywords, setKeywords] = useState([]);
 
   useEffect(() => {
     let filterTimeOut = null;
@@ -80,7 +80,6 @@ function GalleryLayout() {
 
   const filterData = async () => {
     try {
-    
       const response = await filterAll(keywords, selectedArtist, selectedCell, sortField, sortOrder);
       const {artworks, totalCount} = response.data;
       setSearchResults(artworks);
@@ -96,7 +95,10 @@ function GalleryLayout() {
     case 'thumbnail':
       return <ThumbnailView searchResults={searchResults} />;
     case 'details': 
-      return <DetailsView setDialogType={setDialogType} searchResults={searchResults} />;
+      return <DetailsView 
+        setDialogType={setDialogType} 
+        searchResults={searchResults}
+      />;
     default:
       return isSmallDevice 
         ? <MobileListView searchResults={searchResults} handleDialogType={setDialogType} /> 
@@ -114,15 +116,7 @@ function GalleryLayout() {
   return (
     <>
    
-      <Filters  
-        setKeywords={setKeywords}
-        setSelectedArtist={setSelectedArtist}
-        setSelectedCell={setSelectedCell}
-        sortField={sortField}
-        sortOrder={sortOrder}
-        setSortField={setSortField}
-        setSortOrder={setSortOrder}
-      />
+      <Filters/>
       <div className="entries-count-view-mode-container">
         {renderCountInfo}
         <ViewModeIcons viewMode={viewMode} handleViewMode={setViewMode} />

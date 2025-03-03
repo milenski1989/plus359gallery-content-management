@@ -9,13 +9,19 @@ import StickyActions from '../reusable/StickyActions';
 
 import './GalleryContent.css';
 
-function GalleryContent({searchResults, dialogType, setDialogType, viewMode, setTriggeredFetchArtworks}) {
+function GalleryContent({
+  searchResults, 
+  dialogType, 
+  setDialogType, 
+  viewMode, 
+  setTriggeredFetchArtworks,
+}) {
 
   const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
   const { error, clearNotifications } = useNotification();
 
   const {
-    currentImages,
+    currentImages
   } = useContext(EntriesContext);
 
   useEffect(() => {

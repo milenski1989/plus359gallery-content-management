@@ -1,7 +1,7 @@
 import { Dialog, DialogContent } from "@mui/material";
 import CardFooter from "../details view/CardFooter";
 import { useNavigate } from "react-router-dom";
-import { downloadOriginalImages, handleEdit } from "../../utils/helpers";
+import { downloadOriginalImage, handleEdit } from "../../utils/helpers";
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -36,7 +36,7 @@ function ListViewDialog({selectedRow, setSelectedRow, handleDialogType}) {
                   fontSize="medium" 
                   onClick={() => handleEdit([selectedRow], setCurrentImages, navigate)}/>
                 <>
-                  <FileDownloadIcon fontSize="medium" onClick={() => downloadOriginalImages(currentImages.map(image => image.download_key))}/>
+                  <FileDownloadIcon fontSize="medium" onClick={() => downloadOriginalImage(currentImages.map(image => image.download_key))}/>
                   <DeleteOutlineIcon
                     fontSize="medium"
                     onClick={() => {

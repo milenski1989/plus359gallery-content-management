@@ -6,8 +6,8 @@ import './HomePage.css';
 const homePageButtons = [
   {name: 'Locations', location: '/locations'},
   {name: 'Upload Artworks', location: '/upload-artworks'},
-  {name: 'Documents', location: '/documents'},
-  {name: 'Upload Documents', location: '/upload-documents'}
+  // {name: 'Documents', location: '/documents'},
+  // {name: 'Upload Documents', location: '/upload-documents'}
 ];
 
 function HomePage() {

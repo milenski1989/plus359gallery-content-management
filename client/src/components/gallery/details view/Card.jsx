@@ -5,7 +5,11 @@ import CardFooter from "./CardFooter";
 
 import './Card.css';
 
-const Card = ({handleDialogType, searchResults, art}) => {
+const Card = ({
+  handleDialogType, 
+  searchResults, 
+  art
+}) => {
   
   return (
     <div className="card" key={art.id}>

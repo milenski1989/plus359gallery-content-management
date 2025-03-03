@@ -1,20 +1,18 @@
 import { TextField } from '@mui/material';
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 import Sort from './Sort';
 import ItemsPerPage from './_ItemsPerPage';
 import ArtistCellFilter from './_ArtistCellFilter';
 
 import './_Filters.css';
+import { EntriesContext } from '../contexts/EntriesContext';
 
-function Filters({
-  setKeywords,
-  setSelectedArtist,
-  setSelectedCell,
-  sortField,
-  sortOrder,
-  setSortField,
-  setSortOrder
-}) {
+function Filters() {
+
+  const {
+    keywords,
+    setKeywords
+  } = useContext(EntriesContext);
 
   const handleChangeKeywords = useCallback((event) => {
     if (!event.target.value) return setKeywords([]);
@@ -24,18 +22,14 @@ function Filters({
   return <>
     <div className="filters-container">
       <ItemsPerPage />
-      <Sort
-        sortField={sortField}
-        handleSortField={setSortField}
-        sortOrder={sortOrder}
-        handleSortOrder={setSortOrder}
-      />
-      <ArtistCellFilter setSelectedArtist={setSelectedArtist} setSelectedCell={setSelectedCell}/>
+      <Sort/>
+      <ArtistCellFilter/>
       <TextField 
         className="search-field"
         label="Search..." 
         variant="outlined"
         onChange={handleChangeKeywords}
+        value={keywords.join(" ")} 
       />
     </div>
   </>;
