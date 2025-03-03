@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Container, CssBaseline, Link, TextField } from "@mui/material";
+import { Box, Button, CircularProgress, Container, TextField } from "@mui/material";
 import { useState } from "react";
 import Message from "../reusable/Message";
 import { useNavigate } from "react-router-dom";
@@ -7,24 +7,14 @@ import {Typography} from '@mui/material';
 import Logo from '../../assets/logo359 gallery-black.png';
 import { login } from "../../api/authService";
 import useNotification from "../hooks/useNotification";
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="http://plus359gallery.com" style={{textDecoration: 'none', color: '#007bff'}}>
-          +359 Gallery
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import Copyright from "./Copyright";
 
 const Login = () => {
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
 
   let myStorage = window.localStorage;
   let navigate = useNavigate();
@@ -35,13 +25,16 @@ const Login = () => {
     return emailRegex.test(email);
   };
 
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setFormData(prev => ({...prev, [name]: value}));
+    clearNotifications();
+  };
 
   const handleLogin = async () => {
-    const _email = email;
-    const _password = password;
     startLoading();
     try {
-      const response = await login(_email, _password);
+      const response = await login(formData.email, formData.password);
     
       const { id, userName, email, superUser, createdAt } = response.data.user;
       myStorage.setItem('user', JSON.stringify({
@@ -61,11 +54,15 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!validateEmail(email)) {
+    if (!validateEmail(formData.email)) {
       showError('Invalid email format!');
       return;
     }
     handleLogin();
+  };
+
+  const disableLogin = () => {
+    return !formData.email || !formData.password || error.error;
   };
 
   return <>
@@ -85,7 +82,6 @@ const Login = () => {
           }
         }}
         component="main">
-        <CssBaseline />
         <Box
           sx={{
             marginTop: 16,
@@ -101,26 +97,25 @@ const Login = () => {
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               fullWidth
+              name="email"
               label="email@example.com"
               variant="outlined"
               margin="normal"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                clearNotifications;
-              }}
+              value={formData.email}
+              onChange={handleChange}
               required
               error={error.state}
               helperText={error.message}
             />
             <TextField
               fullWidth
+              name="password"
               label="Password"
               type="password"
               variant="outlined"
               margin="normal"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={handleChange}
               required
             />
             <Button
@@ -128,16 +123,14 @@ const Login = () => {
               type="submit"
               variant="contained"
               fullWidth
-              disabled={!email || !password || isLoading || error.error}
+              disabled={disableLogin()}
             >
               {isLoading ? <CircularProgress size={24} /> : 'Sign in'}
             </Button>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-
-               
+        <Copyright/>
+      </Container> 
     }
   </>;
 };

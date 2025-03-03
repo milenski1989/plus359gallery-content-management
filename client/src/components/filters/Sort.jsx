@@ -1,7 +1,8 @@
-import { Autocomplete, TextField, useMediaQuery } from '@mui/material';
+import { Autocomplete, TextField } from '@mui/material';
 import AscIcon from '../../assets/ascending-solid.svg';
 import DescIcon from '../../assets/descending-solid.svg';
-import './Sort.css';
+import { useContext } from 'react';
+import { EntriesContext } from '../contexts/EntriesContext';
 
 const sortOptions = [
   { label: 'Date', field: 'id' },
@@ -10,29 +11,32 @@ const sortOptions = [
   { label: 'Title', field: 'title' },
 ];
 
-function Sort({sortField, handleSortField, handleSortOrder, sortOrder}) {
+function Sort() {
 
-  const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
+  const {
+    sortField,
+    sortOrder,
+    setSortField,
+    setSortOrder
+  } = useContext(EntriesContext);
 
   const handleSort = (_, newValue) => {
     if (newValue) {
       if (sortField === newValue.field) {
-        handleSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+        setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
       } else {
-        handleSortField(newValue.field);
-        handleSortOrder('asc');
+        setSortField(newValue.field);
+        setSortOrder('asc');
       }
     } else {
-      handleSortField('id');
-      handleSortOrder('desc');
+      setSortField('id');
+      setSortOrder('desc');
     }
   };
 
   return (
     <div>
       <Autocomplete
-        className={isSmallDevice ? 'mobile-sort-autocomplete' :
-          'sort-autocomplete'}
         value={{ label: `${sortOptions.find(option => option.field === sortField).label}`, field: sortField, order: sortOrder }}
         options={sortOptions}
         getOptionLabel={(option) => option.label}
@@ -41,7 +45,7 @@ function Sort({sortField, handleSortField, handleSortOrder, sortOrder}) {
         renderInput={(params) => 
           <TextField
             {...params}
-            InputProps={{
+            slotProps={{input: {
               ...params.InputProps,
               endAdornment: (
                 <>
@@ -49,7 +53,7 @@ function Sort({sortField, handleSortField, handleSortOrder, sortOrder}) {
                   {sortOrder === 'desc' && <img className='end-adornment' src={DescIcon} />}
                 </>
               )
-            }}
+            }}}
           />
         }
         renderOption={(props, option) => (

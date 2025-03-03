@@ -3,10 +3,11 @@ import { Pagination } from '@mui/material';
 import './PaginationComponent.css';
 import { EntriesContext } from './contexts/EntriesContext';
 
-const PaginationComponent = ({handlePage}) => {
+const PaginationComponent = () => {
 
   const {
     page,
+    setPage,
     pagesCount,
     totalCount
   } = useContext(EntriesContext);
@@ -27,7 +28,7 @@ const PaginationComponent = ({handlePage}) => {
     variant="outlined"
     color="primary"
     className="pagination-container"
-    onChange={(event, page) => handlePage(page)}
+    onChange={(event, page) => setPage(page)}
     showFirstButton={isTherePrevPage && true}
     showLastButton={noNextPage && true}
     siblingCount={3}
