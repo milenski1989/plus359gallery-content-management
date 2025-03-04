@@ -128,33 +128,22 @@ export default class StorageService {
     }
   }
 
-  async saveStorage(name: string) {
-      const queryRunner: QueryRunner = dbConnection.createQueryRunner();
-      await queryRunner.connect();
-      await queryRunner.startTransaction();
+  async saveStorage(name: string, cells: { name: string, startPosition: number, endPosition: number }[]) {
+    const queryRunner: QueryRunner = dbConnection.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+  
     try {
       const foundStorage: Storages = await this.getOne(name);
-
       if (foundStorage) throw new Error();
-      else {
-
-        await queryRunner.query(`
-          INSERT INTO storages (name)
-          VALUES (?)
-        `, [name]);
+      await queryRunner.query(`INSERT INTO storages (name) VALUES (?)`, [name]);
   
-        const [storageId] = await queryRunner.query(`
-          SELECT MAX(id) as id FROM storages
-        `);
-
-        await queryRunner.query(`
-          INSERT INTO cells (name, storage_id)
-          VALUES (?, ?)
-        `, [`${name}1`, storageId.id]);
-
-        const [cellId] = await queryRunner.query(`
-          SELECT MAX(id) as id FROM cells
-        `);
+      const [storageId] = await queryRunner.query(`SELECT MAX(id) as id FROM storages`);
+  
+      for (const cell of cells) {
+        await queryRunner.query(`INSERT INTO cells (name, storage_id) VALUES (?, ?)`, [cell.name, storageId.id]);
+  
+        const [cellId] = await queryRunner.query(`SELECT MAX(id) as id FROM cells`);
   
         await queryRunner.query(
           `
@@ -162,20 +151,20 @@ export default class StorageService {
           SELECT n, ?
           FROM (
             WITH RECURSIVE numbers AS (
-              SELECT 1 AS n
+              SELECT ? AS n
               UNION ALL
-              SELECT n + 1 FROM numbers WHERE n < 100
+              SELECT n + 1 FROM numbers WHERE n < ?
             )
             SELECT n FROM numbers
           ) AS t;
           `,
-          [cellId.id]
+          [cellId.id, cell.startPosition, cell.endPosition]
         );
-
-        await queryRunner.commitTransaction();
-
-        return await storagesRepository.findOneBy({name: name})
       }
+  
+      await queryRunner.commitTransaction();
+      return await storagesRepository.findOneBy({ name });
+      
     } catch {
       await queryRunner.rollbackTransaction();
       throw new Error("Storage with this name already exists!");
@@ -183,7 +172,7 @@ export default class StorageService {
       await queryRunner.release();
     }
   }
-
+  
   async deleteStorage(name: string) {
     const queryRunner: QueryRunner = dbConnection.createQueryRunner();
     await queryRunner.connect();
