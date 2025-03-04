@@ -78,14 +78,14 @@ export class StorageController {
     }
   };
 
-  saveStorage = async (req: Request<{}, {}, { name: string }, {}>, res: Response) => {
-    const { name } = req.body;
+  saveStorage = async (req: Request<{}, {}, { name: string, cells }, {}>, res: Response) => {
+    const { name, cells } = req.body;
 
     try {
-      const results: Storages = await StorageService.getInstance().saveStorage(name);
+      const results: Storages = await StorageService.getInstance().saveStorage(name, cells);
       res.status(200).send(results);
     } catch (error) {
-      res.status(400).send("Storage with this name already exists!");
+      res.status(400).send({message: "Storage with this name already exists!"});
     }
   };
 

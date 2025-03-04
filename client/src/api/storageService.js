@@ -17,8 +17,8 @@ export const getCellsFromStorage = async (name) => {
   return await axios.get(`${API_URL}/storage/cells/all/${name.split(':')[1]}`);
 };
 
-export const saveStorage = async (name) => {
-  return await axios.post(`${API_URL}/storage/saveOne`, {name}, {
+export const saveStorage = async (name, cells) => {
+  return await axios.post(`${API_URL}/storage/saveOne`, {name, cells}, {
     headers: {
       "Content-Type": "application/json",
     },

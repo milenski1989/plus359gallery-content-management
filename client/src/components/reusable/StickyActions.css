@@ -1,0 +1,31 @@
+.select-unselect-all-icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    position: fixed;
+    left: 0;
+    z-index: 800;
+    background: white;
+    padding: 0.25rem;
+    box-shadow: 0 3px 8px #0000003d;
+  }
+
+  .sticky-actions-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    position: fixed;
+    left: 0;
+    z-index: 800;
+    background: white;
+    padding: 0.25rem;
+    box-shadow: 0 3px 8px #0000003d;
+    }
+    
+    .sticky-actions-container .download-icon {
+      width: 25px;
+    }

@@ -149,12 +149,12 @@ export class S3Controller{
         }
     }
 
-    download = async (req: Request<{}, {}, {}, { downloadKeys: string }>, res: Response) => {
+    download = async (req: Request<{}, {}, {}, { downloadKey: string }>, res: Response) => {
+        const {downloadKey} = req.query;
         try {
-            const downloadKeys: string[] = req.query.downloadKeys.split(',');
-            const urls: string[] = await Promise.all(downloadKeys.map((key: string) => S3Service.getInstance().download(key)));
+            const url: string = await S3Service.getInstance().download(downloadKey);
         
-        res.status(200).json({ result: urls });
+        res.status(200).json({ result: url });
 
         } catch (error) {
             res.status(400).json({error: error.message})

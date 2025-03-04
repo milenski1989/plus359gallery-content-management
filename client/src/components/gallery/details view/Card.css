@@ -1,0 +1,25 @@
+  .card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 6px;
+    box-shadow: 0 3px 8px #0000003d;
+    break-inside: avoid;
+    grid-template-rows: 1fr auto;
+    margin: 0 0 10px;
+    padding-bottom: .2rem;
+    page-break-inside: avoid;
+    position: relative;
+  }
+
+  .card-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 1rem;
+    cursor: pointer;
+  }
+
+  .card-delete-icon {
+  width: 25px;
+  }

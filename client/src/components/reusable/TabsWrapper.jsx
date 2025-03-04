@@ -4,9 +4,9 @@ export default function TabsWrapper({labels, components }) {
   const [value, setValue] = React.useState(0);
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} aria-label="basic tabs example">
+        <Tabs value={value}>
           {labels.map((label, index) => (
             <Tab key={label} label={label} onClick={() => setValue(index)} />
           ))}
@@ -14,11 +14,11 @@ export default function TabsWrapper({labels, components }) {
       </Box>
       <Box sx={{ p: 3 }}>
         {components.map((Component, index) => (
-          <div key={index}>
+          <React.Fragment key={index}>
             {value === index && <Component />}
-          </div>
+          </React.Fragment>
         ))}
       </Box>
-    </Box>
+    </>
   );
 }

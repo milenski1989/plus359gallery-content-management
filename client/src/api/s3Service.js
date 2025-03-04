@@ -27,7 +27,6 @@ export const replaceImage = async (data) => {
   });
 };
 
-export const downloadFiles = async (downloadKeys) => {
-  const keysString = downloadKeys.join(',');
-  return axios.get(`${API_URL}/s3/file/download?downloadKeys=${keysString}`);
+export const downloadFile = async (downloadKey) => {
+  return axios.get(`${API_URL}/s3/file/download?downloadKey=${downloadKey}`);
 };

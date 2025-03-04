@@ -7,8 +7,6 @@ import './NavigationLayout.css';
 
 export const navLinks = [
   {name: 'Home', path: '/'},
-  {name: 'Docs', path: '/docs'},
-  {name: 'Upload', path: '/upload'},
   {name: 'Account', path: '/account'},
   {name: 'Admin Panel', path: '/admin-panel'},
   {name: 'Log Out', path: '/login', func: 'handleLogout'}

@@ -81,7 +81,7 @@ function CascadingDropdowns({
         className={`cascading-dropdown ${classNames}`}
         options={cells}
         value={formControlData?.cell || null}
-        label="Cell"
+        label="Section"
         disabled={!location || location === 'Sold'}
         onChange={changeCell}
       />

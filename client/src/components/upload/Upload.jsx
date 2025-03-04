@@ -8,6 +8,8 @@ import { getArtistsInStorage } from "../../api/artistsService";
 import CustomDropZone from "./CustomDropZone";
 import DeleteIcon from '../../assets/delete-solid.svg';
 import useNotification from "../hooks/useNotification";
+import GoBack from "../reusable/GoBack";
+import { useNavigate } from "react-router-dom";
 
 export function CircularProgressWithLabel(props) {
   return (
@@ -40,11 +42,12 @@ export function CircularProgressWithLabel(props) {
 const Upload = () => {
   let myStorage = window.localStorage;
   let user = JSON.parse(myStorage.getItem('user'));
+  const navigate = useNavigate();
 
   const [artworks, setArtworks] = useState([]);
   const [progress, setProgress] = useState(0);
   const [artists, setArtists] = useState([]);
-  const [isArtistFromDropdown, setIsArtistFromDropDown] = useState(false);
+  const [isArtistFromDropdown, setIsArtistFromDropdown] = useState({});
   const { success, error, showSuccess, showError, clearNotifications, isLoading, startLoading, stopLoading } = useNotification();
 
   const getArtists = async () => {
@@ -86,20 +89,25 @@ const Upload = () => {
 
   const handleSelectArtist = (index, newValue) => {
     const _artworks = [...artworks];
-    if (!newValue) {
-      setIsArtistFromDropDown(false);
-      _artworks[index].dropdownsData.artist = "";
-    } else {
-      setIsArtistFromDropDown(true);
-      _artworks[index].dropdownsData.artist = newValue;
-    }
+    _artworks[index].dropdownsData.artist = newValue || "";
+
+    setIsArtistFromDropdown(prev => ({
+      ...prev,
+      [index]: !!newValue
+    }));
+
     setArtworks(_artworks);
   };
 
   const handleAddNewArtist = (index, e) => {
-    setIsArtistFromDropDown(false);
     const _artworks = [...artworks];
     _artworks[index].dropdownsData.artist = e.target.value;
+
+    setIsArtistFromDropdown(prev => ({
+      ...prev,
+      [index]: false
+    }));
+
     setArtworks(_artworks);
   };
 
@@ -147,20 +155,18 @@ const Upload = () => {
   };
 
   return (
-    <div className="upload-main-section">
+    <><GoBack handleGoBack={() => navigate(-1)} /><div className="upload-main-section">
       <Message
         open={error.state}
         handleClose={clearNotifications}
         message={error.message}
-        severity="error"
-      />
+        severity="error" />
 
       <Message
         open={success.state}
         handleClose={clearNotifications}
         message={success.message}
-        severity="success"
-      />
+        severity="success" />
 
       {isLoading && <CircularProgressWithLabel variant="determinate" value={progress} color="primary" />}
       {!isLoading && (
@@ -170,8 +176,7 @@ const Upload = () => {
             acceptedFormats={{ 'image/jpeg': ['.jpeg', '.png'] }}
             isRequired={true}
             classes={['in-upload']}
-            customText="Drag and drop or select files"
-          />
+            customText="Drag and drop or select files" />
           {artworks.map((artwork, index) => (
             <div key={index} className="upload-section">
               <div className="upload-filezone">
@@ -183,35 +188,31 @@ const Upload = () => {
                     className='icon'
                     onClick={() => {
                       const _artworks = artworks.filter((_, i) => i !== index);
-                      URL.revokeObjectURL(artwork.preview); 
+                      URL.revokeObjectURL(artwork.preview);
                       setArtworks(_artworks);
-                    }}
-                  />
+                    } } />
                 )}
               </div>
               {artwork.file && (
                 <img
                   src={artwork?.preview}
                   alt="Image preview"
-                  className="image-preview"
-                />
+                  className="image-preview" />
               )}
               <Autocomplete
                 className="upload-select-artist-autocomplete"
                 disablePortal
                 options={artists.map(artist => artist.artist)}
                 renderInput={(params) => <TextField {...params} label="Artists" />}
-                onChange={(event, newValue) => handleSelectArtist(index, newValue)}
-              />
+                onChange={(event, newValue) => handleSelectArtist(index, newValue)} />
 
               <TextField
                 label="Artist - add or select from the list"
                 className="upload-textfield"
                 value={artwork.dropdownsData.artist}
-                disabled={isArtistFromDropdown}
+                disabled={isArtistFromDropdown[index]}
                 onChange={(e) => handleAddNewArtist(index, e)}
-                required={!isArtistFromDropdown}
-              />
+                required={!isArtistFromDropdown} />
 
               {Object.entries(artwork.inputsData).map(([key, value]) => (
                 <TextField
@@ -220,14 +221,12 @@ const Upload = () => {
                   className="upload-textfield"
                   value={value}
                   onChange={(event) => handleInputChange(index, key, event)}
-                  required={key === 'technique' || key === 'title'}
-                />
+                  required={key === 'technique' || key === 'title'} />
               ))}
 
               <CascadingDropdowns
                 formControlData={artwork.dropdownsData}
-                onDropdownChange={(updatedData) => handleDropdownChange(index, updatedData)}
-              />
+                onDropdownChange={(updatedData) => handleDropdownChange(index, updatedData)} />
             </div>
           ))}
           <Button
@@ -237,11 +236,11 @@ const Upload = () => {
             variant="contained"
             disabled={isUploadButtonDisabled()}
           >
-                Submit
+            Submit
           </Button>
         </>
       )}
-    </div>
+    </div></>
   );
 };
 
