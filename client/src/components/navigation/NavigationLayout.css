@@ -72,12 +72,7 @@
     height: 100vh;
     transition: all 0.3s ease-in-out;
     padding: 40px 0 0 30px;
-}
-
-.active {
-    right: 0;
-    box-shadow: 0 40px 60px rgba(0, 0, 0, 0.9);
-    transition: all 0.3s ease-in-out;
+    z-index: 100;
 }
 
 .overlay {
@@ -87,8 +82,14 @@
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.9);
-    z-index: 9999;
-  }
+    z-index: 99;
+}
+
+.active {
+    right: 0;
+    box-shadow: 0 40px 60px rgba(0, 0, 0, 0.9);
+    transition: all 0.3s ease-in-out;
+}
 
 .mobile-navbar-button {
     color: #40C8F4;

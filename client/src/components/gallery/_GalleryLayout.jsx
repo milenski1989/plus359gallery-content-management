@@ -54,6 +54,7 @@ function GalleryLayout() {
     return () => clearTimeout(filterTimeOut);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    name,
     selectedArtist,
     selectedCell,
     keywords,

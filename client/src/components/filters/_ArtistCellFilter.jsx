@@ -16,6 +16,7 @@ function ArtistCellFilter() {
   } = useContext(EntriesContext);
 
   const {name} = useParams();
+
   const { showError } = useNotification();
 
   const [artists, setArtists] = useState([]);

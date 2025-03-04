@@ -14,7 +14,7 @@ export const getAvailablePositions = async (selectedCell, location) => {
 };
 
 export const getCellsFromStorage = async (name) => {
-  return await axios.get(`${API_URL}/storage/cells/all/${name.split(':')[1]}`);
+  return await axios.get(`${API_URL}/storage/cells/all/${name}`);
 };
 
 export const saveStorage = async (name, cells) => {

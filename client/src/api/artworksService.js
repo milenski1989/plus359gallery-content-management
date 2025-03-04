@@ -6,7 +6,7 @@ export const getAll = async (page, count, sortField, sortOrder, name) => {
     return await axios.get(`${API_URL}/artworks/all/${name}`);
   }
   return await axios.get(
-    `${API_URL}/artworks/all/${name.split(':')[1]}?count=${count}&page=${page}&sortField=${sortField}&sortOrder=${sortOrder}`
+    `${API_URL}/artworks/all/${name}?count=${count}&page=${page}&sortField=${sortField}&sortOrder=${sortOrder}`
   );
 };
 

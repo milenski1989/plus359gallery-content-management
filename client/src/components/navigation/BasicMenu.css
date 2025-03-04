@@ -1,0 +1,15 @@
+.basic-menu {
+    z-index: 101;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.75rem;
+    padding-right: 1rem;
+    color: #FFFFFF;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.basic-menu:hover {
+    color: #40C8F4;
+    transition: 0.3s ease-in-out;
+}
