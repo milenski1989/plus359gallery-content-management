@@ -1,4 +1,19 @@
 .home-page-content {
     display: flex;
-    gap: 1rem
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    width: 50vw;
+}
+
+.home-page-content button {
+   flex-grow: 0;
+}
+
+.mobile-home-page-content {
+    width: 100%;
+}
+
+.mobile-home-page-content button {
+    flex-grow: 1;
 }

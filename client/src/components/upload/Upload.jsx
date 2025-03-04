@@ -47,7 +47,7 @@ const Upload = () => {
   const [artworks, setArtworks] = useState([]);
   const [progress, setProgress] = useState(0);
   const [artists, setArtists] = useState([]);
-  const [isArtistFromDropdown, setIsArtistFromDropDown] = useState(false);
+  const [isArtistFromDropdown, setIsArtistFromDropdown] = useState({});
   const { success, error, showSuccess, showError, clearNotifications, isLoading, startLoading, stopLoading } = useNotification();
 
   const getArtists = async () => {
@@ -89,20 +89,25 @@ const Upload = () => {
 
   const handleSelectArtist = (index, newValue) => {
     const _artworks = [...artworks];
-    if (!newValue) {
-      setIsArtistFromDropDown(false);
-      _artworks[index].dropdownsData.artist = "";
-    } else {
-      setIsArtistFromDropDown(true);
-      _artworks[index].dropdownsData.artist = newValue;
-    }
+    _artworks[index].dropdownsData.artist = newValue || "";
+
+    setIsArtistFromDropdown(prev => ({
+      ...prev,
+      [index]: !!newValue
+    }));
+
     setArtworks(_artworks);
   };
 
   const handleAddNewArtist = (index, e) => {
-    setIsArtistFromDropDown(false);
     const _artworks = [...artworks];
     _artworks[index].dropdownsData.artist = e.target.value;
+
+    setIsArtistFromDropdown(prev => ({
+      ...prev,
+      [index]: false
+    }));
+
     setArtworks(_artworks);
   };
 
@@ -205,7 +210,7 @@ const Upload = () => {
                 label="Artist - add or select from the list"
                 className="upload-textfield"
                 value={artwork.dropdownsData.artist}
-                disabled={isArtistFromDropdown}
+                disabled={isArtistFromDropdown[index]}
                 onChange={(e) => handleAddNewArtist(index, e)}
                 required={!isArtistFromDropdown} />
 

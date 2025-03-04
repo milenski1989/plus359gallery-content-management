@@ -14,7 +14,7 @@ const header = [
   {name: 'Artist', className: 'item'},
   {name: 'Dimensions', className: 'item'},
   {name: 'Technique', className: 'item'},
-  {name: 'Cell', className: 'item'},
+  {name: 'Section', className: 'item'},
   {name: '', className: 'width-20'},
 ];
 

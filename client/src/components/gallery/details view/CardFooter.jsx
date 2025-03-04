@@ -1,6 +1,6 @@
 import './CardFooter.css';
 
-const keysToMap = ['Title', 'Technique', 'Dimensions', 'Price', 'Notes', 'Storage', 'Cell', 'Position'];
+const keysToMap = ['Title', 'Technique', 'Dimensions', 'Price', 'Notes', 'Storage', 'Section', 'Position'];
 
 const CardFooter = ({art}) => {
 
@@ -8,7 +8,7 @@ const CardFooter = ({art}) => {
     <div className="card-footer-container">
       <div>
         {keysToMap.map(key => {
-          const value = art[key.toLowerCase()];
+          const value = key === 'Section' ? art['cell'] : art[key.toLowerCase()];
           const displayValue = value
             ? typeof value === 'object' && value.name
               ? value.name
