@@ -93,18 +93,8 @@ const UploadDocs = () => {
               <div className="upload-filezone">
                 <span className={doc.file ? 'upload-file-attached' : 'upload-file-not-attached'}></span>
                 <span>{doc.file ? `${doc.file.name.slice(0, 24)}...` : 'Please attach a file!'}</span>
-                {/* {doc.file && (
-                  <img
-                    src={DeleteIcon}
-                    className='icon'
-                    onClick={() => {
-                      const _artworks = docs.filter((_, i) => i !== index);
-                      URL.revokeObjectURL(doc.preview); 
-                      setDocs(_artworks);
-                    }}
-                  />
-                )} */}
                 <DeleteOutlineIcon
+                  className='icon'
                   onClick={() => {
                     const _docs = docs.filter((_, i) => i !== index);
                     setDocs(_docs);
